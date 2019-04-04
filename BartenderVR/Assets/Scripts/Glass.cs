@@ -57,14 +57,16 @@ public class Glass : Interactable
 
     public override void Transfer()
     {
-            if (ObjectIsAbove(this.gameObject, NearbyInteractableType().gameObject))
-            {
-                addedToGlass = ClearStepsTaken();
-            }
-            else
-            {
-                addedToGlass = NearbyInteractableType().GetComponent<CocktailShaker>().addedToShaker;
-            }
+        if (ObjectIsAbove(this.gameObject, NearbyInteractableType().gameObject))
+        {
+            StorageArray = addedToGlass;
+            addedToGlass = ClearStepsTaken();
+        }
+        else
+        {
+            print("FUCK");
+            addedToGlass = NearbyInteractableType().GetComponent<CocktailShaker>().addedToShaker;
+        }
 
         print("fuck but in the glass script this time, inheritance is fuckin wild");
     }
