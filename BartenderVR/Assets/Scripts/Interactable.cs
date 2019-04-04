@@ -13,6 +13,10 @@ public class Interactable : MonoBehaviour
     public float interactionRadius;
 
     protected static bool canTransfer = true;
+    protected static bool startTransfer = false;
+
+    [HideInInspector]
+    public Drink.RecipeStep[] StorageArray;
 
     public Dictionary<Transform, EnumList.AdditionMethod> transformLibrary = new Dictionary<Transform, EnumList.AdditionMethod>();
 
@@ -63,6 +67,7 @@ public class Interactable : MonoBehaviour
 
         TransferThreshold = 3f;
         transfer += Transfer;
+        StorageArray = new Drink.RecipeStep[10];
 
     }
            
@@ -99,12 +104,26 @@ public class Interactable : MonoBehaviour
         {
             yield return new WaitForEndOfFrame();
         }
-
+        startTransfer = true;
         transfer();
 
         yield return new WaitForSeconds(2f);
         print("Completing transfer");
         //canTransfer = true;
+    }
+
+    public IEnumerator CheckTransfer(Drink.RecipeStep[] toDeplete, Drink.RecipeStep[] toFill)
+    {
+        print("fuck but in the coroutine this time");
+
+        while (toFill != toDeplete)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+
+        toDeplete = ClearStepsTaken();
+        startTransfer = false;
+
     }
 
 
@@ -166,6 +185,7 @@ public class Interactable : MonoBehaviour
         return new Drink.RecipeStep[10];
     }
 
+  
     //method that dynamically returns the addition method enum of a transform based on the name of the game object
     public EnumList.AdditionMethod ReturnMethodFromString(Transform t) 
     {

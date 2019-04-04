@@ -31,7 +31,6 @@ public class CocktailShaker : Interactable
         if (acceleration >= accelerationThreshold)
         {
             shakeTimer += Time.deltaTime;
-            Shaken++;
 
         }
         else
@@ -41,6 +40,8 @@ public class CocktailShaker : Interactable
 
         if (shakeTimer > shakeTimerThreshold && GetAddedCount(addedToShaker) > 0)
         {
+            Shaken++;
+
             foreach (var a in addedToShaker)
             {
                 if (!a.methodsPerformedOn.Contains(EnumList.AdditionMethod.Shake))
@@ -54,19 +55,27 @@ public class CocktailShaker : Interactable
         {
             interactableRB.AddForce(Vector3.up * 15f, ForceMode.Impulse);
         }
+
     }
 
     public override void Transfer()
     {
-        if (ObjectIsAbove(this.gameObject, NearbyInteractableType().gameObject))
-        {
-            addedToShaker = ClearStepsTaken();
-        }
-        else
-        {
+        //if (startTransfer)
+        //{
+            if (ObjectIsAbove(this.gameObject, NearbyInteractableType().gameObject))
+            {
+            //StartCoroutine(CheckTransfer(addedToShaker, NearbyInteractableType().GetComponent<Glass>().addedToGlass));
+                StorageArray = addedToShaker;
+                addedToShaker = ClearStepsTaken();
+            }
+            else
+            {
+            //StartCoroutine(CheckTransfer(NearbyInteractableType().GetComponent<Glass>().addedToGlass, addedToShaker));
+            //addedToShaker = NearbyInteractableType().GetComponent<Glass>().addedToGlass;
             addedToShaker = NearbyInteractableType().GetComponent<Glass>().addedToGlass;
-        }
+            }
 
+        //}
 
         print("Cocktail shaker transfer");
     }
