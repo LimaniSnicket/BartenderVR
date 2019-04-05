@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Vodka
   m_EditorClassIdentifier: 
   possibleAdditionMethods: 06000000
+  liquidColor: {r: 1, g: 1, b: 1, a: 0.5254902}

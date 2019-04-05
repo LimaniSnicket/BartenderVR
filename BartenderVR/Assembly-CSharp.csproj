@@ -348,6 +348,7 @@
     <Compile Include="Assets\Scripts\EnumList.cs" />
     <Compile Include="Assets\Scripts\Glass.cs" />
     <Compile Include="Assets\Scripts\Interactable.cs" />
+    <Compile Include="Assets\Scripts\LiquidColor.cs" />
     <Compile Include="Assets\Scripts\MainMenu.cs" />
     <Compile Include="Assets\Scripts\OrderManager.cs" />
     <Compile Include="Assets\Scripts\Wobble.cs" />

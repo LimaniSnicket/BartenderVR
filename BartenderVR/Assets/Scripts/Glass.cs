@@ -8,6 +8,8 @@ public class Glass : Interactable
     public Drink.RecipeStep[] addedToGlass;
     public EnumList.GlassTypes thisGlassType;
 
+    public LiquidColor liquidInGlass;
+
     public override void Start()
     {
         base.Start();
@@ -25,6 +27,12 @@ public class Glass : Interactable
         //{
         //    FillDefaultValues(OrderManager.currentOrder.drinkToMake);
         //}
+
+        if (liquidInGlass != null)
+        {
+            liquidInGlass.SetColorsToMix(addedToGlass);
+            liquidInGlass.div = (GetAddedTotal(addedToGlass, EnumList.AdditionMethod.Pour)/GetAddedCount(addedToGlass, EnumList.AdditionMethod.Pour))/10f;
+        }
 
         if (NearInteractable(InteractableType.Shaker))
         {
@@ -146,6 +154,21 @@ public class Glass : Interactable
             if (r.addedThisStep != null)
             {
                 total += r.amountToAdd;
+            }
+        }
+
+        return total;
+    }
+
+    public float GetAddedTotal(Drink.RecipeStep[] added, EnumList.AdditionMethod addCheck)
+    {
+        float total = 0f;
+
+        foreach (var a in added)
+        {
+            if (a.additionMethod == addCheck)
+            {
+                total += a.amountToAdd;
             }
         }
 

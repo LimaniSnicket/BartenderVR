@@ -7,4 +7,5 @@ using UnityEngine;
 public class Additive : ScriptableObject
 {
     public List<EnumList.AdditionMethod> possibleAdditionMethods;
+    public Color liquidColor;
 }

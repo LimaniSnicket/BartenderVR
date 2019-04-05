@@ -19,6 +19,10 @@ public class Wobble : MonoBehaviour
     float pulse;
     float time = 0.5f;
 
+
+
+    //public Color color;
+
     // Use this for initialization
     void Start()
     {
@@ -52,6 +56,9 @@ public class Wobble : MonoBehaviour
         // keep last position
         lastPos = transform.position;
         lastRot = transform.rotation.eulerAngles;
+
+        //
+        //rend.material.SetColor("_Tint", color);
     }
 
 

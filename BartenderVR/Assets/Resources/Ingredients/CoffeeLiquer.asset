@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: CoffeeLiquer
   m_EditorClassIdentifier: 
   possibleAdditionMethods: 06000000
+  liquidColor: {r: 0.2830189, g: 0.057404775, b: 0.057404775, a: 1}
