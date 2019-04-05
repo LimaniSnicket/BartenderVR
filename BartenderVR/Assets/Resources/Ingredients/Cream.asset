@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Cream
   m_EditorClassIdentifier: 
   possibleAdditionMethods: 06000000
+  liquidColor: {r: 1, g: 0.94980043, b: 0.8254717, a: 1}

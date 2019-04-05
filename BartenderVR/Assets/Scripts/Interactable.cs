@@ -213,4 +213,26 @@ public class Interactable : MonoBehaviour
 
         return toReturn;
     }
+
+    public int GetAddedCount(Drink.RecipeStep[] added, EnumList.AdditionMethod addCheck)
+    {
+        int toReturn = 0;
+        for (int i = 0; i < added.Length; i++)
+        {
+            if (added[i].addedThisStep != null && added[i].additionMethod == addCheck)
+            {
+                toReturn++;
+            }
+        }
+
+        return toReturn;
+    }
+
+
+    public void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.matrix = Matrix4x4.TRS(transform.position, Quaternion.identity, new Vector3(1, 1, 1));
+        Gizmos.DrawWireSphere(Vector3.zero, interactionRadius);
+    }
 }
