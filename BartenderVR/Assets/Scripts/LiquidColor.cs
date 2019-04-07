@@ -41,7 +41,7 @@ public class LiquidColor : MonoBehaviour
         {
             if (c.concentration > 0)
             {
-                Mixer += c.colorOfLiquid;
+                Mixer += c.colorOfLiquid * Concentration(colors, c);
             }
         }
 
@@ -62,13 +62,30 @@ public class LiquidColor : MonoBehaviour
         return count;
     }
 
+    public float Concentration(Liquid[] full, Liquid liquid)
+    {
+        float total = 0;
+
+        for (int i = 0; i < full.Length; i++)
+        {
+            total += full[i].concentration;
+        }
+
+        if (total > 0)
+        {
+            return liquid.concentration / total;
+        }
+
+        return 0;
+    }
+
     public void SetColorsToMix(Drink.RecipeStep[] recipe)
     {
         List<Drink.RecipeStep> l = new List<Drink.RecipeStep>();
 
         for (int j = 0; j < recipe.Length; j++)
         {
-            if (recipe[j].additionMethod == EnumList.AdditionMethod.Pour)
+            if (recipe[j].additionMethod == EnumList.AdditionMethod.Pour && recipe[j].addedThisStep.AdditiveColor.strength > 0)
             {
                 l.Add(recipe[j]);
             }
@@ -76,7 +93,7 @@ public class LiquidColor : MonoBehaviour
 
         for (int i = 0; i < l.Count; i++)
         {
-            colorsToMix[i].colorOfLiquid = l[i].addedThisStep.liquidColor;
+            colorsToMix[i].colorOfLiquid = l[i].addedThisStep.AdditiveColor.color;
             colorsToMix[i].concentration = l[i].amountToAdd;
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DrinkManagement;
 
 public class CocktailShaker : Interactable
 {
@@ -16,11 +17,23 @@ public class CocktailShaker : Interactable
 
     public int Shaken;
 
+    LiquidColor liquidColor;
+
     public override void Start()
     {
         base.Start();
         thisType = InteractableType.Shaker;
         addedToShaker = new Drink.RecipeStep[10];
+        liquidColor = GetComponent<LiquidColor>();
+    }
+
+    private void Update()
+    {
+        if (liquidColor != null)
+        {
+            liquidColor.SetColorsToMix(addedToShaker);
+            liquidColor.div = (addedToShaker.GetAddedTotal(EnumList.AdditionMethod.Pour)/addedToShaker.GetAddedCount(EnumList.AdditionMethod.Pour)) / 10f;
+        }
     }
 
     private void FixedUpdate()
@@ -38,17 +51,9 @@ public class CocktailShaker : Interactable
             shakeTimer = 0f;
         }
 
-        if (shakeTimer > shakeTimerThreshold && GetAddedCount(addedToShaker) > 0)
+        if (shakeTimer > shakeTimerThreshold && addedToShaker.GetAddedCount() > 0)
         {
-            Shaken++;
-
-            foreach (var a in addedToShaker)
-            {
-                if (!a.methodsPerformedOn.Contains(EnumList.AdditionMethod.Shake))
-                {
-                    a.methodsPerformedOn.Add(EnumList.AdditionMethod.Shake);
-                } 
-            }
+            addedToShaker.AddMethods(EnumList.AdditionMethod.Shake);
         }
 
         if (Input.GetKeyDown(KeyCode.N))
@@ -65,7 +70,6 @@ public class CocktailShaker : Interactable
             if (ObjectIsAbove(this.gameObject, NearbyInteractableType().gameObject))
             {
             //StartCoroutine(CheckTransfer(addedToShaker, NearbyInteractableType().GetComponent<Glass>().addedToGlass));
-                StorageArray = addedToShaker;
                 addedToShaker = ClearStepsTaken();
             }
             else
