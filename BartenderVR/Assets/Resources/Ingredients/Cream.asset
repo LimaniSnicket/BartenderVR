@@ -14,3 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   possibleAdditionMethods: 06000000
   liquidColor: {r: 1, g: 0.94980043, b: 0.8254717, a: 1}
+  AdditiveColor:
+    color: {r: 1, g: 0.9490196, b: 0.8235294, a: 1}
+    strength: 1

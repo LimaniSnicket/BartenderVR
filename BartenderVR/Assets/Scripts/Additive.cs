@@ -7,5 +7,12 @@ using UnityEngine;
 public class Additive : ScriptableObject
 {
     public List<EnumList.AdditionMethod> possibleAdditionMethods;
-    public Color liquidColor;
+    public ColorStrength AdditiveColor;
+
+    [System.Serializable]
+    public struct ColorStrength
+    {
+        public Color color;
+        public float strength;
+    }
 }

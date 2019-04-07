@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using DrinkManagement;
 
 public class OrderManager : MonoBehaviour
 {
@@ -39,6 +40,9 @@ public class OrderManager : MonoBehaviour
 
     static List<DrinkOrder> orderQueue = new List<DrinkOrder>();
     List<Drink> menuItems = new List<Drink>();
+
+    public static List<float> AccuracyHistory = new List<float>();
+    public float BarRating;
 
     private void Awake()
     {
@@ -80,6 +84,11 @@ public class OrderManager : MonoBehaviour
         {
             currentOrder.preparationTime += Time.deltaTime;
         }
+
+        if (AccuracyHistory.Count > 0)
+        {
+            BarRating = AccuracyHistory.Rating(5f);
+        }
     }
 
     public static bool CanSetNewFocusGlass()
@@ -116,4 +125,10 @@ public class OrderManager : MonoBehaviour
             Debug.Log("Adding " + d.name + " to the menu");
         }
     }
+
+    public static void LeaveReview(float toAdd)
+    {
+        AccuracyHistory.Add(toAdd);
+    }
+
 }

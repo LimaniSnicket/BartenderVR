@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 using System;
+using DrinkManagement;
 
 public class Interactable : MonoBehaviour
 {
@@ -14,9 +15,6 @@ public class Interactable : MonoBehaviour
 
     protected static bool canTransfer = true;
     protected static bool startTransfer = false;
-
-    [HideInInspector]
-    public Drink.RecipeStep[] StorageArray;
 
     public Dictionary<Transform, EnumList.AdditionMethod> transformLibrary = new Dictionary<Transform, EnumList.AdditionMethod>();
 
@@ -67,8 +65,6 @@ public class Interactable : MonoBehaviour
 
         TransferThreshold = 3f;
         transfer += Transfer;
-        StorageArray = new Drink.RecipeStep[10];
-
     }
            
     public void CheckOVRHand()
@@ -199,35 +195,6 @@ public class Interactable : MonoBehaviour
 
         return EnumList.AdditionMethod.None; //return nothing if the name of the transform is not defined in the enum
     }
-
-    public int GetAddedCount(Drink.RecipeStep[] added)
-    {
-        int toReturn = 0;
-        for (int i = 0; i < added.Length; i++)
-        {
-            if (added[i].addedThisStep != null)
-            {
-                toReturn++;
-            }
-        }
-
-        return toReturn;
-    }
-
-    public int GetAddedCount(Drink.RecipeStep[] added, EnumList.AdditionMethod addCheck)
-    {
-        int toReturn = 0;
-        for (int i = 0; i < added.Length; i++)
-        {
-            if (added[i].addedThisStep != null && added[i].additionMethod == addCheck)
-            {
-                toReturn++;
-            }
-        }
-
-        return toReturn;
-    }
-
 
     public void OnDrawGizmosSelected()
     {

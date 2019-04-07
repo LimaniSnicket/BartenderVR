@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using DrinkManagement;
 
 public class Glass : Interactable
 {
@@ -31,7 +32,8 @@ public class Glass : Interactable
         if (liquidInGlass != null)
         {
             liquidInGlass.SetColorsToMix(addedToGlass);
-            liquidInGlass.div = (GetAddedTotal(addedToGlass, EnumList.AdditionMethod.Pour)/GetAddedCount(addedToGlass, EnumList.AdditionMethod.Pour))/10f;
+            //liquidInGlass.div = (GetAddedTotal(addedToGlass, EnumList.AdditionMethod.Pour)/GetAddedCount(addedToGlass, EnumList.AdditionMethod.Pour))/10f;
+            liquidInGlass.div = addedToGlass.GetAddedTotal(EnumList.AdditionMethod.Pour) / addedToGlass.GetAddedCount(EnumList.AdditionMethod.Pour) / 10f;
         }
 
         if (NearInteractable(InteractableType.Shaker))
@@ -46,7 +48,7 @@ public class Glass : Interactable
                 }
             } else if (Input.GetKeyUp(KeyCode.M))
             {
-                StopAllCoroutines();
+                //StopAllCoroutines();
                 TransferTimer = 0f;
                 canTransfer = true;
             }
@@ -67,7 +69,6 @@ public class Glass : Interactable
     {
         if (ObjectIsAbove(this.gameObject, NearbyInteractableType().gameObject))
         {
-            StorageArray = addedToGlass;
             addedToGlass = ClearStepsTaken();
         }
         else
@@ -86,6 +87,7 @@ public class Glass : Interactable
         Debug.Log("Drink Accuracy: " + 100f * newTip+ "%");
         Debug.Log("$" + OrderManager.tipMoney + " in tips made so far");
         OrderManager.UpdateQueue();
+        OrderManager.LeaveReview(newTip);
         Destroy(this.gameObject);
     }
 
@@ -100,9 +102,9 @@ public class Glass : Interactable
     {
         float accuracy = .7f;
         float trueTotal = drinkToMake.TotalInDrink();
-        float preppedTotal = GetAddedTotal(addeds);
+        float preppedTotal = addeds.GetAddedTotal();
 
-        float methodCheck = 0.2f / GetAddedCount(addeds);
+        float methodCheck = 0.2f / addeds.GetAddedCount();
 
         if (preppedTotal > 0f)
         {
@@ -143,38 +145,6 @@ public class Glass : Interactable
 
         return accuracy;
     }
-
-
-    public float GetAddedTotal(Drink.RecipeStep[] added)
-    {
-        float total = 0;
-
-        foreach(var r in added)
-        {
-            if (r.addedThisStep != null)
-            {
-                total += r.amountToAdd;
-            }
-        }
-
-        return total;
-    }
-
-    public float GetAddedTotal(Drink.RecipeStep[] added, EnumList.AdditionMethod addCheck)
-    {
-        float total = 0f;
-
-        foreach (var a in added)
-        {
-            if (a.additionMethod == addCheck)
-            {
-                total += a.amountToAdd;
-            }
-        }
-
-        return total;
-    }
-
 
     void FillDefaultValues(Drink defaultDrink)
     {
