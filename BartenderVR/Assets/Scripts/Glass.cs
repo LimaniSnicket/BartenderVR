@@ -11,6 +11,8 @@ public class Glass : Interactable
 
     public LiquidColor liquidInGlass;
 
+    AdditiveLiquid bottleToCheck;
+
     public override void Start()
     {
         base.Start();
@@ -33,7 +35,7 @@ public class Glass : Interactable
         {
             liquidInGlass.SetColorsToMix(addedToGlass);
             //liquidInGlass.div = (GetAddedTotal(addedToGlass, EnumList.AdditionMethod.Pour)/GetAddedCount(addedToGlass, EnumList.AdditionMethod.Pour))/10f;
-            liquidInGlass.div = addedToGlass.GetAddedTotal(EnumList.AdditionMethod.Pour) / addedToGlass.GetAddedCount(EnumList.AdditionMethod.Pour) / 10f;
+            liquidInGlass.div = addedToGlass.GetAddedTotal(EnumList.AdditionMethod.Pour) / addedToGlass.GetAddedCount(EnumList.AdditionMethod.Pour) / EnumList.GlassHeightModifier(thisGlassType);
         }
 
         if (NearInteractable(InteractableType.Shaker))
@@ -63,19 +65,50 @@ public class Glass : Interactable
         {
             OrderManager.focusGlass = this;
         }
-    }
 
-    public override void Transfer()
-    {
-        if (ObjectIsAbove(this.gameObject, NearbyInteractableType().gameObject))
+
+        RaycastHit CheckForBottle;
+
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out CheckForBottle, 1f))
         {
-            addedToGlass = ClearStepsTaken();
+
+            try
+            {
+                bottleToCheck = CheckForBottle.transform.gameObject.GetComponentInParent<AdditiveLiquid>();
+                bottleToCheck.SetToAdd(this);
+                print(bottleToCheck.name);
+
+            } catch (System.NullReferenceException) { }
         }
         else
         {
-            print("FUCK");
-            addedToGlass = NearbyInteractableType().GetComponent<CocktailShaker>().addedToShaker;
+            if (bottleToCheck != null)
+            {
+                bottleToCheck.SetToAdd(null);
+                bottleToCheck = null;
+            }
         }
+
+        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward), Color.red);
+
+    }
+
+   
+
+    public override void Transfer()
+    {
+        addedToGlass = (ObjectIsAbove(gameObject, NearbyInteractableType().gameObject) ? ClearStepsTaken() : NearbyInteractableType().GetComponent<CocktailShaker>().addedToShaker);
+
+
+        //if (ObjectIsAbove(this.gameObject, NearbyInteractableType().gameObject))
+        //{
+        //    addedToGlass = ClearStepsTaken();
+        //}
+        //else
+        //{
+        //    print("FUCK");
+        //    addedToGlass = NearbyInteractableType().GetComponent<CocktailShaker>().addedToShaker;
+        //}
 
         print("fuck but in the glass script this time, inheritance is fuckin wild");
     }

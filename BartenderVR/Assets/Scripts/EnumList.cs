@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 
-public class EnumList : MonoBehaviour
+public static class EnumList 
 { 
    public enum AdditionMethod
     {
@@ -25,5 +25,27 @@ public class EnumList : MonoBehaviour
         Highball = 2,
         Martini = 3,
         Shot = 4
+    }
+
+    static Dictionary<GlassTypes, float> GlassHeightModifiers = new Dictionary<GlassTypes, float>
+    {
+        {GlassTypes.Basic, 1f},
+        {GlassTypes.Lowball, 1f},
+        {GlassTypes.Highball, 10f},
+        {GlassTypes.Martini, 5f},
+        {GlassTypes.Shot, 1f}
+    };
+
+    public static float GlassHeightModifier(GlassTypes glass)
+    {
+        foreach (var key in GlassHeightModifiers)
+        {
+            if (key.Key == glass)
+            {
+                return key.Value;
+            }
+        }
+
+        return 1f;
     }
 }

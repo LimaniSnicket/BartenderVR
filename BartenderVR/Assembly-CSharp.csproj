@@ -343,6 +343,7 @@
     <Compile Include="Assets\Oculus\VoiceMod\Scripts\OVRVoiceModContext.cs" />
     <Compile Include="Assets\QuickOutline\Scripts\Outline.cs" />
     <Compile Include="Assets\Scripts\Additive.cs" />
+    <Compile Include="Assets\Scripts\AdditiveLiquid.cs" />
     <Compile Include="Assets\Scripts\AdditiveObject.cs" />
     <Compile Include="Assets\Scripts\CocktailShaker.cs" />
     <Compile Include="Assets\Scripts\Drink.cs" />
