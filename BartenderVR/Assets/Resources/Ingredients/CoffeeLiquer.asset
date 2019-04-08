@@ -16,3 +16,4 @@ MonoBehaviour:
   AdditiveColor:
     color: {r: 0.28235295, g: 0.05882353, b: 0.05882353, a: 1}
     strength: 1
+  thisAdditiveType: 1

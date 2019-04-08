@@ -83,6 +83,19 @@ namespace DrinkManagement
             return 0;
         }
 
+        public static int GetAdditiveIndex(this Drink.RecipeStep[] stepCheck, Additive additive)
+        {
+            for (int i =0; i< stepCheck.Length; i++)
+            {
+                if (stepCheck[i].addedThisStep == additive)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
         public static bool ArrayContains(this Object[] check, Object lookFor)
         {
             for (int i = 0; i < check.Length; i++)
@@ -154,6 +167,43 @@ namespace DrinkManagement
             }
 
             return toReturn;
+        }
+
+        public static Interactable GetInteractableType(this Interactable interactable)
+        {
+            switch (interactable.thisType)
+            {
+                case Interactable.InteractableType.Glass:
+                    return interactable.GetComponent<Glass>();
+                case Interactable.InteractableType.Shaker:
+                    return interactable.GetComponent<CocktailShaker>();
+                case Interactable.InteractableType.Additive:
+                    return interactable.GetComponent<AdditiveObject>();
+            }
+            return null;
+        }
+
+        public static Transform TargetTransform(this Dictionary<Transform, EnumList.AdditionMethod> dict, EnumList.AdditionMethod addMethod)
+        {
+            foreach (var k in dict)
+            {
+                if (k.Value == addMethod && k.Key.childCount == 0)
+                {
+                    return k.Key;
+                }
+            }
+
+            return null;
+        }
+
+        public static bool TransformValid(this Dictionary<Transform, EnumList.AdditionMethod> dict, EnumList.AdditionMethod additionMethod)
+        {
+            if (dict.ContainsValue(additionMethod))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
