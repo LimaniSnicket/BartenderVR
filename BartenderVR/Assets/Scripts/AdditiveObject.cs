@@ -64,7 +64,21 @@ public class AdditiveObject : Interactable
     {
         try
         {
-           
+            Glass glass = collider.transform.gameObject.GetComponentInParent<Glass>();
+
+            if (glass.transformLibrary.TransformValid(EnumList.AdditionMethod.Garnish))
+            {
+                if (glass.transformLibrary.TargetTransform(EnumList.AdditionMethod.Garnish) == collider.transform
+                && currentHoldingStatus != HoldingStatus.NotHeld)
+                {
+                    if (transform.parent == null)
+                    {
+                        AddToGlass(glass);
+                    }
+
+                    transform.SetParent(collider.transform);
+                }
+            }
 
         }
         catch (System.NullReferenceException) { return; }

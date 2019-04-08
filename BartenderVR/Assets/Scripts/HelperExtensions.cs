@@ -187,13 +187,23 @@ namespace DrinkManagement
         {
             foreach (var k in dict)
             {
-                if (k.Value == addMethod)
+                if (k.Value == addMethod && k.Key.childCount == 0)
                 {
                     return k.Key;
                 }
             }
 
             return null;
+        }
+
+        public static bool TransformValid(this Dictionary<Transform, EnumList.AdditionMethod> dict, EnumList.AdditionMethod additionMethod)
+        {
+            if (dict.ContainsValue(additionMethod))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
