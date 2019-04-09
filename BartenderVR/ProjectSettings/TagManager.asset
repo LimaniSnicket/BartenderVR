@@ -6,6 +6,9 @@ TagManager:
   tags:
   - LeftHand
   - RightHand
+  - Bottle
+  - Glass
+  - Shaker
   layers:
   - Default
   - TransparentFX

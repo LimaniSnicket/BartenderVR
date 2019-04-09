@@ -15,8 +15,6 @@ public class CocktailShaker : Interactable
 
     public float shakeTimer, shakeTimerThreshold;
 
-    public int Shaken;
-
     LiquidColor liquidColor;
 
     public override void Start()
@@ -34,6 +32,31 @@ public class CocktailShaker : Interactable
             liquidColor.SetColorsToMix(addedToShaker);
             liquidColor.div = (addedToShaker.GetAddedTotal(EnumList.AdditionMethod.Pour)/addedToShaker.GetAddedCount(EnumList.AdditionMethod.Pour)) / 10f;
         }
+
+        RaycastHit CheckRay;
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.up), out CheckRay, 1f))
+        {
+            if (CheckRaycastComponent(CheckRay, InteractableType.Glass))
+            {
+                if (CheckRay.transform.eulerAngles.z.CheckRotationThreshold(45f) && !(CheckRay.transform.GetComponent<Glass>().addedToGlass.ContainerEmpty()))
+                {
+                    print("Rotation is above threshold");
+                    TransferTimer += Time.deltaTime;
+                    if (canTransfer && TransferTimer > TransferThreshold)
+                    {
+                        StartCoroutine(TransferSteps());
+                    }
+                }
+                else if (CheckRay.transform.GetComponent<Glass>().addedToGlass.ContainerEmpty())
+                {
+                    TransferTimer = 0f;
+                    canTransfer = true;
+                }
+            }
+
+        }
+
+        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up), Color.magenta);
     }
 
     private void FixedUpdate()
@@ -51,7 +74,7 @@ public class CocktailShaker : Interactable
             shakeTimer = 0f;
         }
 
-        if (shakeTimer > shakeTimerThreshold && addedToShaker.GetAddedCount() > 0)
+        if (shakeTimer > shakeTimerThreshold && !addedToShaker.ContainerEmpty())
         {
             addedToShaker.AddMethods(EnumList.AdditionMethod.Shake);
         }
@@ -65,21 +88,19 @@ public class CocktailShaker : Interactable
 
     public override void Transfer()
     {
-        //if (startTransfer)
-        //{
-            if (ObjectIsAbove(this.gameObject, NearbyInteractableType().gameObject))
+        Glass glass = NearbyInteractableType().GetComponent<Glass>();
+        Drink.RecipeStep[] temp = glass.addedToGlass;
+
+        if (!canTransfer)
+        {
+            foreach (var s in temp)
             {
-            //StartCoroutine(CheckTransfer(addedToShaker, NearbyInteractableType().GetComponent<Glass>().addedToGlass));
-                addedToShaker = ClearStepsTaken();
-            }
-            else
-            {
-            //StartCoroutine(CheckTransfer(NearbyInteractableType().GetComponent<Glass>().addedToGlass, addedToShaker));
-            //addedToShaker = NearbyInteractableType().GetComponent<Glass>().addedToGlass;
-            addedToShaker = NearbyInteractableType().GetComponent<Glass>().addedToGlass;
+                addedToShaker.AddStepsToArray(s);
+                print("Adding " + s);
             }
 
-        //}
+            glass.addedToGlass = ClearStepsTaken();
+        }
 
         print("Cocktail shaker transfer");
     }

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "New Additive", menuName = "Add to Drink")]
+[CreateAssetMenu(fileName = "New Additive", menuName = "Ingredient")]
 public class Additive : ScriptableObject
 {
-    public List<EnumList.AdditionMethod> possibleAdditionMethods;
+    public EnumList.AdditionMethod additionMethod;
     public ColorStrength AdditiveColor;
 
     public enum AdditiveType

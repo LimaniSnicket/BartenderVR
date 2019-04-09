@@ -31,17 +31,28 @@ public class AdditiveObject : Interactable
         {
             if (Input.GetKeyDown(KeyCode.L))
             {
-                AddToGlass((Glass)toAddTo);
+                AddToGlass((Glass)toAddTo, thisAdditive.additionMethod);
             }
         }
+
+        if (currentHoldingStatus == HoldingStatus.NotHeld)
+        {
+            GetComponent<Collider>().isTrigger = false;
+        }
+        else
+        {
+            GetComponent<Collider>().isTrigger = true;
+        }
+
     }
 
-    public virtual void AddToGlass(Glass glass)
+    public virtual void AddToGlass(Glass glass, EnumList.AdditionMethod additionMethod)
     {
         int indexToAdd = GetIndex(glass.addedToGlass, thisAdditive);
 
         glass.addedToGlass[indexToAdd].addedThisStep = thisAdditive;
         glass.addedToGlass[indexToAdd].amountToAdd++;
+        glass.addedToGlass[indexToAdd].additionMethod = additionMethod;
 
     }
 
@@ -62,30 +73,41 @@ public class AdditiveObject : Interactable
 
     private void OnTriggerStay(Collider collider)
     {
-        try
+        switch (thisAdditive.additionMethod)
         {
-            Glass glass = collider.transform.gameObject.GetComponentInParent<Glass>();
-
-            if (glass.transformLibrary.TransformValid(EnumList.AdditionMethod.Garnish))
-            {
-                if (glass.transformLibrary.TargetTransform(EnumList.AdditionMethod.Garnish) == collider.transform
-                && currentHoldingStatus != HoldingStatus.NotHeld)
+            case EnumList.AdditionMethod.Garnish:
+                try
                 {
-                    if (transform.parent == null)
+                    Glass glass = collider.transform.gameObject.GetComponentInParent<Glass>();
+
+                    if (glass.transformLibrary.TransformValid(EnumList.AdditionMethod.Garnish))
                     {
-                        AddToGlass(glass);
+                        if (glass.transformLibrary.TargetTransform(EnumList.AdditionMethod.Garnish) == collider.transform
+                        && currentHoldingStatus != HoldingStatus.NotHeld)
+                        {
+                            if (transform.parent == null)
+                            {
+                                AddToGlass(glass, EnumList.AdditionMethod.Garnish);
+                            }
+
+                            transform.SetParent(collider.transform.parent);
+                            transform.position = collider.transform.position;
+                        }
                     }
 
-                    transform.SetParent(collider.transform);
                 }
-            }
-
+                catch (System.NullReferenceException) { return; }
+                break;
         }
-        catch (System.NullReferenceException) { return; }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        if (transform.parent != null)
+        {
+
+        }
+
         toAddTo = null;
     }
 }

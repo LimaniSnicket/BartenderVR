@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace DrinkManagement
 {
+    //honestly, we learned how to make extensions in intermediate programming on 4/05 and i went to town with it
 
     public static class HelperExtensions
     {
@@ -45,6 +46,7 @@ namespace DrinkManagement
             return (av / floats.Count) * modifier;
         }
 
+        //check the arrays for specific ingredients
         public static bool ArrayContains(this Drink.RecipeStep[] check, Additive additive)
         {
             foreach (var c in check)
@@ -57,6 +59,7 @@ namespace DrinkManagement
             return false;
         }
 
+        //check the arrays for different ingredients and also specific method in which they were added?
         public static bool ArrayContains(this Drink.RecipeStep[] check, Additive additive, EnumList.AdditionMethod method)
         {
             foreach (var c in check)
@@ -69,6 +72,17 @@ namespace DrinkManagement
             return false;
         }
 
+        public static bool ContainerEmpty(this Drink.RecipeStep[] check)
+        {
+            if (check.GetAddedCount() == 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        //Get the next empty slot in the recipe step arrays
         public static int GetNextEmptyIndex(this Drink.RecipeStep[] stepCheck)
         {
             if (stepCheck[0].addedThisStep != null)
@@ -83,6 +97,21 @@ namespace DrinkManagement
             return 0;
         }
 
+        public static void AddStepsToArray(this Drink.RecipeStep[] toAddto, Drink.RecipeStep toAdd)
+        {
+            if (toAddto.ArrayContains(toAdd.addedThisStep))
+            {
+                int index = toAddto.GetAdditiveIndex(toAdd.addedThisStep);
+                toAddto[index].amountToAdd += toAdd.amountToAdd;
+            }
+            else
+            {
+                int index = toAddto.GetNextEmptyIndex();
+                toAddto[index] = toAdd;
+            }
+        }
+
+        //Get the index of a specific ingredient in the array
         public static int GetAdditiveIndex(this Drink.RecipeStep[] stepCheck, Additive additive)
         {
             for (int i =0; i< stepCheck.Length; i++)
@@ -109,7 +138,7 @@ namespace DrinkManagement
             return false;
         }
 
-
+        //Get the total amount of stuff or something in the array
         public static float GetAddedTotal(this Drink.RecipeStep[] added)
         {
             float total = 0;
@@ -124,7 +153,7 @@ namespace DrinkManagement
 
             return total;
         }
-
+        //Get the total amount of stuff added in a specific way in the array
         public static float GetAddedTotal(this Drink.RecipeStep[] added, EnumList.AdditionMethod addCheck)
         {
             float total = 0f;
@@ -140,7 +169,7 @@ namespace DrinkManagement
             return total;
         }
 
-
+        //Get the amount of stuff in the array, different from the length
         public static int GetAddedCount(this Drink.RecipeStep[] added)
         {
             int toReturn = 0;
@@ -199,6 +228,18 @@ namespace DrinkManagement
         public static bool TransformValid(this Dictionary<Transform, EnumList.AdditionMethod> dict, EnumList.AdditionMethod additionMethod)
         {
             if (dict.ContainsValue(additionMethod))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool CheckRotationThreshold(this float rotationAxis, float threshold)
+        {
+            float rotation = (rotationAxis <= 180) ? Mathf.Abs(rotationAxis) : 360 - rotationAxis;
+
+            if (rotation >= threshold)
             {
                 return true;
             }

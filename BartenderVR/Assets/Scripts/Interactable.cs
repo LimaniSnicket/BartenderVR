@@ -64,7 +64,7 @@ public class Interactable : MonoBehaviour
         }
 
         TransferThreshold = 3f;
-        transfer += Transfer;
+       //transfer += Transfer;
     }
            
     public void CheckOVRHand()
@@ -87,41 +87,36 @@ public class Interactable : MonoBehaviour
         }
     }
 
+    public bool CheckRaycastComponent(RaycastHit outHit,  InteractableType typeToCheck)
+    {
+        try
+        {
+            if (outHit.transform.GetComponentInParent<Interactable>().thisType == typeToCheck)
+            {
+                return true;
+            }
+
+        } catch (System.NullReferenceException) { return false; }
+
+        return false;
+    }
+
     public virtual void Transfer()
     {
         print("Transfer");
     }
 
-    public IEnumerator TransferSteps(GameObject above, GameObject below)
+    public IEnumerator TransferSteps()
     {
         canTransfer = false;
         print("Starting transfer");
-        while (TransferTimer < TransferThreshold)
-        {
-            yield return new WaitForEndOfFrame();
-        }
-        startTransfer = true;
-        transfer();
+   
+        Transfer();
 
         yield return new WaitForSeconds(2f);
         print("Completing transfer");
-        //canTransfer = true;
-    }
-
-    public IEnumerator CheckTransfer(Drink.RecipeStep[] toDeplete, Drink.RecipeStep[] toFill)
-    {
-        print("fuck but in the coroutine this time");
-
-        while (toFill != toDeplete)
-        {
-            yield return new WaitForEndOfFrame();
-        }
-
-        toDeplete = ClearStepsTaken();
-        startTransfer = false;
 
     }
-
 
     public bool ObjectIsAbove(GameObject above, GameObject below)
     {
@@ -198,7 +193,7 @@ public class Interactable : MonoBehaviour
 
     public void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.magenta;
+        Gizmos.color = Color.white;
         Gizmos.matrix = Matrix4x4.TRS(transform.position, Quaternion.identity, new Vector3(1, 1, 1));
         Gizmos.DrawWireSphere(Vector3.zero, interactionRadius);
     }
