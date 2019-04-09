@@ -24,16 +24,18 @@ public static class EnumList
         Lowball = 1,
         Highball = 2,
         Martini = 3,
-        Shot = 4
+        Shot = 4, 
+        OldFashioned = 5
     }
 
     static Dictionary<GlassTypes, float> GlassHeightModifiers = new Dictionary<GlassTypes, float>
     {
-        {GlassTypes.Basic, 1f},
-        {GlassTypes.Lowball, 1f},
+        {GlassTypes.Basic, 2f},
+        {GlassTypes.Lowball, 2f},
         {GlassTypes.Highball, 10f},
-        {GlassTypes.Martini, 5f},
-        {GlassTypes.Shot, 1f}
+        {GlassTypes.Martini, 3f},
+        {GlassTypes.Shot, 2f},
+        {GlassTypes.OldFashioned, 3f}
     };
 
     public static float GlassHeightModifier(GlassTypes glass)

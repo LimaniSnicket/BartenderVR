@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd1e226d4c876414da6d58a6ced2095e, type: 3}
   m_Name: Lime
   m_EditorClassIdentifier: 
-  possibleAdditionMethods: 0100000005000000
+  additionMethod: 5
   AdditiveColor:
     color: {r: 0, g: 0, b: 0, a: 0}
     strength: 0

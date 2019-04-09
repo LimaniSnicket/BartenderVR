@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd1e226d4c876414da6d58a6ced2095e, type: 3}
   m_Name: Vodka
   m_EditorClassIdentifier: 
-  possibleAdditionMethods: 06000000
+  additionMethod: 6
   AdditiveColor:
     color: {r: 1, g: 1, b: 1, a: 0.30980393}
     strength: 0

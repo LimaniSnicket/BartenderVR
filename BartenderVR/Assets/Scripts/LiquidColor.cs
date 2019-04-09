@@ -15,20 +15,22 @@ public class LiquidColor : MonoBehaviour
     public Liquid[] colorsToMix;
 
     public Color rendColor;
-    public float div;
+    [HideInInspector]
+    public float div, tot;
 
     private void Start()
     {
         colorsToMix = new Liquid[10];
         rend = GetComponent<Renderer>();
         rend.material.SetFloat("_FillAmount", 1f);
+        tot = 1f;
     }
 
     private void Update()
     {
         rendColor = ColorMixer(colorsToMix);
         rend.material.SetColor("_Tint", rendColor);
-        rend.material.SetFloat("_FillAmount", 1f - div);
+        rend.material.SetFloat("_FillAmount", tot - div);
     }
 
 

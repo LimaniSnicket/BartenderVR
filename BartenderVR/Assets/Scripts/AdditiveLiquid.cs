@@ -9,6 +9,7 @@ public class AdditiveLiquid : AdditiveObject
 
     public float PourRate = 0f;
     float zRotation;
+    public float zRotationMax;
 
     // Start is called before the first frame update
     public override void Start()
@@ -25,6 +26,8 @@ public class AdditiveLiquid : AdditiveObject
             PouringPoint = this.gameObject;
         }
 
+        zRotationMax = 240;
+
     }
 
     // Update is called once per frame
@@ -37,26 +40,27 @@ public class AdditiveLiquid : AdditiveObject
         {
             if (Input.GetKey(KeyCode.L))
             {
-
-                AddToGlass((Glass)toAddTo);
+                AddToGlass((Glass)toAddTo, EnumList.AdditionMethod.Pour);
             }
         }
     }
 
-    public override void AddToGlass(Glass glass)
+    public override void AddToGlass(Glass glass, EnumList.AdditionMethod additionMethod)
     {
         int index = GetIndex(glass.addedToGlass, thisAdditive);
         glass.addedToGlass[index].addedThisStep = thisAdditive;
-        glass.addedToGlass[index].additionMethod = EnumList.AdditionMethod.Pour;
-
-
+        glass.addedToGlass[index].additionMethod = additionMethod;
         glass.addedToGlass[index].amountToAdd += Time.deltaTime * PourRate;
     }
 
     public float CalculatePourRate()
     {
-        float z = (zRotation <= 180) ? zRotation : 360f - zRotation;
-        return z / 180f;
+        float z = (zRotation <= 180) ? Mathf.Abs(zRotation) : 360f - zRotation;
+        if (z < zRotationMax)
+        {
+            return z / zRotationMax;
+        }
+        return 1f;
     }
 
 }
