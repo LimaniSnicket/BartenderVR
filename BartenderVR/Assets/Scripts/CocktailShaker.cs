@@ -27,6 +27,8 @@ public class CocktailShaker : Interactable
 
     private void Update()
     {
+        CheckOVRHand();
+
         if (liquidColor != null)
         {
             liquidColor.SetColorsToMix(addedToShaker);
@@ -38,7 +40,7 @@ public class CocktailShaker : Interactable
         {
             if (CheckRaycastComponent(CheckRay, InteractableType.Glass))
             {
-                if (CheckRay.transform.eulerAngles.z.CheckRotationThreshold(45f) && !(CheckRay.transform.GetComponent<Glass>().addedToGlass.ContainerEmpty()))
+                if (CheckRay.transform.parent.eulerAngles.z.CheckRotationThreshold(45f) && !(CheckRay.transform.GetComponent<Glass>().addedToGlass.ContainerEmpty()))
                 {
                     print("Rotation is above threshold");
                     TransferTimer += Time.deltaTime;

@@ -17,6 +17,15 @@ public class AdditiveObject : Interactable
 
     private void Update()
     {
+        if (thisAdditive.Grabbable)
+        {
+            CheckOVRHand();
+        }
+        else
+        {
+            Destroy(thisGrabbable);
+        }
+
         if (NearInteractable(InteractableType.Glass)) //|| NearInteractable(InteractableType.Shaker))
         {
             toAddTo = NearbyInteractableType();
@@ -98,16 +107,20 @@ public class AdditiveObject : Interactable
                 }
                 catch (System.NullReferenceException) { return; }
                 break;
+            case EnumList.AdditionMethod.CoatRim:
+                print("Salt that rim boio");
+                break;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (transform.parent != null)
+        if (transform.parent != null && toAddTo != null)
         {
-
+            toAddTo.GetComponent<Glass>().addedToGlass.RemoveFromArray(thisAdditive);
+            transform.SetParent(null);
+            toAddTo = null;
         }
 
-        toAddTo = null;
     }
 }

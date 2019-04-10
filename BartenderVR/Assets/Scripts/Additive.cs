@@ -45,4 +45,6 @@ public class Additive : ScriptableObject
 
         return false;
     }
+
+    public bool Grabbable;
 }

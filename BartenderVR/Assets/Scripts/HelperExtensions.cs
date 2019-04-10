@@ -111,6 +111,32 @@ namespace DrinkManagement
             }
         }
 
+        public static Drink.RecipeStep NullStep()
+        {
+            return new Drink.RecipeStep(null, 0f, EnumList.AdditionMethod.None);
+        }
+
+        public static void RemoveFromArray(this Drink.RecipeStep[] toRemoveFrom, Additive toRemove)
+        {
+            if (toRemoveFrom.ArrayContains(toRemove))
+            {
+                int indexOfRemoval = toRemoveFrom.GetAdditiveIndex(toRemove);
+                if (toRemoveFrom[indexOfRemoval].amountToAdd > 1)
+                {
+                    toRemoveFrom[indexOfRemoval].amountToAdd -= 1f;
+                }
+                else
+                {
+                    toRemoveFrom[indexOfRemoval] = NullStep();
+                }
+            }
+            else
+            {
+                return;
+            }
+
+        }
+
         //Get the index of a specific ingredient in the array
         public static int GetAdditiveIndex(this Drink.RecipeStep[] stepCheck, Additive additive)
         {

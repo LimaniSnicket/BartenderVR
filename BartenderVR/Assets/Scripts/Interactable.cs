@@ -59,7 +59,10 @@ public class Interactable : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             var child = transform.GetChild(i).transform;
-            transformLibrary.Add(child, ReturnMethodFromString(child));
+            if (ValidString(child.name))
+            {
+                transformLibrary.Add(child, ReturnMethodFromString(child));
+            }
             print("Added " + ReturnMethodFromString(child) + " transform to the Transform Dictionary");
         }
 
@@ -189,6 +192,19 @@ public class Interactable : MonoBehaviour
         }
 
         return EnumList.AdditionMethod.None; //return nothing if the name of the transform is not defined in the enum
+    }
+
+    bool ValidString(string st)
+    {
+        foreach (var am in System.Enum.GetNames(typeof(EnumList.AdditionMethod)))
+        {
+            if (string.Compare(st, am) == 0)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void OnDrawGizmosSelected()

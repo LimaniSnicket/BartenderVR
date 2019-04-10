@@ -32,7 +32,9 @@ public class AdditiveLiquid : AdditiveObject
 
     // Update is called once per frame
     void Update()
-    {   
+    {
+        CheckOVRHand();
+
         zRotation = transform.eulerAngles.z;
         PourRate = CalculatePourRate();
 
