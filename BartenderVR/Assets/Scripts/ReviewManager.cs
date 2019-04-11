@@ -21,23 +21,27 @@ public class ReviewManager : MonoBehaviour
     {
         public GameObject EntryGameObject;
         public Image ProfileImage;
-        public TextMeshProUGUI infoTMP, NameTMP, ReviewTMP;
+        public TextMeshProUGUI infoTMP, NameTMP, ReviewTMP, DateTMP;
+        public Slider RatingLeft;
 
         public ReviewEntry(Review parse, GameObject instantiateAs)
         {
             EntryGameObject = instantiateAs;
-            ProfileImage = instantiateAs.transform.Find("ProfilePicture").GetComponent<Image>();
+            ProfileImage = instantiateAs.GetImageFromTransform("ProfilePicture");
             ProfileImage.sprite = parse.UserProfilePicture;
 
-            infoTMP = instantiateAs.transform.Find("Ratings").GetComponent<TextMeshProUGUI>();
+            infoTMP = instantiateAs.GetTMPFromTransform("Ratings");
             infoTMP.text = parse.ReviewerTown.Bold() + "\n" + parse.NumberOfFriends + " Friends \n" + parse.NumberOfReviews + " Reviews";
-            NameTMP = instantiateAs.transform.Find("Name").GetComponent<TextMeshProUGUI>();
-            NameTMP.text = parse.ReviewerName.Bold() + " says...";
-            ReviewTMP = instantiateAs.transform.Find("Rating").GetComponent<TextMeshProUGUI>();
+            NameTMP = instantiateAs.GetTMPFromTransform("Name");
+            NameTMP.text = parse.ReviewerName.Bold() + "<size=50%> says...";
+            ReviewTMP = instantiateAs.GetTMPFromTransform("Rating");
             ReviewTMP.text = parse.WrittenReview;
+            DateTMP = instantiateAs.GetTMPFromTransform("DateTime");
+            DateTMP.text = parse.TimeOfReview;
+            RatingLeft = instantiateAs.transform.GetComponentInChildren<Slider>();
+            RatingLeft.value = Random.Range(0, 5f); //test ratings for now
 
         }
-
     }
 
     private void Awake()
@@ -77,6 +81,7 @@ public class Review
 
     public string WrittenReview;
     public Sprite UserProfilePicture;
+    public string TimeOfReview;
 
     int maxFriends = 300;
     int maxReviews = 100;
@@ -88,8 +93,9 @@ public class Review
         ReviewerTown = ht.PullRandomString();
         NumberOfFriends = maxFriends.RandomFromMax();
         NumberOfReviews = maxReviews.RandomFromMax();
-        //UserProfilePicture = (Sprite)Resources.Load("ProfilePics/TestPic");
-        WrittenReview = "This bar is bad and you should feel bad.";
+        UserProfilePicture = Resources.Load<Sprite>("ProfilePics/TestPic");
+        WrittenReview = "The bartender was on their phone the whole time, 1/5";//"This bar is bad and you should feel bad.";
+        TimeOfReview = System.DateTime.Now.ToString();
     }
 
     public static string RandomInitial()
@@ -114,6 +120,16 @@ static class ReviewHelperFunctions
     public static string Bold(this string toBold)
     {
         return "<b>" + toBold + "</b>";
+    }
+
+    public static Image GetImageFromTransform(this GameObject go, string n)
+    {
+        return go.transform.Find(n).GetComponent<Image>();
+    }
+
+    public static TextMeshProUGUI GetTMPFromTransform(this GameObject go, string n)
+    {
+        return go.transform.Find(n).GetComponent<TextMeshProUGUI>();
     }
 
 }

@@ -8,14 +8,14 @@
       <File FileName="Assets/Scripts/Glass.cs" Line="91" Column="1" />
       <File FileName="Assets/Scripts/Interactable.cs" Line="66" Column="104" />
       <File FileName="Assets/Scripts/MainMenu.cs" Line="29" Column="1" />
-      <File FileName="Assets/Scripts/CocktailShaker.cs" Line="30" Column="24" />
-      <File FileName="Assets/Scripts/AdditiveObject.cs" Line="94" Column="122" />
+      <File FileName="Assets/Scripts/CocktailShaker.cs" Line="83" Column="1" />
+      <File FileName="Assets/Scripts/AdditiveObject.cs" Line="54" Column="10" />
       <File FileName="Assets/Scripts/LiquidColor.cs" Line="26" Column="17" />
-      <File FileName="Assets/Scripts/Stirrer.cs" Line="15" Column="24" />
-      <File FileName="Assets/Scripts/HelperExtensions.cs" Line="126" Column="68" />
+      <File FileName="Assets/Scripts/Stirrer.cs" Line="57" Column="100" />
+      <File FileName="Assets/Scripts/HelperExtensions.cs" Line="19" Column="60" />
       <File FileName="Assets/Scripts/AdditiveLiquid.cs" Line="29" Column="28" />
-      <File FileName="Assets/StreamingAssets/ReviewDataBase.json" Line="7" Column="5" />
-      <File FileName="Assets/Scripts/ReviewManager.cs" Line="46" Column="73" />
+      <File FileName="Assets/StreamingAssets/ReviewDataBase.json" Line="3" Column="8" />
+      <File FileName="Assets/Scripts/ReviewManager.cs" Line="30" Column="82" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
