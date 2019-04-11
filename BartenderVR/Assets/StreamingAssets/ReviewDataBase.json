@@ -1,0 +1,17 @@
+﻿{
+  "FirstNames" : [
+    "Vic", "Peter", "Matthew", "Chris", "Katherine", "Gustavo", "Luka", "Jacob", "Toni", "Rachel", "Emily", 
+    "Jeanne", "Karina", "Neil", "Anthony", "Otto", "Yvonne", "Sharon", "Allison", "John", "Julia", "Mira",
+    "Noah", "Allan", "Nina", "Michelle", "Jason", "Sean", "Ashley", "Jesse", "Erica", "Dennis", "Mckenna", 
+    "Agustin", "Syeda", "Manraj", "Nimra", "Nova", "Spencer", "Edgar", "Kira", "Brian", "Clair", "Martin"
+  ],
+
+  "Hometowns":  [
+    "Millbrae, CA", "San Francisco, CA", "Oakland, CA", "Los Angeles, CA", "San Diego, CA", "Brooklyn, NY",
+    "Queens, NY", "Staten Island, NY", "Manhattan, NY", "Richmond, Virginia", "Washington DC", 
+    "Sydney, NSW", "Philadelphia, PA", "Baltimore, MD","Charleston, SC","San Antonio, TX","Newark, NJ",
+    "New Orleans, LA","Denver, CO", "Boston, MA","Jacksonville, FL","Santa Monica, CA","Jersey City, NJ",
+    "Allentown, PA", "Seattle, WA","Mountain View, CA"
+  ]
+  
+}

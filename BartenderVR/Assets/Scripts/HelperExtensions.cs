@@ -111,6 +111,32 @@ namespace DrinkManagement
             }
         }
 
+        public static Drink.RecipeStep NullStep()
+        {
+            return new Drink.RecipeStep(null, 0f, EnumList.AdditionMethod.None);
+        }
+
+        public static void RemoveFromArray(this Drink.RecipeStep[] toRemoveFrom, Additive toRemove)
+        {
+            if (toRemoveFrom.ArrayContains(toRemove))
+            {
+                int indexOfRemoval = toRemoveFrom.GetAdditiveIndex(toRemove);
+                if (toRemoveFrom[indexOfRemoval].amountToAdd > 1)
+                {
+                    toRemoveFrom[indexOfRemoval].amountToAdd -= 1f;
+                }
+                else
+                {
+                    toRemoveFrom[indexOfRemoval] = NullStep();
+                }
+            }
+            else
+            {
+                return;
+            }
+
+        }
+
         //Get the index of a specific ingredient in the array
         public static int GetAdditiveIndex(this Drink.RecipeStep[] stepCheck, Additive additive)
         {
@@ -198,18 +224,16 @@ namespace DrinkManagement
             return toReturn;
         }
 
-        public static Interactable GetInteractableType(this Interactable interactable)
+        public static Glass InteractableGlass(this Interactable interactable)
         {
-            switch (interactable.thisType)
+            try
             {
-                case Interactable.InteractableType.Glass:
-                    return interactable.GetComponent<Glass>();
-                case Interactable.InteractableType.Shaker:
-                    return interactable.GetComponent<CocktailShaker>();
-                case Interactable.InteractableType.Additive:
-                    return interactable.GetComponent<AdditiveObject>();
+                return interactable.GetComponent<Glass>();
+
+            } catch (System.NullReferenceException)
+            {
+                return null;
             }
-            return null;
         }
 
         public static Transform TargetTransform(this Dictionary<Transform, EnumList.AdditionMethod> dict, EnumList.AdditionMethod addMethod)
