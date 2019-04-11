@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
 using DrinkManagement;
 
 public class OrderManager : MonoBehaviour
@@ -33,6 +34,20 @@ public class OrderManager : MonoBehaviour
         }
     }
 
+    [System.Serializable]
+    public struct OrderTab
+    {
+        public GameObject order;
+        public TextMeshProUGUI orderDisplay;
+
+        public OrderTab(DrinkOrder orderToFIll, GameObject tab, int QueueSpot)
+        {
+            order = tab;
+            orderDisplay = tab.GetComponentInChildren<TextMeshProUGUI>();
+            orderDisplay.text = orderToFIll.drinkToMake.drinkName + ": \n" + "Spot on Queue: " + QueueSpot;
+        }
+    }
+
     public static DrinkOrder currentOrder;
 
     public static bool s_debuggingMode;
@@ -40,6 +55,9 @@ public class OrderManager : MonoBehaviour
 
     static List<DrinkOrder> orderQueue = new List<DrinkOrder>();
     List<Drink> menuItems = new List<Drink>();
+
+    static List<OrderTab> currentTabs = new List<OrderTab>();
+    public int maxTabsToDisplay;
 
     public static List<float> AccuracyHistory = new List<float>();
     public float BarRating;
@@ -53,6 +71,7 @@ public class OrderManager : MonoBehaviour
     {
         GenerateMenu(DrinkResourcesPath);
         s_debuggingMode = debuggingMode;
+        currentTabs.Capacity = maxTabsToDisplay;
     }
 
     private void Update()

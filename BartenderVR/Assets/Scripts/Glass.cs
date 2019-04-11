@@ -114,6 +114,7 @@ public class Glass : Interactable
         OrderManager.tipMoney += newTip * OrderManager.currentOrder.drinkToMake.maxTip;
         Debug.Log("Drink Accuracy: " + 100f * newTip+ "%");
         Debug.Log("$" + OrderManager.tipMoney + " in tips made so far");
+        ReviewManager.CreateNewReview(OrderManager.currentOrder.drinkToMake, newTip*5f);
         OrderManager.UpdateQueue();
         OrderManager.LeaveReview(newTip);
         Destroy(this.gameObject);

@@ -6291,6 +6291,7 @@ MonoBehaviour:
   timer: 0
   timeModifier: 0.25
   debuggingMode: 1
+  maxTabsToDisplay: 0
   BarRating: 0
 --- !u!4 &1079495822
 Transform:
@@ -6318,13 +6319,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b8a131c4b09d43f1ab459e04f728d51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jsonReviewData:
-    FirstNames: []
-    Hometowns: []
-  ReviewViewport: {fileID: 1694376902}
-  EntryPrefab: {fileID: 5018575290426573549, guid: 0ae362195529949059cf4d84a387bf64,
-    type: 3}
-  ReviewsLeft: []
+  RV: {fileID: 1694376902}
+  EP: {fileID: 5018575290426573549, guid: 0ae362195529949059cf4d84a387bf64, type: 3}
 --- !u!1 &1152395715
 GameObject:
   m_ObjectHideFlags: 0
@@ -6492,6 +6488,7 @@ GameObject:
   - component: {fileID: 1350860515}
   - component: {fileID: 1350860514}
   - component: {fileID: 1350860519}
+  - component: {fileID: 1350860520}
   m_Layer: 0
   m_Name: Lime Test
   m_TagString: Untagged
@@ -6607,6 +6604,22 @@ MonoBehaviour:
   m_snapOrientation: 0
   m_snapOffset: {fileID: 0}
   m_grabPoints: []
+--- !u!54 &1350860520
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350860513}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1352738983
 GameObject:
   m_ObjectHideFlags: 0
@@ -6739,6 +6752,7 @@ MonoBehaviour:
   currentHoldingStatus: 0
   accelerationTimer: 0
   stirThreshold: 0
+  toStir: {fileID: 0}
 --- !u!54 &1352738990
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7948,7 +7962,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4a69b5a2d4a0244f9b4934301e5ac9f7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.416
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4a69b5a2d4a0244f9b4934301e5ac9f7, type: 3}
       propertyPath: m_LocalRotation.x

@@ -10,11 +10,14 @@ public class ReviewManager : MonoBehaviour
     private static ReviewManager review;
     string path, jsonData;
     [HideInInspector]
-    public ReviewerData jsonReviewData;
-    public GameObject ReviewViewport;
-    public GameObject EntryPrefab;
+    public static ReviewerData jsonReviewData;
+    public GameObject RV;
+    public GameObject EP;
 
-    public List<Review> ReviewsLeft = new List<Review>();
+    static GameObject ReviewViewport;
+    static GameObject EntryPrefab;
+
+    public static List<Review> ReviewsLeft = new List<Review>();
 
     [System.Serializable]
     public struct ReviewEntry
@@ -39,7 +42,7 @@ public class ReviewManager : MonoBehaviour
             DateTMP = instantiateAs.GetTMPFromTransform("DateTime");
             DateTMP.text = parse.TimeOfReview;
             RatingLeft = instantiateAs.transform.GetComponentInChildren<Slider>();
-            RatingLeft.value = Random.Range(0, 5f); //test ratings for now
+            RatingLeft.value = parse.rating;//Random.Range(0, 5f); //test ratings for now
 
         }
     }
@@ -50,17 +53,27 @@ public class ReviewManager : MonoBehaviour
         path = Application.streamingAssetsPath + "/ReviewDataBase.json";
         jsonData = File.ReadAllText(path);
         jsonReviewData = JsonUtility.FromJson<ReviewerData>(jsonData);
+        ReviewViewport = RV;
+        EntryPrefab = EP;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            Review newReview = new Review(jsonReviewData.FirstNames, jsonReviewData.Hometowns);
-            GameObject e = Instantiate(EntryPrefab, ReviewViewport.transform);
-            ReviewEntry rev = new ReviewEntry(newReview, e);
-            ReviewsLeft.Add(newReview);
-        }
+        //if (Input.GetKeyDown(KeyCode.T))
+        //{
+        //    //Review newReview = new Review(jsonReviewData.FirstNames, jsonReviewData.Hometowns);
+        //    //GameObject e = Instantiate(EntryPrefab, ReviewViewport.transform);
+        //    //ReviewEntry rev = new ReviewEntry(newReview, e);
+        //    //ReviewsLeft.Add(newReview);
+        //}
+    }
+
+    public static void CreateNewReview(Drink drink, float accuracy)
+    {
+        Review newReview = new Review(jsonReviewData.FirstNames, jsonReviewData.Hometowns, drink, accuracy);
+        GameObject e = Instantiate(EntryPrefab, ReviewViewport.transform);
+        ReviewEntry rev = new ReviewEntry(newReview, e);
+        ReviewsLeft.Add(newReview);
     }
 }
 
@@ -86,22 +99,56 @@ public class Review
     int maxFriends = 300;
     int maxReviews = 100;
 
+    public float rating;
+
     public Review() { }
-    public Review(string[] fn, string[] ht)
+    public Review(string[] fn, string[] ht, Drink drink, float acc)
     {
         ReviewerName = fn.PullRandomString() + " " + RandomInitial();
         ReviewerTown = ht.PullRandomString();
         NumberOfFriends = maxFriends.RandomFromMax();
         NumberOfReviews = maxReviews.RandomFromMax();
         UserProfilePicture = Resources.Load<Sprite>("ProfilePics/TestPic");
-        WrittenReview = "The bartender was on their phone the whole time, 1/5";//"This bar is bad and you should feel bad.";
+        WrittenReview = GenerateReview(drink, acc);//"The bartender was on their phone the whole time, 1/5";//"This bar is bad and you should feel bad.";
         TimeOfReview = System.DateTime.Now.ToString();
+        rating = acc;
     }
 
     public static string RandomInitial()
     {
         char ch = (char)('A' + Mathf.FloorToInt(Random.Range(0f, 26f)));
         return ch + ".";
+    }
+
+    public string GenerateReview()
+    {
+        return "Meh.";
+    }
+
+    public string GenerateReview(Drink order, float accuracy)
+    {
+        string drinkName = order.drinkName;
+        string begin = "My " + drinkName + " was ";
+        string end = "";
+
+        if (accuracy.SqueezeFloat(0,1f))
+        {
+            end = " completely wrong!!! The bartender is stupid or something!";
+        } 
+        else if (accuracy.SqueezeFloat(1f, 3f))
+        {
+            end = " mediocre at best. Absolutely nothing to write home about. The stale white bread of mixed drinks.";
+        } 
+        else if (accuracy.SqueezeFloat(3f, 4f))
+        {
+            end = " pretty alright! Not perfect but can't complain too much.";
+        }
+        else
+        {
+            end = " perfect! Bartender made it just the way I like it";
+        }
+
+        return begin + end;
     }
 }
 
@@ -130,6 +177,16 @@ static class ReviewHelperFunctions
     public static TextMeshProUGUI GetTMPFromTransform(this GameObject go, string n)
     {
         return go.transform.Find(n).GetComponent<TextMeshProUGUI>();
+    }
+
+    public static bool SqueezeFloat(this float squeeze, float min, float max)
+    {
+        if (squeeze > min && squeeze <= max)
+        {
+            return true;
+        }
+
+        return false;
     }
 
 }
