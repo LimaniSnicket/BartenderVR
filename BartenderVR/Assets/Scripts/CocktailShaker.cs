@@ -90,7 +90,7 @@ public class CocktailShaker : Interactable
 
     public override void Transfer()
     {
-        Glass glass = NearbyInteractableType().GetComponent<Glass>();
+        Glass glass = NearbyInteractableType().InteractableGlass();
         Drink.RecipeStep[] temp = glass.addedToGlass;
 
         if (!canTransfer)

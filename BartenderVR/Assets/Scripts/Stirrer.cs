@@ -9,7 +9,7 @@ public class Stirrer : Interactable
     float acceleration, velocity;
     public float accelerationTimer, stirThreshold;
 
-    Interactable toStir;
+    public Interactable toStir;
 
     public override void Start()
     {
@@ -19,15 +19,15 @@ public class Stirrer : Interactable
 
     private void Update()
     {
-        CheckOVRHand();
+       //CheckOVRHand();
 
-        if (currentHoldingStatus == HoldingStatus.NotHeld)
+        if (currentHoldingStatus != HoldingStatus.NotHeld)
         {
-            GetComponent<Collider>().isTrigger = false;
+            GetComponent<CapsuleCollider>().isTrigger = true;
         }
         else
         {
-            GetComponent<Collider>().isTrigger = true;
+            GetComponent<CapsuleCollider>().isTrigger = false;
         }
 
 
@@ -40,7 +40,7 @@ public class Stirrer : Interactable
         velocity = horizontalVector.magnitude;
         acceleration = velocity / Time.fixedDeltaTime;
 
-        if (acceleration >= stirThreshold)
+        if (acceleration > stirThreshold)
         {
             accelerationTimer += Time.deltaTime;
 
@@ -58,13 +58,16 @@ public class Stirrer : Interactable
 
             } catch (System.NullReferenceException)
             {
-
+                try
+                {
+                    toStir.GetComponent<CocktailShaker>().addedToShaker.AddMethods(EnumList.AdditionMethod.Stir);
+                } catch (System.NullReferenceException) { return; }
             }
         }
 
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnTriggerStay(Collider collision)
     {
         try
         {
@@ -74,15 +77,17 @@ public class Stirrer : Interactable
             {
                 toStir = inter.transform.GetComponent<Glass>();
 
-            } else if (inter.thisType == InteractableType.Shaker)
+            }
+            else if (inter.thisType == InteractableType.Shaker)
             {
                 toStir = inter.transform.GetComponent<CocktailShaker>();
             }
 
-        } catch (System.NullReferenceException) { }
+        }
+        catch (System.NullReferenceException) { }
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerExit(Collider collision)
     {
         if (toStir == collision.transform.GetComponent<Interactable>())
         {
