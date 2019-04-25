@@ -16,11 +16,15 @@ MonoBehaviour:
   maxTip: 5.5
   recipe:
   - addedThisStep: {fileID: 11400000, guid: 63a2ce3d321ac4f15b0d1a0b0f7f1bea, type: 2}
-    amountToAdd: 2
+    amountToAdd: 0.75
     additionMethod: 6
+    methodsPerformedOn: 02000000
   - addedThisStep: {fileID: 11400000, guid: 95e9bbbbb6560453b826402ce9ba3a60, type: 2}
-    amountToAdd: 2
+    amountToAdd: 1.5
     additionMethod: 6
+    methodsPerformedOn: 02000000
   - addedThisStep: {fileID: 11400000, guid: 2a1b89f88f1b74c91b39188755129465, type: 2}
-    amountToAdd: 1
+    amountToAdd: 0.75
     additionMethod: 6
+    methodsPerformedOn: 02000000
+  properGlass: 1

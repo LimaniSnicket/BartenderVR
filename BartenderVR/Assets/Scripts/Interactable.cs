@@ -10,11 +10,13 @@ public class Interactable : MonoBehaviour
 
     const string LeftHandTag = "LeftHand";
     const string RightHandTag = "RightHand";
+    const string TempHandTag = "goHand";
 
     public float interactionRadius;
 
     protected static bool canTransfer = true;
     protected static bool startTransfer = false;
+    public GameObject parent;
 
     public Dictionary<Transform, EnumList.AdditionMethod> transformLibrary = new Dictionary<Transform, EnumList.AdditionMethod>();
 
@@ -36,6 +38,11 @@ public class Interactable : MonoBehaviour
     public float TransferTimer, TransferThreshold;
 
     protected Rigidbody interactableRB;
+
+    [HideInInspector]
+    public bool HeldByTempHand;
+    [HideInInspector]
+    public GameObject TempHandFollow;
 
     public enum HoldingStatus
     {
@@ -66,10 +73,48 @@ public class Interactable : MonoBehaviour
             print("Added " + ReturnMethodFromString(child) + " transform to the Transform Dictionary");
         }
 
+        parent = (transform.parent != null) ? transform.parent.gameObject : gameObject;
+
         TransferThreshold = 3f;
        //transfer += Transfer;
     }
-           
+
+    public void CheckHands()
+    {
+        if (!XRDevice.isPresent)
+        {
+            CheckTempHand();
+        }
+        else
+        {
+            CheckOVRHand();
+        }
+    }
+
+    public void CheckTempHand()
+    {
+        if (HeldByTempHand && Input.GetKeyUp(KeyCode.Z))
+        {
+            print("Janky Drop Item");
+            HeldByTempHand = false;
+        }
+
+        if (HeldByTempHand)
+        {
+            if (TempHandFollow != null)
+            {
+                transform.position = TempHandFollow.transform.position;
+            }
+            currentHoldingStatus = HoldingStatus.InRightHand;
+            interactableRB.isKinematic = true;
+        } else if (!HeldByTempHand)
+        {
+            interactableRB.isKinematic = false;
+            TempHandFollow = null;
+            currentHoldingStatus = HoldingStatus.NotHeld;
+        }
+    }
+
     public void CheckOVRHand()
     {
         if (thisGrabbable.grabbedBy != null)
@@ -212,5 +257,44 @@ public class Interactable : MonoBehaviour
         Gizmos.color = Color.white;
         Gizmos.matrix = Matrix4x4.TRS(transform.position, Quaternion.identity, new Vector3(1, 1, 1));
         Gizmos.DrawWireSphere(Vector3.zero, interactionRadius);
+    }
+
+    public void OnTriggerStay(Collider other)
+    {
+        print("working");
+        if (other.gameObject.tag == TempHandTag)
+        {
+            print("test hand in range of interactable");
+
+            if (Input.GetKey(KeyCode.Z) && !HeldByTempHand)
+            {
+                if (HandCanGrab(other.gameObject))
+                {
+                    HeldByTempHand = true;
+                    TempHandFollow = other.gameObject;
+                    parent.transform.SetParent(TempHandFollow.transform);
+                }
+            }
+
+        }
+    }
+
+    public virtual void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == TempHandTag)
+        {
+            other.transform.DetachChildren();
+            HeldByTempHand = false;
+            TempHandFollow = null;
+        }
+    }
+
+    bool HandCanGrab(GameObject hand)
+    {
+        if (hand.transform.childCount > 0)
+        {
+            return false;
+        }
+        return true;
     }
 }

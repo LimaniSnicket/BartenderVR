@@ -9,8 +9,10 @@ public class OrderManager : MonoBehaviour
 {
     private static OrderManager orderManager;
 
-    //the last glass you interacted with will always be the focus glass
     public static Glass focusGlass;
+
+    public GameObject sA;
+    public static GameObject servingArea;
 
     public static float tipMoney;
     public float timer = 0;
@@ -72,6 +74,7 @@ public class OrderManager : MonoBehaviour
         GenerateMenu(DrinkResourcesPath);
         s_debuggingMode = debuggingMode;
         currentTabs.Capacity = maxTabsToDisplay;
+        servingArea = sA;
     }
 
     private void Update()
@@ -108,16 +111,27 @@ public class OrderManager : MonoBehaviour
         {
             BarRating = AccuracyHistory.Rating(5f);
         }
+
     }
 
     public static bool CanSetNewFocusGlass()
     {
-        if (focusGlass.currentHoldingStatus != Interactable.HoldingStatus.NotHeld)
+        if (focusGlass == null)
         {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
+    }
+
+    public static void SetAsFocusGlass(Glass toset)
+    {
+        focusGlass = toset;
+    }
+
+    public static void FocusGlassNull()
+    {
+        focusGlass = null;
     }
 
     public static void UpdateQueue()
@@ -141,7 +155,7 @@ public class OrderManager : MonoBehaviour
         foreach (var d in drinks)
         {
             menuItems.Add((Drink)d);
-            Debug.Log("Adding " + d.name + " to the menu");
+            //Debug.Log("Adding " + d.name + " to the menu");
         }
     }
 
@@ -149,5 +163,7 @@ public class OrderManager : MonoBehaviour
     {
         AccuracyHistory.Add(toAdd);
     }
-
+    //should be its own script you fucking dumbass 
+    //wait nevermind it doesnt need to be
+    //youre dumb
 }

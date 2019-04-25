@@ -28,6 +28,12 @@ public static class EnumList
         OldFashioned = 5
     }
 
+    public struct HeightMod {
+        public float min, max;
+        public HeightMod (float mn, float mx) { min = mn; max = mx; }
+        public float height() { return max - min; }
+    }
+
     static Dictionary<GlassTypes, float> GlassHeightModifiers = new Dictionary<GlassTypes, float>
     {
         {GlassTypes.Basic, 2f},
@@ -38,6 +44,11 @@ public static class EnumList
         {GlassTypes.OldFashioned, 3f}
     };
 
+    static Dictionary<GlassTypes, HeightMod> HeightMods = new Dictionary<GlassTypes, HeightMod>
+    {
+        {GlassTypes.Basic, new HeightMod(0.6f, 0.44f)}
+    };
+
     public static float GlassHeightModifier(GlassTypes glass)
     {
         foreach (var key in GlassHeightModifiers)
@@ -45,6 +56,19 @@ public static class EnumList
             if (key.Key == glass)
             {
                 return key.Value;
+            }
+        }
+
+        return 1f;
+    }
+
+    public static float MinHeight(GlassTypes glass)
+    {
+        foreach (var g in HeightMods)
+        {
+            if (g.Key == glass)
+            {
+                return g.Value.min;
             }
         }
 

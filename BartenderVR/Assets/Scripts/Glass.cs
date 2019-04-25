@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
+using UnityEngine.XR;
 using DrinkManagement;
 
 public class Glass : Interactable
@@ -12,7 +12,9 @@ public class Glass : Interactable
     public LiquidColor liquidInGlass;
 
     AdditiveLiquid bottleToCheck;
-
+    const string servingAreaTag = "ServingArea";
+    bool serving;
+   
     public override void Start()
     {
         base.Start();
@@ -24,24 +26,40 @@ public class Glass : Interactable
 
     public void Update()
     {
-        CheckOVRHand();
+        //CheckOVRHand();
+        CheckHands();
 
         if (liquidInGlass != null)
         {
             liquidInGlass.SetColorsToMix(addedToGlass);
-            liquidInGlass.div = addedToGlass.GetAddedTotal(EnumList.AdditionMethod.Pour) / (addedToGlass.GetAddedCount(EnumList.AdditionMethod.Pour) *1.5f* EnumList.GlassHeightModifier(thisGlassType));
-            //liquidInGlass.tot = EnumList.GlassHeightModifier(thisGlassType);
+           //liquidInGlass.div = (addedToGlass.GetAddedTotal(EnumList.AdditionMethod.Pour)/addedToGlass.GetAddedCount(EnumList.AdditionMethod.Pour)) / EnumList.GlassHeightModifier(thisGlassType)*10f;
+            liquidInGlass.div = addedToGlass.GetAddedTotal(EnumList.AdditionMethod.Pour) 
+            / (addedToGlass.GetAddedCount(EnumList.AdditionMethod.Pour) *1.5f* EnumList.GlassHeightModifier(thisGlassType));
+
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (canServe())
         {
-            ServeDrink();
-        }
+            //if (!XRDevice.isPresent)
+            //{
+            //    if (Input.GetKeyDown(KeyCode.Space))
+            //    {
+            //        ServeDrink();
+            //    }
+            //}
+            //else
+            //{
+                if (OrderManager.focusGlass == this && !serving){
+                print("TF");
+                StartCoroutine(ServeDrinkCo());
+            }
+            //}
 
-        if (currentHoldingStatus != HoldingStatus.NotHeld && OrderManager.CanSetNewFocusGlass())
-        {
-            OrderManager.focusGlass = this;
         }
+        //if (currentHoldingStatus != HoldingStatus.NotHeld && OrderManager.CanSetNewFocusGlass())
+        //{
+        //    OrderManager.focusGlass = this;
+        //}
 
         RaycastHit CheckFor;
 
@@ -120,6 +138,22 @@ public class Glass : Interactable
         Destroy(this.gameObject);
     }
 
+    public IEnumerator ServeDrinkCo()
+    {
+        serving = true;
+        Destroy(GetComponent<Collider>());
+        float newTip = AccuracyToRecipe(addedToGlass, OrderManager.currentOrder.drinkToMake);
+        OrderManager.tipMoney += newTip * OrderManager.currentOrder.drinkToMake.maxTip;
+        Debug.Log("Drink Accuracy: " + 100f * newTip + "%");
+        Debug.Log("$" + OrderManager.tipMoney + " in tips made so far");
+        ReviewManager.CreateNewReview(OrderManager.currentOrder.drinkToMake, newTip * 5f);
+        OrderManager.UpdateQueue();
+        OrderManager.LeaveReview(newTip);
+        yield return new WaitForSeconds(3f);
+        print("Destroy this glass");
+        Destroy(parent);
+    }
+
 
     //<Calculating Accuracy Logic>
     //Correct Glass Type worth 10%
@@ -180,6 +214,38 @@ public class Glass : Interactable
         for(int i=0; i< defaultDrink.recipe.Count; i++)
         {
             addedToGlass[i] = defaultDrink.recipe[i];
+        }
+    }
+
+    bool canServe()
+    {
+        if (OrderManager.focusGlass == this)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject == OrderManager.servingArea)
+        {
+            if (OrderManager.CanSetNewFocusGlass() && currentHoldingStatus == HoldingStatus.NotHeld)
+            {
+                OrderManager.SetAsFocusGlass(this);
+            }
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject == OrderManager.servingArea)
+        {
+            if (OrderManager.focusGlass == this)
+            {
+                OrderManager.FocusGlassNull();
+            }
         }
     }
 }

@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c8ae1c155730458c98b7bb196075195, type: 3}
+  m_Name: Long Island Iced Tea
+  m_EditorClassIdentifier: 
+  drinkName: Long Island Iced Tea
+  maxTip: 20
+  recipe:
+  - addedThisStep: {fileID: 11400000, guid: 7eefa1a5aa2ff4f04b31d578d623d490, type: 2}
+    amountToAdd: 0.5
+    additionMethod: 6
+    methodsPerformedOn: 02000000
+  - addedThisStep: {fileID: 11400000, guid: e9605b0f8b7224318b28b910ac0479f7, type: 2}
+    amountToAdd: 0.5
+    additionMethod: 6
+    methodsPerformedOn: 02000000
+  - addedThisStep: {fileID: 11400000, guid: dea23313fe764457b904915d198589bd, type: 2}
+    amountToAdd: 0.5
+    additionMethod: 6
+    methodsPerformedOn: 02000000
+  - addedThisStep: {fileID: 11400000, guid: 95e9bbbbb6560453b826402ce9ba3a60, type: 2}
+    amountToAdd: 0.5
+    additionMethod: 6
+    methodsPerformedOn: 02000000
+  - addedThisStep: {fileID: 11400000, guid: 2b0215e3e22e845db923e1c47960fd6f, type: 2}
+    amountToAdd: 0.5
+    additionMethod: 6
+    methodsPerformedOn: 02000000
+  - addedThisStep: {fileID: 11400000, guid: 42bf55885a7cb4719a259911c91de54c, type: 2}
+    amountToAdd: 1
+    additionMethod: 6
+    methodsPerformedOn: 02000000
+  - addedThisStep: {fileID: 11400000, guid: ad9a80c2e81264f329c9e30e1431e369, type: 2}
+    amountToAdd: 7
+    additionMethod: 6
+    methodsPerformedOn: 02000000
+  - addedThisStep: {fileID: 11400000, guid: 44d637c6c17c9440c9639451b04143c5, type: 2}
+    amountToAdd: 1
+    additionMethod: 5
+    methodsPerformedOn: 02000000
+  properGlass: 2

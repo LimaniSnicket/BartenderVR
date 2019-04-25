@@ -57,17 +57,6 @@ public class ReviewManager : MonoBehaviour
         EntryPrefab = EP;
     }
 
-    private void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.T))
-        //{
-        //    //Review newReview = new Review(jsonReviewData.FirstNames, jsonReviewData.Hometowns);
-        //    //GameObject e = Instantiate(EntryPrefab, ReviewViewport.transform);
-        //    //ReviewEntry rev = new ReviewEntry(newReview, e);
-        //    //ReviewsLeft.Add(newReview);
-        //}
-    }
-
     public static void CreateNewReview(Drink drink, float accuracy)
     {
         Review newReview = new Review(jsonReviewData.FirstNames, jsonReviewData.Hometowns, drink, accuracy);

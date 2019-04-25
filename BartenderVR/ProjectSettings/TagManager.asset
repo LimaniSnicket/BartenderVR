@@ -9,6 +9,9 @@ TagManager:
   - Bottle
   - Glass
   - Shaker
+  - HeadSpace
+  - goHand
+  - ServingArea
   layers:
   - Default
   - TransparentFX

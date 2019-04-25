@@ -17,14 +17,15 @@ public class AdditiveObject : Interactable
 
     private void Update()
     {
-        if (thisAdditive.Grabbable)
-        {
-            CheckOVRHand();
-        }
-        else
-        {
-            Destroy(thisGrabbable);
-        }
+        //if (thisAdditive.Grabbable)
+        //{
+        //    CheckOVRHand();
+        //}
+        //else
+        //{
+        //    Destroy(thisGrabbable);
+        //}
+       CheckHands();
 
         if (NearInteractable(InteractableType.Glass)) //|| NearInteractable(InteractableType.Shaker))
         {
@@ -101,6 +102,7 @@ public class AdditiveObject : Interactable
 
                             transform.SetParent(collider.transform.parent);
                             transform.position = collider.transform.position;
+                            GetComponent<Collider>().isTrigger = true;
                         }
                     }
 
@@ -113,13 +115,14 @@ public class AdditiveObject : Interactable
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    public override void OnTriggerExit(Collider other)
     {
         if (transform.parent != null && toAddTo != null)
         {
             toAddTo.GetComponent<Glass>().addedToGlass.RemoveFromArray(thisAdditive);
             transform.SetParent(null);
             toAddTo = null;
+            GetComponent<Collider>().isTrigger = false;
         }
 
     }
