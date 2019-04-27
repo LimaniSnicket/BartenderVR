@@ -12,6 +12,7 @@ public class OrderManager : MonoBehaviour
     public static Glass focusGlass;
 
     public GameObject sA;
+    public Light focusHighlight;
     public static GameObject servingArea;
 
     public static float tipMoney;
@@ -112,6 +113,23 @@ public class OrderManager : MonoBehaviour
             BarRating = AccuracyHistory.Rating(5f);
         }
 
+        if (focusGlass != null)
+        {
+            SetFocusHighlight(focusGlass.parent,0f);
+        }
+        else
+        {
+            focusHighlight.gameObject.SetActive(false);
+        }
+
+    }
+
+    void SetFocusHighlight(GameObject over, float offset)
+    {
+        focusHighlight.gameObject.SetActive(true);
+        Vector3 focusPos = new Vector3(over.transform.position.x, over.transform.position.y + offset, over.transform.position.z);
+        focusHighlight.transform.position = focusPos;
+        over.GetComponentInChildren<Outline>().OutlineColor = focusHighlight.color;
     }
 
     public static bool CanSetNewFocusGlass()

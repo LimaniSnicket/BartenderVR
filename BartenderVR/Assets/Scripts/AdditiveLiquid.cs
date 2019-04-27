@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DrinkManagement;
+using UnityEngine.XR;
 
 public class AdditiveLiquid : AdditiveObject
 {
@@ -33,18 +34,31 @@ public class AdditiveLiquid : AdditiveObject
     // Update is called once per frame
     void Update()
     {
-        CheckOVRHand();
+        //CheckOVRHand();
+        CheckHands();
 
         zRotation = transform.eulerAngles.z;
         PourRate = CalculatePourRate();
 
-        if (toAddTo != null)
+        if (Input.GetKey(pourKey))
         {
-            if (Input.GetKey(KeyCode.L))
+            if (!XRDevice.isPresent)
             {
-                AddToGlass((Glass)toAddTo, EnumList.AdditionMethod.Pour);
+                NonOVRPour();
             }
         }
+        else if (Input.GetKeyUp(pourKey))
+        {
+            parent.transform.localEulerAngles = new Vector3(0f, 0f, 0f);
+        }
+
+        if (toAddTo != null)
+        {
+            print("Adding to glass");
+            AddToGlass((Glass)toAddTo, EnumList.AdditionMethod.Pour);
+
+        }
+
     }
 
     public override void AddToGlass(Glass glass, EnumList.AdditionMethod additionMethod)
@@ -63,6 +77,16 @@ public class AdditiveLiquid : AdditiveObject
             return z / zRotationMax;
         }
         return 1f;
+    }
+
+    public override void OnTriggerStay(Collider other)
+    {
+        base.OnTriggerStay(other);
+    }
+
+    public override void OnTriggerExit(Collider other)
+    {
+        base.OnTriggerExit(other);
     }
 
 }

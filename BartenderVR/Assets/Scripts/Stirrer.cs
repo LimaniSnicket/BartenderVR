@@ -19,7 +19,8 @@ public class Stirrer : Interactable
 
     private void Update()
     {
-       //CheckOVRHand();
+        //CheckOVRHand();
+        CheckHands();
 
         if (currentHoldingStatus != HoldingStatus.NotHeld)
         {

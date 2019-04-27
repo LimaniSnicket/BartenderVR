@@ -105,6 +105,15 @@ public class Glass : Interactable
 
         Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward), Color.red);
 
+        if (Input.GetKey(pourKey))
+        {
+            NonOVRPour();
+
+        } else if (Input.GetKeyUp(pourKey)  && canPour() )
+        {
+            parent.transform.localEulerAngles = new Vector3(0f, 0f, 0f);
+        }
+
     }
 
 
@@ -123,7 +132,6 @@ public class Glass : Interactable
 
             shaker.addedToShaker = ClearStepsTaken();
         }
-        print("fuck but in the glass script this time, inheritance is fuckin wild");
     }
 
     public void ServeDrink()
@@ -141,7 +149,7 @@ public class Glass : Interactable
     public IEnumerator ServeDrinkCo()
     {
         serving = true;
-        Destroy(GetComponent<Collider>());
+        //Destroy(GetComponent<Collider>());
         float newTip = AccuracyToRecipe(addedToGlass, OrderManager.currentOrder.drinkToMake);
         OrderManager.tipMoney += newTip * OrderManager.currentOrder.drinkToMake.maxTip;
         Debug.Log("Drink Accuracy: " + 100f * newTip + "%");
@@ -225,6 +233,16 @@ public class Glass : Interactable
         }
 
         return false;
+    }
+
+    public override void OnTriggerStay(Collider other)
+    {
+        base.OnTriggerStay(other);
+    }
+
+    public override void OnTriggerExit(Collider other)
+    {
+        base.OnTriggerExit(other);
     }
 
     private void OnCollisionStay(Collision collision)

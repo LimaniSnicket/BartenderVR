@@ -12,6 +12,8 @@ TagManager:
   - HeadSpace
   - goHand
   - ServingArea
+  - ShakerCap
+  - CubeOfInfluence
   layers:
   - Default
   - TransparentFX

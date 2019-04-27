@@ -10,13 +10,14 @@ public class Interactable : MonoBehaviour
 
     const string LeftHandTag = "LeftHand";
     const string RightHandTag = "RightHand";
-    const string TempHandTag = "goHand";
+    public const string TempHandTag = "goHand";
 
     public float interactionRadius;
 
     protected static bool canTransfer = true;
     protected static bool startTransfer = false;
     public GameObject parent;
+    public KeyCode pourKey = KeyCode.X;
 
     public Dictionary<Transform, EnumList.AdditionMethod> transformLibrary = new Dictionary<Transform, EnumList.AdditionMethod>();
 
@@ -48,7 +49,8 @@ public class Interactable : MonoBehaviour
     {
         NotHeld = 0,
         InLeftHand = 1,
-        InRightHand = 2
+        InRightHand = 2,
+        AddedToDrink = 3
     }
 
     public HoldingStatus currentHoldingStatus;
@@ -93,7 +95,7 @@ public class Interactable : MonoBehaviour
 
     public void CheckTempHand()
     {
-        if (HeldByTempHand && Input.GetKeyUp(KeyCode.Z))
+        if (HeldByTempHand && Input.GetKeyUp(KeyCode.E))
         {
             print("Janky Drop Item");
             HeldByTempHand = false;
@@ -101,16 +103,19 @@ public class Interactable : MonoBehaviour
 
         if (HeldByTempHand)
         {
-            if (TempHandFollow != null)
-            {
-                transform.position = TempHandFollow.transform.position;
-            }
             currentHoldingStatus = HoldingStatus.InRightHand;
             interactableRB.isKinematic = true;
-        } else if (!HeldByTempHand)
+            parent.transform.SetParent(TempHandFollow.transform);
+            GetComponent<Collider>().isTrigger = true;
+        } else if (!HeldByTempHand && currentHoldingStatus != HoldingStatus.AddedToDrink)
         {
             interactableRB.isKinematic = false;
-            TempHandFollow = null;
+            if (TempHandFollow != null)
+            {
+                TempHandFollow.transform.DetachChildren();
+                TempHandFollow = null;
+            }
+            GetComponent<Collider>().isTrigger = false;
             currentHoldingStatus = HoldingStatus.NotHeld;
         }
     }
@@ -131,7 +136,10 @@ public class Interactable : MonoBehaviour
         }
         else
         {
-            currentHoldingStatus = HoldingStatus.NotHeld;
+            if (currentHoldingStatus != HoldingStatus.AddedToDrink)
+            {
+                currentHoldingStatus = HoldingStatus.NotHeld;
+            }
         }
     }
 
@@ -259,23 +267,15 @@ public class Interactable : MonoBehaviour
         Gizmos.DrawWireSphere(Vector3.zero, interactionRadius);
     }
 
-    public void OnTriggerStay(Collider other)
+    public virtual void OnTriggerStay(Collider other)
     {
-        print("working");
-        if (other.gameObject.tag == TempHandTag)
+        if (other.gameObject.tag == TempHandTag && HandCanGrab(other.gameObject))
         {
-            print("test hand in range of interactable");
-
-            if (Input.GetKey(KeyCode.Z) && !HeldByTempHand)
+            if (Input.GetKeyDown(KeyCode.Z) && !HeldByTempHand)
             {
-                if (HandCanGrab(other.gameObject))
-                {
-                    HeldByTempHand = true;
-                    TempHandFollow = other.gameObject;
-                    parent.transform.SetParent(TempHandFollow.transform);
-                }
+                HeldByTempHand = true;
+                TempHandFollow = other.gameObject;
             }
-
         }
     }
 
@@ -297,4 +297,30 @@ public class Interactable : MonoBehaviour
         }
         return true;
     }
+
+    public void NonOVRPour()
+    {
+        if (canPour())
+        {
+            print("rotating " + this.name);
+            parent.transform.localEulerAngles = new Vector3(0f, 0f, 50f);
+        }
+    }
+
+    public bool canPour()
+    {
+        if (currentHoldingStatus == HoldingStatus.InRightHand)
+        {
+            return true;
+        }  
+
+        if (currentHoldingStatus == HoldingStatus.InLeftHand)
+        {
+            return true;
+        }
+
+        return false;
+    }
 }
+
+

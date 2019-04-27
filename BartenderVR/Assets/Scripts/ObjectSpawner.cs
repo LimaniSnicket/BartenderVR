@@ -38,7 +38,6 @@ public class ObjectSpawner : MonoBehaviour
         }
         else
         {
-            print("Spawn janky edition");
             if (CanSpawn() && Input.GetKeyDown(PickUpKey))
             {
                 StartCoroutine(SpawnObjectInTempHand());
@@ -131,16 +130,17 @@ public class ObjectSpawner : MonoBehaviour
     {
         spawnPerformed = true;
         GameObject newObject = Instantiate(objectToSpawn);
-        try
+        Interactable no = newObject.GetComponentInChildren<Interactable>();
+        no.HeldByTempHand = true;
+        no.TempHandFollow = hand;
+
+        while (no.parent == null)
         {
-            Interactable no = newObject.GetComponentInChildren<Interactable>();
-            if (Input.GetKey(PickUpKey))
-            {
-                no.HeldByTempHand = true;
-                no.TempHandFollow = hand;
-            }
+            yield return new WaitForEndOfFrame();
         }
-        catch (MissingComponentException) { Destroy(newObject); }
+
+        no.parent.transform.position = hand.transform.position;
+        no.parent.transform.SetParent(hand.transform);
         yield return null;
     }
 

@@ -88,10 +88,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
+  m_Radius: 1.2061129
+  m_Height: 4.1072645
   m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Center: {x: 0.26183656, y: 0.08607261, z: 0.13143851}
 --- !u!54 &5448157935625353947
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -119,9 +119,9 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.020254267, y: 0.020254264, z: 0.02019797}
-  m_Center: {x: -0.0000000013976358, y: -4.205952e-13, z: -0.00070013345}
---- !u!114 &5448157935625353951
+  m_Size: {x: 0.020254267, y: 0.020254264, z: 0.007976116}
+  m_Center: {x: -9.964258e-10, y: 9.219488e-19, z: -0.0068110568}
+--- !u!114 &5448157935625353945
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,14 +130,39 @@ MonoBehaviour:
   m_GameObject: {fileID: 5448157935625387121}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02d61468f8b77ae4b92c344bc9a600fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_allowOffhandGrab: 1
-  m_snapPosition: 0
-  m_snapOrientation: 0
-  m_snapOffset: {fileID: 0}
-  m_grabPoints: []
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 10
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &5448157935625353946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5448157935625387121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49eaaf00b89224e20b5b98ea57dfe0f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionRadius: 1
+  parent: {fileID: 0}
+  thisGrabbable: {fileID: 0}
+  thisType: 0
+  TransferTimer: 0
+  TransferThreshold: 2
+  HeldByTempHand: 0
+  TempHandFollow: {fileID: 0}
+  currentHoldingStatus: 0
+  addedToGlass: []
+  thisGlassType: 1
+  liquidInGlass: {fileID: 5448157935625353949}
 --- !u!114 &5448157935625353948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,7 +194,7 @@ MonoBehaviour:
   rendColor: {r: 0, g: 0, b: 0, a: 0}
   div: 0
   tot: 0
---- !u!114 &5448157935625353946
+--- !u!114 &5448157935625353951
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,36 +203,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5448157935625387121}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49eaaf00b89224e20b5b98ea57dfe0f1, type: 3}
+  m_Script: {fileID: 11500000, guid: 02d61468f8b77ae4b92c344bc9a600fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionRadius: 1
-  thisGrabbable: {fileID: 0}
-  thisType: 0
-  TransferTimer: 0
-  TransferThreshold: 2
-  currentHoldingStatus: 0
-  addedToGlass: []
-  thisGlassType: 1
-  liquidInGlass: {fileID: 5448157935625353949}
---- !u!114 &5448157935625353945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5448157935625387121}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 1
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 10
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
+  m_allowOffhandGrab: 1
+  m_snapPosition: 0
+  m_snapOrientation: 0
+  m_snapOffset: {fileID: 0}
+  m_grabPoints: []
 --- !u!1 &5448157936094052118
 GameObject:
   m_ObjectHideFlags: 0
