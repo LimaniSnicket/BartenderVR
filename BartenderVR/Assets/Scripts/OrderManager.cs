@@ -16,7 +16,6 @@ public class OrderManager : MonoBehaviour
     public Drink tutorialDrink;
     public static Drink tutDrink;
     public DrinkPreparationTutorial prepTutorial;
-    public static DrinkPreparationTutorial staticTutorial;
     public TextMeshPro tempTutorialText;
 
     public GameObject sA;
@@ -102,22 +101,29 @@ public class OrderManager : MonoBehaviour
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.H))
+          
+            if (prepTutorial.Tutorial.nextTutorialStep == null)
             {
-                prepTutorial.tutorialLines.Dequeue();
-                //if (prepTutorial.lineTests.First().Continue())
-                //{
-                //    prepTutorial.lineTests.Dequeue();
-                //}
-
-                if (prepTutorial.Tutorial.nextTutorialStep != null)
+                print("Last node of tutorial");
+                if (prepTutorial.Tutorial.Continue() && Input.GetKeyDown(KeyCode.H))
                 {
-                    prepTutorial.Tutorial = prepTutorial.Tutorial.nextTutorialStep;
+                    prepTutorial.Tutorial = null;
+                    print("End of tutorial");
                 }
+            }
+            else
+            {
+                print("Next tutorial step is not null");
 
+                if(prepTutorial.Tutorial.Continue() && Input.GetKeyDown(KeyCode.H))
+                {
+                    print("Continuing");
+                    prepTutorial.Tutorial = prepTutorial.Tutorial.nextTutorialStep;               
+                }
             }
 
-            print(prepTutorial.Tutorial.line);
+            print(prepTutorial.Tutorial.Continue());
+            print(prepTutorial.GlassReady());
             tempTutorialText.text = prepTutorial.Tutorial.line;
 
 
@@ -127,7 +133,6 @@ public class OrderManager : MonoBehaviour
             }
 
             print("Still in Tutorial Phase");
-            print(prepTutorial.GlassReady());
         }
 
         int menuSize = menuItems.Count;
@@ -246,24 +251,6 @@ public class OrderManager : MonoBehaviour
         yield return null;
     }
 
-    //public IEnumerator TutorialLineWalkthrough(DrinkPreparationTutorial tutorial)
-    //{
-
-    //    tutorial.lineTests.Enqueue(new TutorialLine("Test the tutorial Line Queue"));
-    //    tutorial.lineTests.Enqueue(new TutorialLine("Test the tutorial Line Queue with a bool", tutorial.GlassReady));
-    //    tutorial.lineTests.Enqueue(new TutorialLine("Bitch What the FCUK"));
-
-    //    while (tutorial.lineTests.Count>0)
-    //    {
-    //        tempTutorialText.gameObject.SetActive(true);
-    //        tempTutorialText.text = tutorial.lineTests.First().line;
-    //        yield return new WaitForEndOfFrame();
-    //    }
-    //    print("Done with line test");
-    //    tutorialActive = false;
-    //    yield return null;
-    //}
-
     TutorialLine[] tutorialLines =
 {
         new TutorialLine("Welcome to Shitty Bartender VR! The most immersive drinking experience your tiny budget can afford."),
@@ -276,6 +263,9 @@ public class OrderManager : MonoBehaviour
     {
         tutorial.Tutorial.SetLinks(tutorialLines);
         tutorial.AddLinks(tutorial.Tutorial, new TutorialLine(PrepStart(tutorial.thisDrinkPrep)));
+        tutorial.AddLinks(tutorial.Tutorial, 
+        new TutorialLine(string.Format("The first step to any drink is getting a glass. Go grab a <b>{0} </b> over there on the counter", tutorial.thisDrinkPrep.properGlass),
+            tutorial.GlassReady()));
     }
 
     public string PrepStart(Drink d)
@@ -396,6 +386,7 @@ public class TutorialLine
         {
             if (b == false)
             {
+                Debug.Log("Cannot continue yet");
                 return false;
             }
         }

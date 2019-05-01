@@ -153,6 +153,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionRadius: 1
   parent: {fileID: 0}
+  pourKey: 120
   thisGrabbable: {fileID: 0}
   thisType: 0
   TransferTimer: 0
@@ -267,7 +268,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4a69b5a2d4a0244f9b4934301e5ac9f7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.416
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4a69b5a2d4a0244f9b4934301e5ac9f7, type: 3}
       propertyPath: m_LocalRotation.x
