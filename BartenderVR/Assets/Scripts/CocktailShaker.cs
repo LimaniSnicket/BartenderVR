@@ -17,6 +17,7 @@ public class CocktailShaker : Interactable
 
     LiquidColor liquidColor;
     public GameObject shakerCap;
+    Outline outline;
 
     bool capOn;
 
@@ -26,6 +27,7 @@ public class CocktailShaker : Interactable
         thisType = InteractableType.Shaker;
         addedToShaker = new Drink.RecipeStep[10];
         liquidColor = GetComponent<LiquidColor>();
+        outline = GetComponent<Outline>();
     }
 
     private void Update()
@@ -44,12 +46,14 @@ public class CocktailShaker : Interactable
         {
             if (CheckRaycastComponent(CheckRay, InteractableType.Glass))
             {
-                if (CheckRay.transform.parent.eulerAngles.z.CheckRotationThreshold(45f) && !(CheckRay.transform.GetComponent<Glass>().addedToGlass.ContainerEmpty()))
+                print("Raycast here");
+                if (CheckRay.transform.parent.eulerAngles.z.CheckRotationThreshold(45f) && !CheckRay.transform.GetComponent<Glass>().addedToGlass.ContainerEmpty())
                 {
                     print("Rotation is above threshold");
                     TransferTimer += Time.deltaTime;
                     if (canTransfer && TransferTimer > TransferThreshold)
                     {
+                        //ValidateUseage(outline);
                         StartCoroutine(TransferSteps());
                     }
                 }
@@ -58,6 +62,10 @@ public class CocktailShaker : Interactable
                     TransferTimer = 0f;
                     canTransfer = true;
                 }
+            }
+            else
+            {
+                UnvalidateUsage(outline);
             }
 
             if (Input.GetKey(pourKey))
@@ -150,5 +158,10 @@ public class CocktailShaker : Interactable
         //    shakerCap.transform.SetParent(transform.parent);
         //    shakerCap.GetComponent<Rigidbody>().isKinematic = false;
         //}
+    }
+
+    public void ValidateUsage()
+    {
+        ValidateUseage(outline);
     }
 }

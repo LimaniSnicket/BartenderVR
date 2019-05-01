@@ -14,14 +14,13 @@ public class Glass : Interactable
     AdditiveLiquid bottleToCheck;
     const string servingAreaTag = "ServingArea";
     bool serving;
-   
+
     public override void Start()
     {
         base.Start();
 
         addedToGlass = new Drink.RecipeStep[10];
         thisType = InteractableType.Glass;
-
     }
 
     public void Update()
@@ -63,7 +62,7 @@ public class Glass : Interactable
 
         RaycastHit CheckFor;
 
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out CheckFor, 1f))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out CheckFor, Mathf.Infinity))
         {
             if(CheckRaycastComponent(CheckFor, InteractableType.Additive))
             {
@@ -78,12 +77,15 @@ public class Glass : Interactable
 
             if (CheckRaycastComponent(CheckFor, InteractableType.Shaker))
             {
+                print("Raycast on Cocktail Shaker");
+
                 if (CheckFor.transform.eulerAngles.z.CheckRotationThreshold(45f) && !CheckFor.transform.GetComponent<CocktailShaker>().addedToShaker.ContainerEmpty())
                 {
                     print("Rotation is above threshold");
                     TransferTimer += Time.deltaTime;
                     if (canTransfer && TransferTimer > TransferThreshold)
                     {
+                        CheckFor.transform.GetComponent<CocktailShaker>().ValidateUsage();
                         StartCoroutine(TransferSteps());
                     }
                 }

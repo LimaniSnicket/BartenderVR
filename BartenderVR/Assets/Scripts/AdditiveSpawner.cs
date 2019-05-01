@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class AdditiveSpawner : ObjectSpawner
 {
-
     public Additive thisAdditiveToSpawn;
     private void Start()
     {

@@ -24,11 +24,11 @@ public class Stirrer : Interactable
 
         if (currentHoldingStatus != HoldingStatus.NotHeld)
         {
-            GetComponent<CapsuleCollider>().isTrigger = true;
+            GetComponent<BoxCollider>().isTrigger = true;
         }
         else
         {
-            GetComponent<CapsuleCollider>().isTrigger = false;
+            GetComponent<BoxCollider>().isTrigger = false;
         }
 
 
@@ -68,8 +68,9 @@ public class Stirrer : Interactable
 
     }
 
-    private void OnTriggerStay(Collider collision)
+    public override void OnTriggerStay(Collider collision)
     {
+        base.OnTriggerStay(collision);
         try
         {
             Interactable inter = collision.gameObject.GetComponent<Interactable>();
@@ -88,8 +89,10 @@ public class Stirrer : Interactable
         catch (System.NullReferenceException) { }
     }
 
-    private void OnTriggerExit(Collider collision)
+    public override void OnTriggerExit(Collider collision)
     {
+        base.OnTriggerExit(collision);
+
         if (toStir == collision.transform.GetComponent<Interactable>())
         {
             toStir = null;

@@ -57,6 +57,14 @@ public class ReviewManager : MonoBehaviour
         EntryPrefab = EP;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.T) && OrderManager.s_debuggingMode)
+        {
+            CreateNewReview(OrderManager.tutDrink, 0f);
+        }
+    }
+
     public static void CreateNewReview(Drink drink, float accuracy)
     {
         Review newReview = new Review(jsonReviewData.FirstNames, jsonReviewData.Hometowns, drink, accuracy);

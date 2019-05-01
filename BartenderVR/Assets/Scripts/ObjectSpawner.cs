@@ -13,8 +13,7 @@ public class ObjectSpawner : MonoBehaviour
     public GameObject hand;
     OVRGrabber oVRGrabber;
 
-    [Header("Hey Misha make this key whatever you want to use to pick shit up")]
-    public  KeyCode PickUpKey;
+    protected  KeyCode PickUpKey = KeyCode.M;
 
     private void Update()
     {
@@ -77,13 +76,9 @@ public class ObjectSpawner : MonoBehaviour
             return (transform.position - ovrh.transform.position).magnitude <= interactionRadius;
         });
 
-        if (currentHand != null)
+        if (currentHand != null && currentHand.transform.childCount == 0)
         {
-            if (currentHand.tag != "RightHand" && currentHand.transform.childCount > 0)
-            {
-                return null;
-            }
-            else
+            if (currentHand.tag == "goHand")
             {
                 print("Test hand in range " + currentHand.name);
                 spawnPoint = currentHand.transform;

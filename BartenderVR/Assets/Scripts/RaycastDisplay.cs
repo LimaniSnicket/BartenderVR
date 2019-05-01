@@ -33,7 +33,7 @@ public class RaycastDisplay : MonoBehaviour
         if (focus != null)
         {
             rayCastTMP.gameObject.SetActive(true);
-            SetRayCastTMPPosition(focus, 1f);
+            SetRayCastTMPPosition(focus, 0f);
             SetRayCastTMPString(focus);
             //SetRayCastTMPRotation();
         }

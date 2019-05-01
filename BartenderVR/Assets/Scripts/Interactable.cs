@@ -28,7 +28,8 @@ public class Interactable : MonoBehaviour
         Glass = 2,
         Shaker = 3,
         Stirrer = 4,
-        Muddler = 5
+        Muddler = 5,
+        Phone = 6
     }
 
     [HideInInspector]
@@ -118,6 +119,24 @@ public class Interactable : MonoBehaviour
             GetComponent<Collider>().isTrigger = false;
             currentHoldingStatus = HoldingStatus.NotHeld;
         }
+
+        if (!HeldByTempHand)
+        {
+            //if (OrderManager.grabbedObjects.Contains(this))
+            //{
+            //    print("Removing from grabbed objects");
+            //    OrderManager.grabbedObjects.Remove(this);
+            //}
+        }
+        else
+        {
+            if (!OrderManager.grabbedObjects.Contains(this))
+            {
+                print("Adding to grabbed objects");
+                OrderManager.grabbedObjects.Add(this);
+            }
+        }
+
     }
 
     public void CheckOVRHand()
@@ -320,6 +339,17 @@ public class Interactable : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void ValidateUseage(Outline ot)
+    {
+        ot.OutlineWidth = 10f;
+        ot.OutlineColor = Color.green;
+    }
+
+    public void UnvalidateUsage(Outline ot)
+    {
+        ot.OutlineWidth = 0f;
     }
 }
 
