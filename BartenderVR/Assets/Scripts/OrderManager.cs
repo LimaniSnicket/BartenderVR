@@ -26,7 +26,7 @@ public class OrderManager : MonoBehaviour
     public float timer = 1;
     int check;
 
-    [Range(0,2)]
+    [Range(0, 2)]
     public float timeModifier = 0.25f;
 
     const string DrinkResourcesPath = "DrinkMenu";
@@ -34,7 +34,7 @@ public class OrderManager : MonoBehaviour
     public static List<Interactable> grabbedObjects = new List<Interactable>();
 
     [System.Serializable]
-    public struct DrinkOrder 
+    public struct DrinkOrder
     {
         public float preparationTime;
         public Drink drinkToMake;
@@ -101,37 +101,36 @@ public class OrderManager : MonoBehaviour
         }
         else
         {
-          
-            if (prepTutorial.Tutorial.nextTutorialStep == null)
+
+            if (prepTutorial.Tutorial != null)
             {
-                print("Last node of tutorial");
-                if (prepTutorial.Tutorial.Continue() && Input.GetKeyDown(KeyCode.H))
+                prepTutorial.Tutorial.CheckContinuation(prepTutorial.thisDrinkPrep);
+                print(prepTutorial.Tutorial.lineCondition);
+                tempTutorialText.text = prepTutorial.Tutorial.line;
+                if (prepTutorial.Tutorial.nextTutorialStep == null)
                 {
-                    prepTutorial.Tutorial = null;
-                    print("End of tutorial");
+                    print("Last node of tutorial");
+                    if (prepTutorial.Tutorial.CanContinue && Input.GetKeyDown(KeyCode.H))
+                    {
+                        prepTutorial.Tutorial = null;
+                        print("End of tutorial");
+                    }
+                }
+                else
+                {
+                    print("Next tutorial step is not null");
+
+                    if (prepTutorial.Tutorial.CanContinue && Input.GetKeyDown(KeyCode.H))
+                    {
+                        print("Continuing");
+                        prepTutorial.Tutorial = prepTutorial.Tutorial.nextTutorialStep;
+                    }
                 }
             }
             else
             {
-                print("Next tutorial step is not null");
-
-                if(prepTutorial.Tutorial.Continue() && Input.GetKeyDown(KeyCode.H))
-                {
-                    print("Continuing");
-                    prepTutorial.Tutorial = prepTutorial.Tutorial.nextTutorialStep;               
-                }
-            }
-
-            print(prepTutorial.Tutorial.Continue());
-            print(prepTutorial.GlassReady());
-            tempTutorialText.text = prepTutorial.Tutorial.line;
-
-
-            if (prepTutorial.tutorialLines.Count == 0)
-            {
                 tutorialActive = false;
             }
-
             print("Still in Tutorial Phase");
         }
 
@@ -168,7 +167,7 @@ public class OrderManager : MonoBehaviour
 
         if (focusGlass != null)
         {
-            SetFocusHighlight(focusGlass.parent,0f);
+            SetFocusHighlight(focusGlass.parent, 0f);
         }
         else
         {
@@ -238,7 +237,7 @@ public class OrderManager : MonoBehaviour
     public IEnumerator TutorialWalkthrough(DrinkPreparationTutorial tutorial)
     {
         tutorial.EnqueueLines("fuck", "bitchh", "hahaha kill me", PrepStart(tutorial.thisDrinkPrep));
-        tutorial.EnqueueLines("The first step in making any drink is getting a glass!", 
+        tutorial.EnqueueLines("The first step in making any drink is getting a glass!",
         string.Format("Go grab a <b> {0} </b> over there on the counter.", tutorial.thisDrinkPrep.properGlass.ToString()));
         while (tutorial.tutorialLines.Count != 0)
         {
@@ -263,9 +262,9 @@ public class OrderManager : MonoBehaviour
     {
         tutorial.Tutorial.SetLinks(tutorialLines);
         tutorial.AddLinks(tutorial.Tutorial, new TutorialLine(PrepStart(tutorial.thisDrinkPrep)));
-        tutorial.AddLinks(tutorial.Tutorial, 
-        new TutorialLine(string.Format("The first step to any drink is getting a glass. Go grab a <b>{0} </b> over there on the counter", tutorial.thisDrinkPrep.properGlass),
-            tutorial.GlassReady()));
+        tutorial.AddLinks(tutorial.Tutorial,
+        new TutorialLine(string.Format("The first step to any drink is getting a glass. Go grab a <b>{0} </b> over there on the counter", tutorial.thisDrinkPrep.properGlass), 
+            TutorialLine.LineConditions.RequireGlass));
     }
 
     public string PrepStart(Drink d)
@@ -316,28 +315,11 @@ public class DrinkPreparationTutorial
 
     public void EnqueueLines(params string[] stringsToEnqueue)
     {
-        for (int i =0; i < stringsToEnqueue.Length; i++)
+        for (int i = 0; i < stringsToEnqueue.Length; i++)
         {
             tutorialLines.Enqueue(stringsToEnqueue[i]);
         }
     }
-
-    public bool GlassReady()
-    {
-        foreach (var g in OrderManager.grabbedObjects)
-        {
-            if (g.thisType == Interactable.InteractableType.Glass)
-            {
-                if (g.GetComponent<Glass>().thisGlassType == thisDrinkPrep.properGlass)
-                {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-
 }
 
 [System.Serializable]
@@ -345,26 +327,42 @@ public class TutorialLine
 {
     public string line;
     public List<bool> ConditionsToAdvance = new List<bool>();
+    public bool[] advanceConditions = new bool[0];
 
     public TutorialLine nextTutorialStep;
+    public LineConditions lineCondition;
+    public bool CanContinue;
 
     public TutorialLine() { }
-    public TutorialLine(string l, params bool [] conditions)
+    public TutorialLine(string l, params bool[] conditions)
     {
         line = l;
         AddConditions(conditions);
+        advanceConditions = new bool[conditions.Length];
+        System.Array.Copy(conditions, advanceConditions, conditions.Length);
+        lineCondition = LineConditions.Default;
+
+    }
+    public TutorialLine(string l, LineConditions lc, params bool[] conditions)
+    {
+        line = l;
+        AddConditions(conditions);
+        advanceConditions = new bool[conditions.Length];
+        System.Array.Copy(conditions, advanceConditions, conditions.Length);
+        lineCondition = lc;
+
     }
 
-    public TutorialLine(string l, TutorialLine tl, params bool[] conditions)
+    public TutorialLine(string l, TutorialLine tl, LineConditions lc)
     {
         line = l;
         nextTutorialStep = tl;
-        AddConditions(conditions);
+        lineCondition = lc;
     }
 
     public void SetLinks(params TutorialLine[] lines)
     {
-        for (int i =0; i < lines.Length -1; i++)
+        for (int i = 0; i < lines.Length - 1; i++)
         {
             lines[i].nextTutorialStep = lines[i + 1];
         }
@@ -374,7 +372,7 @@ public class TutorialLine
 
     public void AddConditions(params bool[] conditions)
     {
-        for (int i =0; i< conditions.Length; i++)
+        for (int i = 0; i < conditions.Length; i++)
         {
             ConditionsToAdvance.Add(conditions[i]);
         }
@@ -382,7 +380,7 @@ public class TutorialLine
 
     public bool Continue()
     {
-        foreach (bool b in ConditionsToAdvance)
+        foreach (bool b in advanceConditions)
         {
             if (b == false)
             {
@@ -393,5 +391,49 @@ public class TutorialLine
         Debug.Log("Advance");
         return true;
     }
+
+    public void CheckContinuation(Drink d)
+    {
+        switch (lineCondition)
+        {
+            case LineConditions.RequireGlass:
+                CanContinue = GlassReady(d);
+                break;
+
+            case LineConditions.Default:
+                CanContinue = true;
+                break;
+        }
+
+    }
+
+    public bool GlassReady(Drink d)
+    {
+        foreach (var g in OrderManager.grabbedObjects)
+        {
+            if (g.thisType == Interactable.InteractableType.Glass)
+            {
+                if (g.GetComponent<Glass>().thisGlassType == d.properGlass)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public enum LineConditions
+    {
+        Default=0,
+        RequireGlass=1,
+        RequireIngredient=2,
+        RequireShake=3,
+        RequireStir=4,
+        RequireMuddle=5,
+        ReadyToServe=6
+
+    }
+
+
 
 }
