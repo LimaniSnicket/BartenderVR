@@ -21,7 +21,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 6}
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 398}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -119,8 +119,8 @@ MonoBehaviour:
     y: 366
     width: 877
     height: 290
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 102, y: 124}
+  m_MaxSize: {x: 4002, y: 4024}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 13}
@@ -149,7 +149,7 @@ MonoBehaviour:
     y: 0
     width: 1280
     height: 706
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 398}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &7
 MonoBehaviour:
@@ -263,15 +263,15 @@ MonoBehaviour:
     y: 0
     width: 659
     height: 366
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 17}
+  m_MinSize: {x: 204, y: 224}
+  m_MaxSize: {x: 4004, y: 4024}
+  m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
   - {fileID: 17}
   - {fileID: 12}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -336,20 +336,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Models
+    - Assets/Resources/GlassPrefabs
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Models
+  - Assets/Resources/GlassPrefabs
   m_LastFoldersGridSize: -1
   m_LastProjectPath: /Users/Vera/Desktop/ShittyBartenderVr/BartenderVR
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 76.00067}
-    m_SelectedIDs: b8320000
-    m_LastClickedID: 12984
-    m_ExpandedIDs: 00000000bc310000223300004e35000014370000663c000000ca9a3b
+    scrollPos: {x: 0, y: 231}
+    m_SelectedIDs: aa450000
+    m_LastClickedID: 17834
+    m_ExpandedIDs: 00000000a032000032360000f83700004a3d000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -377,7 +377,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000bc310000223300004e35000014370000043c0000663c0000
+    m_ExpandedIDs: 00000000a03200000634000032360000f83700004a3d0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -402,8 +402,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 80490000
-    m_LastClickedInstanceID: 18816
+    m_SelectedInstanceIDs: a04a0000
+    m_LastClickedInstanceID: 19104
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: 
     m_RenameOverlay:
@@ -495,10 +495,10 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 24d4ffff
-      m_LastClickedID: -11228
-      m_ExpandedIDs: d4fbffff344800008e480000b0480000cc480000de480000
+      scrollPos: {x: 0, y: 215}
+      m_SelectedIDs: a04a0000
+      m_LastClickedID: 19104
+      m_ExpandedIDs: 52faffff98fbffff02490000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -584,13 +584,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: 0.38756552, y: -0.44813016, z: 0.22448581, w: 0.77367854}
+    m_Target: {x: 0.16006373, y: 0.4875124, z: -0.0914339, w: 0.8534356}
     speed: 2
-    m_Value: {x: 0.38756552, y: -0.44813016, z: 0.22448581, w: 0.77367854}
+    m_Value: {x: 0.16006364, y: 0.4875121, z: -0.091433845, w: 0.85343504}
   m_Size:
-    m_Target: 6.177092
+    m_Target: 1.2778711
     speed: 2
-    m_Value: 6.177092
+    m_Value: 1.2778711
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -650,7 +650,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1

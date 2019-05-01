@@ -62,8 +62,9 @@ public class Glass : Interactable
 
         RaycastHit CheckFor;
 
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out CheckFor, Mathf.Infinity))
+        if (Physics.Raycast(parent.transform.position, transform.TransformDirection(Vector3.forward), out CheckFor, Mathf.Infinity))
         {
+       
             if(CheckRaycastComponent(CheckFor, InteractableType.Additive))
             {
                 try
@@ -105,7 +106,7 @@ public class Glass : Interactable
             }
         }
 
-        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward), Color.red);
+        Debug.DrawRay(parent.transform.position, transform.TransformDirection(Vector3.forward), Color.red);
 
         if (Input.GetKey(pourKey))
         {

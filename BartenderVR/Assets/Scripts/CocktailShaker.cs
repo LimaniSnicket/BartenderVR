@@ -133,6 +133,11 @@ public class CocktailShaker : Interactable
     public override void OnTriggerStay(Collider other)
     {
         base.OnTriggerStay(other);
+
+        try
+        {
+            Glass g = other.gameObject.GetComponent<Glass>();
+        } catch (MissingComponentException) { }
     }
 
     public override void OnTriggerExit(Collider other)
