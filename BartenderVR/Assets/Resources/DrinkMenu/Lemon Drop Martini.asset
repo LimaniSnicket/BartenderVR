@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c8ae1c155730458c98b7bb196075195, type: 3}
+  m_Name: Lemon Drop Martini
+  m_EditorClassIdentifier: 
+  drinkName: Lemon Drop Martini
+  maxTip: 8
+  recipe:
+  - addedThisStep: {fileID: 11400000, guid: 95e9bbbbb6560453b826402ce9ba3a60, type: 2}
+    amountToAdd: 1.5
+    additionMethod: 6
+    methodsPerformedOn: 03000000
+  - addedThisStep: {fileID: 11400000, guid: 9dc99ec4bc6674762990361b5404c1c3, type: 2}
+    amountToAdd: 0.75
+    additionMethod: 6
+    methodsPerformedOn: 03000000
+  - addedThisStep: {fileID: 11400000, guid: 44d637c6c17c9440c9639451b04143c5, type: 2}
+    amountToAdd: 0.25
+    additionMethod: 1
+    methodsPerformedOn: 
+  properGlass: 3

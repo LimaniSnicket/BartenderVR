@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c8ae1c155730458c98b7bb196075195, type: 3}
+  m_Name: Tutti Frutti Uti
+  m_EditorClassIdentifier: 
+  drinkName: Tutti Frutti Uti
+  maxTip: 7
+  recipe:
+  - addedThisStep: {fileID: 11400000, guid: 95e9bbbbb6560453b826402ce9ba3a60, type: 2}
+    amountToAdd: 2
+    additionMethod: 6
+    methodsPerformedOn: 
+  - addedThisStep: {fileID: 11400000, guid: 1ee9c70e175cb4ca797b8a99c94f778b, type: 2}
+    amountToAdd: 3
+    additionMethod: 6
+    methodsPerformedOn: 
+  - addedThisStep: {fileID: 11400000, guid: 847aee3887447413ca6fe242e7279115, type: 2}
+    amountToAdd: 3
+    additionMethod: 1
+    methodsPerformedOn: 
+  - addedThisStep: {fileID: 11400000, guid: 44d637c6c17c9440c9639451b04143c5, type: 2}
+    amountToAdd: 1
+    additionMethod: 5
+    methodsPerformedOn: 
+  properGlass: 2

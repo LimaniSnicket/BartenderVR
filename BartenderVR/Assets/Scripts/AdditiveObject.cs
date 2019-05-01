@@ -17,14 +17,7 @@ public class AdditiveObject : Interactable
 
     private void Update()
     {
-        if (thisAdditive.Grabbable)
-        {
-            CheckOVRHand();
-        }
-        else
-        {
-            Destroy(thisGrabbable);
-        }
+       CheckHands();
 
         if (NearInteractable(InteractableType.Glass)) //|| NearInteractable(InteractableType.Shaker))
         {
@@ -80,30 +73,30 @@ public class AdditiveObject : Interactable
         toAddTo = glass;
     }
 
-    private void OnTriggerStay(Collider collider)
+    public override void OnTriggerStay(Collider other)
     {
+        base.OnTriggerStay(other);
         switch (thisAdditive.additionMethod)
         {
             case EnumList.AdditionMethod.Garnish:
                 try
                 {
-                    Glass glass = collider.transform.gameObject.GetComponentInParent<Glass>();
+                    Glass glass = other.transform.gameObject.GetComponentInParent<Glass>();
+                    print(glass);
 
                     if (glass.transformLibrary.TransformValid(EnumList.AdditionMethod.Garnish))
                     {
-                        if (glass.transformLibrary.TargetTransform(EnumList.AdditionMethod.Garnish) == collider.transform
-                        && currentHoldingStatus != HoldingStatus.NotHeld)
+                        if (glass.transformLibrary.TargetTransform(EnumList.AdditionMethod.Garnish) == other.transform
+                        && currentHoldingStatus == HoldingStatus.NotHeld)
                         {
-                            if (transform.parent == null)
-                            {
-                                AddToGlass(glass, EnumList.AdditionMethod.Garnish);
-                            }
-
-                            transform.SetParent(collider.transform.parent);
-                            transform.position = collider.transform.position;
+                            AddToGlass(glass, EnumList.AdditionMethod.Garnish);
+                            parent.transform.SetParent(glass.parent.transform);
+                            parent.transform.position = other.transform.position;
+                            //parent.transform.rotation = other.transform.rotation;
+                            currentHoldingStatus = HoldingStatus.AddedToDrink;
+                            GetComponent<Rigidbody>().isKinematic = true;
                         }
                     }
-
                 }
                 catch (System.NullReferenceException) { return; }
                 break;
@@ -113,13 +106,18 @@ public class AdditiveObject : Interactable
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    public override void OnTriggerExit(Collider other)
     {
-        if (transform.parent != null && toAddTo != null)
+        base.OnTriggerExit(other);
+        if (toAddTo != null && other.gameObject.tag != TempHandTag)
         {
-            toAddTo.GetComponent<Glass>().addedToGlass.RemoveFromArray(thisAdditive);
-            transform.SetParent(null);
+            if (!thisAdditive.IsLiquid())
+            {
+                toAddTo.GetComponent<Glass>().addedToGlass.RemoveFromArray(thisAdditive);
+            }
+            parent.transform.SetParent(null);
             toAddTo = null;
+            GetComponent<Collider>().isTrigger = false;
         }
 
     }

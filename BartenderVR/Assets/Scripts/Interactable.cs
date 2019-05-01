@@ -10,11 +10,14 @@ public class Interactable : MonoBehaviour
 
     const string LeftHandTag = "LeftHand";
     const string RightHandTag = "RightHand";
+    public const string TempHandTag = "goHand";
 
     public float interactionRadius;
 
     protected static bool canTransfer = true;
     protected static bool startTransfer = false;
+    public GameObject parent;
+    public KeyCode pourKey = KeyCode.X;
 
     public Dictionary<Transform, EnumList.AdditionMethod> transformLibrary = new Dictionary<Transform, EnumList.AdditionMethod>();
 
@@ -25,7 +28,8 @@ public class Interactable : MonoBehaviour
         Glass = 2,
         Shaker = 3,
         Stirrer = 4,
-        Muddler = 5
+        Muddler = 5,
+        Phone = 6
     }
 
     [HideInInspector]
@@ -37,11 +41,17 @@ public class Interactable : MonoBehaviour
 
     protected Rigidbody interactableRB;
 
+    [HideInInspector]
+    public bool HeldByTempHand;
+    [HideInInspector]
+    public GameObject TempHandFollow;
+
     public enum HoldingStatus
     {
         NotHeld = 0,
         InLeftHand = 1,
-        InRightHand = 2
+        InRightHand = 2,
+        AddedToDrink = 3
     }
 
     public HoldingStatus currentHoldingStatus;
@@ -66,10 +76,69 @@ public class Interactable : MonoBehaviour
             print("Added " + ReturnMethodFromString(child) + " transform to the Transform Dictionary");
         }
 
+        parent = (transform.parent != null) ? transform.parent.gameObject : gameObject;
+
         TransferThreshold = 3f;
        //transfer += Transfer;
     }
-           
+
+    public void CheckHands()
+    {
+        if (!XRDevice.isPresent)
+        {
+            CheckTempHand();
+        }
+        else
+        {
+            CheckOVRHand();
+        }
+    }
+
+    public void CheckTempHand()
+    {
+        if (HeldByTempHand && Input.GetKeyUp(KeyCode.E))
+        {
+            print("Janky Drop Item");
+            HeldByTempHand = false;
+        }
+
+        if (HeldByTempHand)
+        {
+            currentHoldingStatus = HoldingStatus.InRightHand;
+            interactableRB.isKinematic = true;
+            parent.transform.SetParent(TempHandFollow.transform);
+            GetComponent<Collider>().isTrigger = true;
+        } else if (!HeldByTempHand && currentHoldingStatus != HoldingStatus.AddedToDrink)
+        {
+            interactableRB.isKinematic = false;
+            if (TempHandFollow != null)
+            {
+                TempHandFollow.transform.DetachChildren();
+                TempHandFollow = null;
+            }
+            GetComponent<Collider>().isTrigger = false;
+            currentHoldingStatus = HoldingStatus.NotHeld;
+        }
+
+        if (!HeldByTempHand)
+        {
+            //if (OrderManager.grabbedObjects.Contains(this))
+            //{
+            //    print("Removing from grabbed objects");
+            //    OrderManager.grabbedObjects.Remove(this);
+            //}
+        }
+        else
+        {
+            if (!OrderManager.grabbedObjects.Contains(this))
+            {
+                print("Adding to grabbed objects");
+                OrderManager.grabbedObjects.Add(this);
+            }
+        }
+
+    }
+
     public void CheckOVRHand()
     {
         if (thisGrabbable.grabbedBy != null)
@@ -86,7 +155,10 @@ public class Interactable : MonoBehaviour
         }
         else
         {
-            currentHoldingStatus = HoldingStatus.NotHeld;
+            if (currentHoldingStatus != HoldingStatus.AddedToDrink)
+            {
+                currentHoldingStatus = HoldingStatus.NotHeld;
+            }
         }
     }
 
@@ -213,4 +285,72 @@ public class Interactable : MonoBehaviour
         Gizmos.matrix = Matrix4x4.TRS(transform.position, Quaternion.identity, new Vector3(1, 1, 1));
         Gizmos.DrawWireSphere(Vector3.zero, interactionRadius);
     }
+
+    public virtual void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == TempHandTag && HandCanGrab(other.gameObject))
+        {
+            if (Input.GetKeyDown(KeyCode.Z) && !HeldByTempHand)
+            {
+                HeldByTempHand = true;
+                TempHandFollow = other.gameObject;
+            }
+        }
+    }
+
+    public virtual void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == TempHandTag)
+        {
+            other.transform.DetachChildren();
+            HeldByTempHand = false;
+            TempHandFollow = null;
+        }
+    }
+
+    bool HandCanGrab(GameObject hand)
+    {
+        if (hand.transform.childCount > 0)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public void NonOVRPour()
+    {
+        if (canPour())
+        {
+            print("rotating " + this.name);
+            parent.transform.localEulerAngles = new Vector3(0f, 0f, 50f);
+        }
+    }
+
+    public bool canPour()
+    {
+        if (currentHoldingStatus == HoldingStatus.InRightHand)
+        {
+            return true;
+        }  
+
+        if (currentHoldingStatus == HoldingStatus.InLeftHand)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void ValidateUseage(Outline ot)
+    {
+        ot.OutlineWidth = 10f;
+        ot.OutlineColor = Color.green;
+    }
+
+    public void UnvalidateUsage(Outline ot)
+    {
+        ot.OutlineWidth = 0f;
+    }
 }
+
+

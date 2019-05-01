@@ -59,19 +59,17 @@ public class ReviewManager : MonoBehaviour
 
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.T))
-        //{
-        //    //Review newReview = new Review(jsonReviewData.FirstNames, jsonReviewData.Hometowns);
-        //    //GameObject e = Instantiate(EntryPrefab, ReviewViewport.transform);
-        //    //ReviewEntry rev = new ReviewEntry(newReview, e);
-        //    //ReviewsLeft.Add(newReview);
-        //}
+        if (Input.GetKeyDown(KeyCode.T) && OrderManager.s_debuggingMode)
+        {
+            CreateNewReview(OrderManager.tutDrink, 0f);
+        }
     }
 
     public static void CreateNewReview(Drink drink, float accuracy)
     {
         Review newReview = new Review(jsonReviewData.FirstNames, jsonReviewData.Hometowns, drink, accuracy);
         GameObject e = Instantiate(EntryPrefab, ReviewViewport.transform);
+        e.transform.SetAsFirstSibling();
         ReviewEntry rev = new ReviewEntry(newReview, e);
         ReviewsLeft.Add(newReview);
     }
@@ -131,7 +129,7 @@ public class Review
         string begin = "My " + drinkName + " was ";
         string end = "";
 
-        if (accuracy.SqueezeFloat(0,1f))
+        if (accuracy.SqueezeFloat(-1f,1f))
         {
             end = " completely wrong!!! The bartender is stupid or something!";
         } 
@@ -143,9 +141,13 @@ public class Review
         {
             end = " pretty alright! Not perfect but can't complain too much.";
         }
-        else
+        else if (accuracy >4f)
         {
             end = " perfect! Bartender made it just the way I like it";
+        }
+        else
+        {
+            end = " absolutely terrible! Completely wrong! The bartender should be fired! What an idiot!!";
         }
 
         return begin + end;

@@ -16,6 +16,10 @@ public class CocktailShaker : Interactable
     public float shakeTimer, shakeTimerThreshold;
 
     LiquidColor liquidColor;
+    public GameObject shakerCap;
+    Outline outline;
+
+    bool capOn;
 
     public override void Start()
     {
@@ -23,11 +27,13 @@ public class CocktailShaker : Interactable
         thisType = InteractableType.Shaker;
         addedToShaker = new Drink.RecipeStep[10];
         liquidColor = GetComponent<LiquidColor>();
+        outline = GetComponent<Outline>();
     }
 
     private void Update()
     {
-        CheckOVRHand();
+        //CheckOVRHand();
+        CheckHands();
 
         if (liquidColor != null)
         {
@@ -36,16 +42,18 @@ public class CocktailShaker : Interactable
         }
 
         RaycastHit CheckRay;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.up), out CheckRay, 1f))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out CheckRay, 1f))
         {
             if (CheckRaycastComponent(CheckRay, InteractableType.Glass))
             {
-                if (CheckRay.transform.parent.eulerAngles.z.CheckRotationThreshold(45f) && !(CheckRay.transform.GetComponent<Glass>().addedToGlass.ContainerEmpty()))
+                print("Raycast here");
+                if (CheckRay.transform.parent.eulerAngles.z.CheckRotationThreshold(45f) && !CheckRay.transform.GetComponent<Glass>().addedToGlass.ContainerEmpty())
                 {
                     print("Rotation is above threshold");
                     TransferTimer += Time.deltaTime;
                     if (canTransfer && TransferTimer > TransferThreshold)
                     {
+                        //ValidateUseage(outline);
                         StartCoroutine(TransferSteps());
                     }
                 }
@@ -55,10 +63,25 @@ public class CocktailShaker : Interactable
                     canTransfer = true;
                 }
             }
+            else
+            {
+                UnvalidateUsage(outline);
+            }
+
+            if (Input.GetKey(pourKey))
+            {
+                NonOVRPour();
+
+            }
+            else if (Input.GetKeyUp(pourKey) && (currentHoldingStatus != HoldingStatus.AddedToDrink || currentHoldingStatus != HoldingStatus.NotHeld))
+            {
+                parent.transform.localEulerAngles = new Vector3(0f, 0f, 0f);
+            }
+
 
         }
 
-        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up), Color.magenta);
+        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward), Color.magenta);
     }
 
     private void FixedUpdate()
@@ -107,4 +130,38 @@ public class CocktailShaker : Interactable
         print("Cocktail shaker transfer");
     }
 
+    public override void OnTriggerStay(Collider other)
+    {
+        base.OnTriggerStay(other);
+    }
+
+    public override void OnTriggerExit(Collider other)
+    {
+        base.OnTriggerExit(other);
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject == shakerCap)
+        {
+            capOn = true;
+            shakerCap.transform.SetParent(transform);
+            shakerCap.GetComponent<Rigidbody>().isKinematic = true;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        //if (collision.gameObject == shakerCap)
+        //{
+        //    capOn = false;
+        //    shakerCap.transform.SetParent(transform.parent);
+        //    shakerCap.GetComponent<Rigidbody>().isKinematic = false;
+        //}
+    }
+
+    public void ValidateUsage()
+    {
+        ValidateUseage(outline);
+    }
 }
