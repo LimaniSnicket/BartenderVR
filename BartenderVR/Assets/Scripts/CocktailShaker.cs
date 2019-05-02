@@ -41,6 +41,8 @@ public class CocktailShaker : Interactable
             liquidColor.div = (addedToShaker.GetAddedTotal(EnumList.AdditionMethod.Pour)/addedToShaker.GetAddedCount(EnumList.AdditionMethod.Pour)) / 10f;
         }
 
+        gameObject.SetDefaults(defaultOutline, OrderManager.currentTutorialLine);
+
         RaycastHit CheckRay;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out CheckRay, 1f))
         {

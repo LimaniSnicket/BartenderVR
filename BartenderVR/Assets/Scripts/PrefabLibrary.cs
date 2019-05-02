@@ -18,10 +18,10 @@ public class PrefabLibrary : MonoBehaviour
     {
         pl = this;
         GlassPrefabs = Resources.LoadAll<GameObject>(GlassModelResourcePath);
-        foreach (var a in GlassPrefabs)
-        {
-            print(a.name);
-        }
+        //foreach (var a in GlassPrefabs)
+        //{
+        //    print(a.name);
+        //}
         AdditivePrefabs = Resources.LoadAll<GameObject>(AdditivePrefabResourcePath);
 
         PrefabDictionary.Add(Interactable.InteractableType.Glass, GlassPrefabs);

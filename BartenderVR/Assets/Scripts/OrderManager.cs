@@ -22,6 +22,8 @@ public class OrderManager : MonoBehaviour
     public Light focusHighlight;
     public static GameObject servingArea;
 
+    public static TutorialLine currentTutorialLine;
+
     public static float tipMoney;
     public float timer = 1;
     int check;
@@ -88,7 +90,6 @@ public class OrderManager : MonoBehaviour
         servingArea = sA;
         prepTutorial = new DrinkPreparationTutorial(tutorialDrink);
         StartCoroutine(TutorialWalkthrough(prepTutorial));
-        //StartCoroutine(TutorialLineWalkthrough(prepTutorial));
         RunTutorial(prepTutorial);
     }
 
@@ -101,16 +102,21 @@ public class OrderManager : MonoBehaviour
         }
         else
         {
-
+            currentTutorialLine = prepTutorial.Tutorial;
             if (prepTutorial.Tutorial != null)
             {
                 prepTutorial.Tutorial.CheckContinuation(prepTutorial.thisDrinkPrep);
-                print(prepTutorial.Tutorial.lineCondition);
+                if (prepTutorial.Tutorial.focusGameObject != null)
+                {
+                    print(prepTutorial.Tutorial.focusGameObject.name);
+                    prepTutorial.Tutorial.PulsateOutline(Color.green, prepTutorial.Tutorial.focusGameObject, 10f);   
+                }
+
                 tempTutorialText.text = prepTutorial.Tutorial.line;
                 if (prepTutorial.Tutorial.nextTutorialStep == null)
                 {
                     print("Last node of tutorial");
-                    if (prepTutorial.Tutorial.CanContinue && Input.GetKeyDown(KeyCode.H))
+                    if (prepTutorial.Tutorial.CanContinue && ReturnAdvanceInput())
                     {
                         prepTutorial.Tutorial = null;
                         print("End of tutorial");
@@ -118,9 +124,7 @@ public class OrderManager : MonoBehaviour
                 }
                 else
                 {
-                    print("Next tutorial step is not null");
-
-                    if (prepTutorial.Tutorial.CanContinue && Input.GetKeyDown(KeyCode.H))
+                    if (prepTutorial.Tutorial.CanContinue && ReturnAdvanceInput())
                     {
                         print("Continuing");
                         prepTutorial.Tutorial = prepTutorial.Tutorial.nextTutorialStep;
@@ -132,6 +136,7 @@ public class OrderManager : MonoBehaviour
                 tutorialActive = false;
             }
             print("Still in Tutorial Phase");
+           
         }
 
         int menuSize = menuItems.Count;
@@ -169,7 +174,7 @@ public class OrderManager : MonoBehaviour
         {
             SetFocusHighlight(focusGlass.parent, 0f);
         }
-        else
+        else if(focusGlass == null || prepTutorial.Tutorial.focusGameObject == null)
         {
             focusHighlight.gameObject.SetActive(false);
         }
@@ -186,7 +191,7 @@ public class OrderManager : MonoBehaviour
 
     public static bool CanSetNewFocusGlass()
     {
-        if (focusGlass == null)
+        if (focusGlass == null && !tutorialActive)
         {
             return true;
         }
@@ -227,6 +232,11 @@ public class OrderManager : MonoBehaviour
             menuItems.Add((Drink)d);
             //Debug.Log("Adding " + d.name + " to the menu");
         }
+    }
+
+    bool ReturnAdvanceInput()
+    {
+        return Input.GetKeyDown(KeyCode.H) || OVRInput.GetDown(OVRInput.Button.One);
     }
 
     public static void LeaveReview(float toAdd)
@@ -326,29 +336,25 @@ public class DrinkPreparationTutorial
 public class TutorialLine
 {
     public string line;
-    public List<bool> ConditionsToAdvance = new List<bool>();
-    public bool[] advanceConditions = new bool[0];
 
     public TutorialLine nextTutorialStep;
     public LineConditions lineCondition;
     public bool CanContinue;
+    public GameObject focusGameObject;
+
+    public float TimerCap = 30f;
+    public float currentTime = 30f;
 
     public TutorialLine() { }
-    public TutorialLine(string l, params bool[] conditions)
+    public TutorialLine(string l)
     {
         line = l;
-        AddConditions(conditions);
-        advanceConditions = new bool[conditions.Length];
-        System.Array.Copy(conditions, advanceConditions, conditions.Length);
         lineCondition = LineConditions.Default;
 
     }
-    public TutorialLine(string l, LineConditions lc, params bool[] conditions)
+    public TutorialLine(string l, LineConditions lc)
     {
         line = l;
-        AddConditions(conditions);
-        advanceConditions = new bool[conditions.Length];
-        System.Array.Copy(conditions, advanceConditions, conditions.Length);
         lineCondition = lc;
 
     }
@@ -370,38 +376,18 @@ public class TutorialLine
         nextTutorialStep = lines[0];
     }
 
-    public void AddConditions(params bool[] conditions)
-    {
-        for (int i = 0; i < conditions.Length; i++)
-        {
-            ConditionsToAdvance.Add(conditions[i]);
-        }
-    }
-
-    public bool Continue()
-    {
-        foreach (bool b in advanceConditions)
-        {
-            if (b == false)
-            {
-                Debug.Log("Cannot continue yet");
-                return false;
-            }
-        }
-        Debug.Log("Advance");
-        return true;
-    }
-
     public void CheckContinuation(Drink d)
     {
         switch (lineCondition)
         {
             case LineConditions.RequireGlass:
                 CanContinue = GlassReady(d);
+                focusGameObject = SpawnerManager.GetGameObjectReference(d.properGlass);
                 break;
 
             case LineConditions.Default:
-                CanContinue = true;
+                CanContinue = Phone.HeldByUser();
+                focusGameObject = Phone.phoneObject;
                 break;
         }
 
@@ -422,6 +408,21 @@ public class TutorialLine
         return false;
     }
 
+    public GameObject FocusOnGameObject(Drink d)
+    {
+        switch (lineCondition)
+        {
+            case LineConditions.RequireGlass:
+                return SpawnerManager.GetGameObjectReference(d.properGlass);
+            case LineConditions.Default:
+                return null;
+               
+        }
+
+        return null;
+
+    }
+
     public enum LineConditions
     {
         Default=0,
@@ -430,10 +431,24 @@ public class TutorialLine
         RequireShake=3,
         RequireStir=4,
         RequireMuddle=5,
-        ReadyToServe=6
+        GrabPhone=6,
+        ReadyToServe=7,
 
     }
 
-
+    public  void PulsateOutline(Color pulsateColor, GameObject toPulse, float pulseSpeed)
+    {
+        Outline ot = toPulse.GetComponentInChildren<Outline>();
+        ot.OutlineColor = pulsateColor;
+        if (currentTime > 0)
+        {
+            currentTime -= Time.deltaTime * Mathf.Pow(pulseSpeed, 1.5f);
+            ot.OutlineWidth = currentTime;
+        }
+        else
+        {
+            currentTime = TimerCap;
+        }
+    }
 
 }

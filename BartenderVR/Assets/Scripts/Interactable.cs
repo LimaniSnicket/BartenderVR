@@ -56,6 +56,7 @@ public class Interactable : MonoBehaviour
 
     public HoldingStatus currentHoldingStatus;
 
+    public DefaultOutline defaultOutline;
 
     //test out delegates
     public delegate void TransferContents();
@@ -63,6 +64,7 @@ public class Interactable : MonoBehaviour
 
     public virtual void Start()
     {
+        gameObject.AddComponent<Outline>();
         thisGrabbable = GetComponent<OVRGrabbable>();
         currentHoldingStatus = HoldingStatus.NotHeld;
         interactableRB = GetComponent<Rigidbody>();
@@ -79,6 +81,7 @@ public class Interactable : MonoBehaviour
         parent = (transform.parent != null) ? transform.parent.gameObject : gameObject;
 
         TransferThreshold = 3f;
+        defaultOutline = new DefaultOutline();
        //transfer += Transfer;
     }
 
@@ -317,6 +320,14 @@ public class Interactable : MonoBehaviour
         return true;
     }
 
+    public void Pulsate()
+    {
+        if (gameObject.IsFocusGameObject(OrderManager.currentTutorialLine))
+        {
+
+        }
+    }
+
     public void NonOVRPour()
     {
         if (canPour())
@@ -351,6 +362,38 @@ public class Interactable : MonoBehaviour
     {
         ot.OutlineWidth = 0f;
     }
+}
+
+[System.Serializable]
+public class DefaultOutline
+{
+    public Color defaultColor;
+    public float defaultWidth;
+
+    public DefaultOutline() { }
+
+    public DefaultOutline(Color c, float w)
+    {
+        defaultColor = c;
+        defaultWidth = w;
+    }
+
+    public DefaultOutline SetGlassWhite(Outline ot)
+    {
+        return new DefaultOutline(Color.white, 2f);
+    }
+
+    public DefaultOutline SetNullOutline(Outline ot)
+    {
+        return new DefaultOutline(Color.clear, 0f);
+    }
+
+    public void SetOutlineToDefault(Outline ot)
+    {
+        ot.OutlineColor = defaultColor;
+        ot.OutlineWidth = defaultWidth;
+    }
+
 }
 
 

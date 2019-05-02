@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DrinkManagement;
 
 public class AdditiveSpawner : ObjectSpawner
 {
@@ -9,7 +10,7 @@ public class AdditiveSpawner : ObjectSpawner
     {
         thisType = Interactable.InteractableType.Additive;
         objectToSpawn = PrefabLibrary.FindAdditiveOfType(PrefabLibrary.GetPrefabDictionary(thisType), thisAdditiveToSpawn);
-        print(objectToSpawn.name);
+        defaultOutline = defaultOutline.SetNullOutline(GetComponentInChildren<Outline>());
     }
 
     private void Update()
@@ -20,6 +21,7 @@ public class AdditiveSpawner : ObjectSpawner
             spawnPerformed = false;
         }
         Spawn();
+        gameObject.SetDefaults(defaultOutline, OrderManager.currentTutorialLine);
     }
 
 }
