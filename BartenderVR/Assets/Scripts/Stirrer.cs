@@ -15,12 +15,14 @@ public class Stirrer : Interactable
     {
         base.Start();
         thisType = InteractableType.Stirrer;
+        defaultOutline = defaultOutline.SetNullOutline(GetComponentInChildren<Outline>());
     }
 
     private void Update()
     {
         //CheckOVRHand();
         CheckHands();
+        gameObject.SetDefaults(defaultOutline, OrderManager.currentTutorialLine);
 
         if (currentHoldingStatus != HoldingStatus.NotHeld)
         {

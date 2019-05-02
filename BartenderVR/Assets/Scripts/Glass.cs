@@ -21,6 +21,7 @@ public class Glass : Interactable
 
         addedToGlass = new Drink.RecipeStep[10];
         thisType = InteractableType.Glass;
+        defaultOutline = defaultOutline.SetGlassWhite(GetComponentInChildren<Outline>());
     }
 
     public void Update()
@@ -31,11 +32,13 @@ public class Glass : Interactable
         if (liquidInGlass != null)
         {
             liquidInGlass.SetColorsToMix(addedToGlass);
-           //liquidInGlass.div = (addedToGlass.GetAddedTotal(EnumList.AdditionMethod.Pour)/addedToGlass.GetAddedCount(EnumList.AdditionMethod.Pour)) / EnumList.GlassHeightModifier(thisGlassType)*10f;
-            liquidInGlass.div = addedToGlass.GetAddedTotal(EnumList.AdditionMethod.Pour) 
-            / (addedToGlass.GetAddedCount(EnumList.AdditionMethod.Pour) *1.5f* EnumList.GlassHeightModifier(thisGlassType));
+            //liquidInGlass.div = (addedToGlass.GetAddedTotal(EnumList.AdditionMethod.Pour)/addedToGlass.GetAddedCount(EnumList.AdditionMethod.Pour)) / EnumList.GlassHeightModifier(thisGlassType)*10f;
+            liquidInGlass.div = addedToGlass.GetAddedTotal(EnumList.AdditionMethod.Pour)
+            / (addedToGlass.GetAddedCount(EnumList.AdditionMethod.Pour) * 1.5f);//* EnumList.GlassHeightModifier(thisGlassType));
 
         }
+
+        gameObject.SetDefaults(defaultOutline, OrderManager.currentTutorialLine);
 
         if (canServe())
         {

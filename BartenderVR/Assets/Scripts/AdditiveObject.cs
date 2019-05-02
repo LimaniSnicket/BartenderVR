@@ -18,7 +18,7 @@ public class AdditiveObject : Interactable
     private void Update()
     {
        CheckHands();
-
+        gameObject.SetDefaults(defaultOutline, OrderManager.currentTutorialLine);
         if (NearInteractable(InteractableType.Glass)) //|| NearInteractable(InteractableType.Shaker))
         {
             toAddTo = NearbyInteractableType();

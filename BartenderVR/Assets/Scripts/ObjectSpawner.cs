@@ -14,6 +14,7 @@ public class ObjectSpawner : MonoBehaviour
     OVRGrabber oVRGrabber;
 
     protected  KeyCode PickUpKey = KeyCode.M;
+    public DefaultOutline defaultOutline;
 
     private void Update()
     {

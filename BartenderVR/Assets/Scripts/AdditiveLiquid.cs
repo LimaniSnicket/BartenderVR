@@ -6,7 +6,7 @@ using UnityEngine.XR;
 
 public class AdditiveLiquid : AdditiveObject
 {
-    GameObject PouringPoint;
+    public GameObject PouringPoint;
 
     public float PourRate = 0f;
     float zRotation;
@@ -17,15 +17,6 @@ public class AdditiveLiquid : AdditiveObject
     {
         base.Start();
         thisType = InteractableType.Additive;
-        try
-        {
-
-            PouringPoint = transform.GetChild(0).gameObject;
-
-        } catch (System.NullReferenceException)
-        {
-            PouringPoint = this.gameObject;
-        }
 
         zRotationMax = 240;
 
@@ -36,6 +27,7 @@ public class AdditiveLiquid : AdditiveObject
     {
         //CheckOVRHand();
         CheckHands();
+        gameObject.SetDefaults(defaultOutline, OrderManager.currentTutorialLine);
 
         zRotation = transform.eulerAngles.z;
         PourRate = CalculatePourRate();

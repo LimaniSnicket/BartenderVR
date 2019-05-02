@@ -270,5 +270,30 @@ namespace DrinkManagement
 
             return false;
         }
+
+        public static bool IsFocusGameObject(this GameObject gameObj, TutorialLine tutorial)
+        {
+            if (tutorial.focusGameObject == gameObj)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static void SetDefaults(this GameObject gameObj, DefaultOutline def, TutorialLine tutorial)
+        {
+            if (tutorial != null)
+            {
+                if (!gameObj.IsFocusGameObject(tutorial))
+                {
+                    def.SetOutlineToDefault(gameObj.GetComponentInChildren<Outline>());
+                }
+            }
+            else
+            {
+                def.SetOutlineToDefault(gameObj.GetComponentInChildren<Outline>());
+            }
+        }
     }
 }

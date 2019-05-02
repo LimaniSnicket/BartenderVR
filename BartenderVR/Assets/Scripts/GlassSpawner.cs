@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DrinkManagement;
 
 public class GlassSpawner : ObjectSpawner
 {
@@ -10,6 +11,8 @@ public class GlassSpawner : ObjectSpawner
     {
         thisType = Interactable.InteractableType.Glass;
         objectToSpawn = PrefabLibrary.FindGlassOfEnum(PrefabLibrary.GetPrefabDictionary(thisType), glassType);
+        defaultOutline = new DefaultOutline();
+        defaultOutline = defaultOutline.SetGlassWhite(GetComponentInChildren<Outline>());
     }
 
     private void Update()
@@ -20,5 +23,6 @@ public class GlassSpawner : ObjectSpawner
             spawnPerformed = false;
         }
         Spawn();
+        gameObject.SetDefaults(defaultOutline, OrderManager.currentTutorialLine);
     }
 }
