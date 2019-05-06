@@ -47,4 +47,12 @@ public class Additive : ScriptableObject
     }
 
     public bool Grabbable;
+
+    [System.Serializable]
+    public struct LabelInformation
+    {
+        public Font fontDisplay;
+        public Sprite labelImage;
+        public Color labelColor;
+    }
 }

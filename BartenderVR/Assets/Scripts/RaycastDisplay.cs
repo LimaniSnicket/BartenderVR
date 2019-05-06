@@ -9,8 +9,14 @@ public class RaycastDisplay : MonoBehaviour
     public float rayCastLength;
     public Interactable focus;
 
+    static Interactable staticFocus;
+
+    private static RaycastDisplay rd;
+    public static bool gazeTech;
+
     private void Start()
     {
+        rd = this;
         rayCastTMP.gameObject.SetActive(false);
         if (rayCastLength <= 0)
         {
@@ -20,6 +26,8 @@ public class RaycastDisplay : MonoBehaviour
 
     private void Update()
     {
+        staticFocus = focus;
+
         RaycastHit CheckFor;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out CheckFor, rayCastLength))
         {
@@ -41,6 +49,8 @@ public class RaycastDisplay : MonoBehaviour
         {
             rayCastTMP.gameObject.SetActive(false);
         }
+
+        gazeTech = RayCastTech(CheckFor);
     }
 
     void SetRayCastTMPString(Interactable interactable)
@@ -72,9 +82,32 @@ public class RaycastDisplay : MonoBehaviour
         catch (System.NullReferenceException) { return false; }
     }
 
-    public Interactable RaycastedInteractable(RaycastHit outHit)
+    public static Interactable RaycastedInteractable(RaycastHit outHit)
     {
-        return outHit.transform.GetComponent<Interactable>();
+        try
+        {
+            return outHit.transform.GetComponent<Interactable>();
+        }
+        catch (System.NullReferenceException)
+        {
+            return null;
+        }
+    }
+
+    public static bool RayCastTech(RaycastHit outHit)
+    {
+        try
+        {
+            if (RaycastedInteractable(outHit).thisType == Interactable.InteractableType.Phone)
+            {
+                return true;
+            }
+        } catch (System.NullReferenceException)
+        {
+            return false;
+        }
+
+        return false;
     }
 
 }

@@ -81,7 +81,7 @@ public class AdditiveObject : Interactable
             case EnumList.AdditionMethod.Garnish:
                 try
                 {
-                    Glass glass = other.transform.gameObject.GetComponentInParent<Glass>();
+                    Glass glass = other.transform.gameObject.GetComponent<Glass>();
                     print(glass);
 
                     if (glass.transformLibrary.TransformValid(EnumList.AdditionMethod.Garnish))

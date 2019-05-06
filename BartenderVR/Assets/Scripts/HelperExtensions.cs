@@ -295,5 +295,16 @@ namespace DrinkManagement
                 def.SetOutlineToDefault(gameObj.GetComponentInChildren<Outline>());
             }
         }
+
+        public static bool SqueezeVectors(this Vector3 vect, Vector3 newVect, float threshold)
+        {
+            float distance = Mathf.Abs(Vector3.Distance(vect, newVect));
+            if (distance <= threshold && distance >= -threshold)
+            {
+                return true;
+            }
+            return false;
+        }
+
     }
 }

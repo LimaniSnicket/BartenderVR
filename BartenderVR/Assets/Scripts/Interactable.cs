@@ -57,6 +57,8 @@ public class Interactable : MonoBehaviour
     public HoldingStatus currentHoldingStatus;
 
     public DefaultOutline defaultOutline;
+    private Vector3 originalPosition;
+    public Vector3 SnapVector;
 
     //test out delegates
     public delegate void TransferContents();
@@ -65,20 +67,21 @@ public class Interactable : MonoBehaviour
     public virtual void Start()
     {
         gameObject.AddComponent<Outline>();
-        thisGrabbable = GetComponent<OVRGrabbable>();
+        thisGrabbable = GetComponentInParent<OVRGrabbable>();
         currentHoldingStatus = HoldingStatus.NotHeld;
-        interactableRB = GetComponent<Rigidbody>();
-        for (int i = 0; i < transform.childCount; i++)
+        interactableRB = GetComponentInParent<Rigidbody>();
+        parent = (transform.parent != null) ? transform.parent.gameObject : gameObject;
+        originalPosition = transform.position;
+        SnapVector = originalPosition;
+        for (int i = 0; i < parent.transform.childCount; i++)
         {
-            var child = transform.GetChild(i).transform;
+            var child =parent.transform.GetChild(i).transform;
             if (ValidString(child.name))
             {
                 transformLibrary.Add(child, ReturnMethodFromString(child));
             }
             print("Added " + ReturnMethodFromString(child) + " transform to the Transform Dictionary");
         }
-
-        parent = (transform.parent != null) ? transform.parent.gameObject : gameObject;
 
         TransferThreshold = 3f;
         defaultOutline = new DefaultOutline();
@@ -219,6 +222,11 @@ public class Interactable : MonoBehaviour
         }
     }
 
+    public void SnapBack()
+    {
+        transform.position = SnapVector;
+    }
+
     public bool NearInteractable(InteractableType nearThisType)
     {
         Interactable interactable = NearbyInteractableType();
@@ -320,14 +328,6 @@ public class Interactable : MonoBehaviour
         return true;
     }
 
-    public void Pulsate()
-    {
-        if (gameObject.IsFocusGameObject(OrderManager.currentTutorialLine))
-        {
-
-        }
-    }
-
     public void NonOVRPour()
     {
         if (canPour())
@@ -380,7 +380,7 @@ public class DefaultOutline
 
     public DefaultOutline SetGlassWhite(Outline ot)
     {
-        return new DefaultOutline(Color.white, 2f);
+        return new DefaultOutline(Color.white, 4f);
     }
 
     public DefaultOutline SetNullOutline(Outline ot)
@@ -393,7 +393,6 @@ public class DefaultOutline
         ot.OutlineColor = defaultColor;
         ot.OutlineWidth = defaultWidth;
     }
-
 }
 
 

@@ -34,7 +34,7 @@ public class Glass : Interactable
             liquidInGlass.SetColorsToMix(addedToGlass);
             //liquidInGlass.div = (addedToGlass.GetAddedTotal(EnumList.AdditionMethod.Pour)/addedToGlass.GetAddedCount(EnumList.AdditionMethod.Pour)) / EnumList.GlassHeightModifier(thisGlassType)*10f;
             liquidInGlass.div = addedToGlass.GetAddedTotal(EnumList.AdditionMethod.Pour)
-            / (addedToGlass.GetAddedCount(EnumList.AdditionMethod.Pour) * 1.5f);//* EnumList.GlassHeightModifier(thisGlassType));
+            / (addedToGlass.GetAddedCount(EnumList.AdditionMethod.Pour) * 1.5f * EnumList.GlassHeightModifier(thisGlassType));
 
         }
 
@@ -52,7 +52,6 @@ public class Glass : Interactable
             //else
             //{
                 if (OrderManager.focusGlass == this && !serving){
-                print("TF");
                 StartCoroutine(ServeDrinkCo());
             }
             //}
@@ -65,7 +64,7 @@ public class Glass : Interactable
 
         RaycastHit CheckFor;
 
-        if (Physics.Raycast(parent.transform.position, transform.TransformDirection(Vector3.forward), out CheckFor, Mathf.Infinity))
+        if (Physics.Raycast(parent.transform.position, transform.TransformDirection(Vector3.up), out CheckFor, Mathf.Infinity))
         {
        
             if(CheckRaycastComponent(CheckFor, InteractableType.Additive))
@@ -109,7 +108,7 @@ public class Glass : Interactable
             }
         }
 
-        Debug.DrawRay(parent.transform.position, transform.TransformDirection(Vector3.forward), Color.red);
+        Debug.DrawRay(parent.transform.position, transform.TransformDirection(Vector3.up), Color.red);
 
         if (Input.GetKey(pourKey))
         {

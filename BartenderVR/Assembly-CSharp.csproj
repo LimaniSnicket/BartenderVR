@@ -346,7 +346,9 @@
     <Compile Include="Assets\Scripts\AdditiveLiquid.cs" />
     <Compile Include="Assets\Scripts\AdditiveObject.cs" />
     <Compile Include="Assets\Scripts\AdditiveSpawner.cs" />
+    <Compile Include="Assets\Scripts\BottleColor.cs" />
     <Compile Include="Assets\Scripts\CocktailShaker.cs" />
+    <Compile Include="Assets\Scripts\CubeOfInfluence.cs" />
     <Compile Include="Assets\Scripts\Drink.cs" />
     <Compile Include="Assets\Scripts\EnumList.cs" />
     <Compile Include="Assets\Scripts\FlyCamera.cs" />
@@ -468,6 +470,7 @@
     <None Include="Assets\Oculus\Avatar\Resources\Materials\AvatarMaterialStateShader.cginc" />
     <None Include="Assets\Oculus\Avatar\Resources\Materials\AvatarSurfaceShader.shader" />
     <None Include="Assets\_MK\MKGlassFree\Shader\Inc\VertexLit\MKGlassVertexLitSetup.cginc" />
+    <None Include="Assets\Materials\woodframe1-Unity\About these PBR files.txt" />
     <None Include="Assets\1 - Vertex Displacement\VertexDisplacement - Object.shader" />
     <None Include="Assets\Oculus\SampleFramework\Usage\DistanceGrab\Materials\ToyCubeWithOutline.shader" />
     <None Include="Assets\Materials\redbricks2b-Unity\About these PBR files.txt" />

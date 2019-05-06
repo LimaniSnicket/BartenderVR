@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   additionMethod: 6
   AdditiveColor:
-    color: {r: 0.8207547, g: 0.45596966, b: 0.0038714937, a: 1}
+    color: {r: 0.81960785, g: 0.34869057, b: 0.0039215805, a: 1}
     strength: 1
   thisAdditiveType: 1
   Grabbable: 1

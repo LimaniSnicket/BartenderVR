@@ -10,6 +10,9 @@ public class Phone : Interactable
 
     public Canvas tutorialCanvas;
     public Canvas yelpCanvas;
+
+    public GameObject textContainer;
+
     public enum PhoneState
     {
         Locked = 0,
@@ -21,6 +24,8 @@ public class Phone : Interactable
     public static HoldingStatus Holding;
     Dictionary<Canvas, PhoneState> canvasPhoneStates = new Dictionary<Canvas, PhoneState>();
     public static GameObject phoneObject;
+    bool enlargeText;
+    Vector3 originalScale;
 
     public override void Start()
     {
@@ -35,22 +40,26 @@ public class Phone : Interactable
 
         canvasPhoneStates.Add(yelpCanvas, PhoneState.YelpReview);
         canvasPhoneStates.Add(tutorialCanvas, PhoneState.Tutorial);
+
+        originalScale = textContainer.GetComponent<RectTransform>().localScale;
       
     }
 
     // Update is called once per frame
     void Update()
     {
-        CheckHands();
+        //CheckHands();
         Holding = currentHoldingStatus;
         gameObject.SetDefaults(defaultOutline, OrderManager.currentTutorialLine);
 
-        if (currentPhoneState==PhoneState.Tutorial && HeldByUser())
+        if (!enlargeText && RaycastDisplay.gazeTech)
         {
-
+            StartCoroutine(EnlargeTextObject(textContainer, .25f, 2f));
+        } else if (!RaycastDisplay.gazeTech)
+        {
+            enlargeText = false;
+            textContainer.GetComponent<RectTransform>().localScale = originalScale;
         }
-
-       
 
     }
 
@@ -71,5 +80,20 @@ public class Phone : Interactable
     public override void OnTriggerExit(Collider other)
     {
         base.OnTriggerExit(other);
+    }
+
+    public IEnumerator EnlargeTextObject(GameObject toEnlarge, float lerpSpeed, float newScaleMult)
+    {
+        enlargeText = true;
+        Vector3 enlargeVector = toEnlarge.GetComponent<RectTransform>().localScale;
+        Vector3 scaleUpTo = enlargeVector * newScaleMult;
+        while (!enlargeVector.SqueezeVectors(scaleUpTo, 0.1f))
+        {
+            enlargeVector = Vector3.Lerp(enlargeVector, scaleUpTo, Time.deltaTime * lerpSpeed);
+            toEnlarge.GetComponent<RectTransform>().localScale = enlargeVector;
+        }
+
+        enlargeVector = scaleUpTo;
+        yield return null;
     }
 }
