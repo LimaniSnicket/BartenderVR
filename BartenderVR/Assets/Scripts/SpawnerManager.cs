@@ -32,7 +32,7 @@ public class SpawnerManager : MonoBehaviour
 
         foreach (var a in addlqds)
         {
-            InteractableLiquids.Add(a.parent.gameObject, a);
+            InteractableLiquids.Add(a.gameObject, a);
         }
 
     }

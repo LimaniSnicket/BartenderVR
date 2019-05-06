@@ -16,7 +16,7 @@ public class OrderManager : MonoBehaviour
     public Drink tutorialDrink;
     public static Drink tutDrink;
     public DrinkPreparationTutorial prepTutorial;
-    public TextMeshPro tempTutorialText;
+    public TextMeshProUGUI tempTutorialText;
 
     public GameObject sA;
     public Light focusHighlight;
@@ -83,6 +83,12 @@ public class OrderManager : MonoBehaviour
 
     private void Start()
     {
+        try
+        {
+            var fader = FindObjectOfType<OVRScreenFade>();
+            fader.fadeOnStart = true;
+        }
+        catch (System.NullReferenceException) { }
         GenerateMenu(DrinkResourcesPath);
         tutDrink = tutorialDrink;
         s_debuggingMode = debuggingMode;
@@ -98,7 +104,7 @@ public class OrderManager : MonoBehaviour
         if (!tutorialActive)
         {
             timer += timeModifier * Time.deltaTime;
-            tempTutorialText.gameObject.SetActive(false);
+            tempTutorialText.text = (currentOrder.drinkToMake != null) ? tempTutorialText.text = "Now Serving: \n " + currentOrder.drinkToMake.drinkName : " ";
         }
         else
         {
@@ -263,7 +269,7 @@ public class OrderManager : MonoBehaviour
     TutorialLine[] tutorialLines =
 {
         new TutorialLine("Welcome to Shitty Bartender VR! The most immersive drinking experience your tiny budget can afford."),
-        new TutorialLine("Why pay some random shmuck you don't know to mix your drinks when you can make pretend drinks in VR for free amiright?"),
+        new TutorialLine("Why pay a random shmuck to mix your drinks when you can do it in VR for free amiright?"),
         new TutorialLine("Anyway..."),
     };
 
@@ -275,11 +281,18 @@ public class OrderManager : MonoBehaviour
         tutorial.AddLinks(tutorial.Tutorial,
         new TutorialLine(string.Format("The first step to any drink is getting a glass. Go grab a <b>{0} </b> over there on the counter", tutorial.thisDrinkPrep.properGlass), 
             TutorialLine.LineConditions.RequireGlass));
+        tutorial.AddLinks(tutorial.Tutorial, new TutorialLine("Ok cool, we made it this far! Maybe you're not 100% inept."));
+        tutorial.AddLinks(tutorial.Tutorial, new TutorialLine(tutorial.StepTutorial(0)));
     }
 
     public string PrepStart(Drink d)
     {
-        return string.Format("We're gonna whip up a nice <b> {0} </b> for our patron over there.", d.drinkName);
+        return string.Format("We're gonna whip up a nice <b> {0} </b> for our patron here.", d.drinkName);
+    }
+
+    public string PrepGlass(Drink d)
+    {
+        return string.Format("Go grab a <b>{0}</b> over there on the counter", d.properGlass);
     }
 
 }
@@ -321,6 +334,11 @@ public class DrinkPreparationTutorial
             tutToCheck.nextTutorialStep = tutToAdd;
             return;
         }
+    }
+
+    public string StepTutorial(int stepIndex)
+    {
+        return (string.Format("Now we need to <b>{0}</b> some <b>{1}</b> into this bitch!", thisDrinkPrep.recipe[stepIndex].additionMethod.ToString(), thisDrinkPrep.recipe[stepIndex].addedThisStep));
     }
 
     public void EnqueueLines(params string[] stringsToEnqueue)
@@ -386,11 +404,10 @@ public class TutorialLine
                 break;
 
             case LineConditions.Default:
-                CanContinue = Phone.HeldByUser();
+                CanContinue = RaycastDisplay.gazeTech;
                 focusGameObject = Phone.phoneObject;
                 break;
         }
-
     }
 
     public bool GlassReady(Drink d)
@@ -420,7 +437,6 @@ public class TutorialLine
         }
 
         return null;
-
     }
 
     public enum LineConditions
@@ -439,15 +455,25 @@ public class TutorialLine
     public  void PulsateOutline(Color pulsateColor, GameObject toPulse, float pulseSpeed)
     {
         Outline ot = toPulse.GetComponentInChildren<Outline>();
-        ot.OutlineColor = pulsateColor;
-        if (currentTime > 0)
+       
+        if (!CanContinue)
         {
-            currentTime -= Time.deltaTime * Mathf.Pow(pulseSpeed, 1.5f);
-            ot.OutlineWidth = currentTime;
+            ot.OutlineColor = pulsateColor;
+            if (currentTime > 0)
+            {
+                currentTime -= Time.deltaTime * Mathf.Pow(pulseSpeed, 1.5f);
+                ot.OutlineWidth = currentTime;
+            }
+            else
+            {
+                currentTime = TimerCap;
+            }
         }
         else
         {
-            currentTime = TimerCap;
+            ot.OutlineColor = Color.clear;
+            currentTime = 0;
+            return;
         }
     }
 

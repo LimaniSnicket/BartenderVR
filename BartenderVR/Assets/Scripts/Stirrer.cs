@@ -10,6 +10,7 @@ public class Stirrer : Interactable
     public float accelerationTimer, stirThreshold;
 
     public Interactable toStir;
+    public GameObject stirPoint;
 
     public override void Start()
     {
@@ -68,6 +69,15 @@ public class Stirrer : Interactable
             }
         }
 
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        try
+        {
+            Glass g = collision.gameObject.GetComponent<Glass>();
+            toStir = g;
+        } catch (MissingComponentException) { }
     }
 
     public override void OnTriggerStay(Collider collision)

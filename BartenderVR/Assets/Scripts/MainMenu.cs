@@ -59,6 +59,7 @@ namespace TMPro
                 yield return new WaitForEndOfFrame();
             }
 
+            SceneManager.LoadScene(1);
             print("Start Game");
         }
 
