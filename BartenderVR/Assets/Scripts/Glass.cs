@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 using DrinkManagement;
+using System;
 
 public class Glass : Interactable
 {
@@ -22,6 +23,10 @@ public class Glass : Interactable
         addedToGlass = new Drink.RecipeStep[10];
         thisType = InteractableType.Glass;
         defaultOutline = defaultOutline.SetGlassWhite(GetComponentInChildren<Outline>());
+        for (int i =0; i< addedToGlass.Length; i++)
+        {
+            addedToGlass[i].methodsPerformedOn = new List<EnumList.AdditionMethod>();
+        }
     }
 
     public void Update()
@@ -40,6 +45,11 @@ public class Glass : Interactable
 
         gameObject.SetDefaults(defaultOutline, OrderManager.currentTutorialLine);
 
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            FuckingWorkYouGodDamnPieceOfShit();
+        }
+
         if (canServe())
         {
             //if (!XRDevice.isPresent)
@@ -51,7 +61,7 @@ public class Glass : Interactable
             //}
             //else
             //{
-                if (OrderManager.focusGlass == this && !serving){
+                if (OrderManager.focusGlass == this && !serving  && GetOVRButtonsDown()){
                 StartCoroutine(ServeDrinkCo());
             }
             //}
@@ -64,14 +74,19 @@ public class Glass : Interactable
 
         RaycastHit CheckFor;
 
-        if (Physics.Raycast(parent.transform.position, transform.TransformDirection(Vector3.up), out CheckFor, Mathf.Infinity))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.up), out CheckFor, Mathf.Infinity))
         {
-       
+            if (CheckRaycastComponent(CheckFor, InteractableType.Glass))
+            {
+                print("fuck");
+            }
             if(CheckRaycastComponent(CheckFor, InteractableType.Additive))
             {
+               
+                print("Here");
                 try
                 {
-                    bottleToCheck = CheckFor.transform.GetComponentInParent<AdditiveLiquid>();
+                    bottleToCheck = CheckFor.transform.GetComponent<AdditiveLiquid>();
                     bottleToCheck.SetToAdd(this);
                     print(bottleToCheck.name);
                 }
@@ -121,11 +136,18 @@ public class Glass : Interactable
 
     }
 
+    void FuckingWorkYouGodDamnPieceOfShit()
+    {
+        addedToGlass.AddMethods(EnumList.AdditionMethod.Pour);
+
+    }
+
 
     public override void Transfer()
     {
        CocktailShaker shaker = NearbyInteractableType().GetComponent<CocktailShaker>();
-       Drink.RecipeStep[] temp = shaker.addedToShaker;
+        Drink.RecipeStep[] temp = new Drink.RecipeStep[10];
+        Array.Copy(shaker.addedToShaker, temp, 10);
 
         if (!canTransfer)
         {

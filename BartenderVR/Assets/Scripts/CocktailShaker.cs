@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DrinkManagement;
+using System;
 
 public class CocktailShaker : Interactable
 {
@@ -49,7 +50,7 @@ public class CocktailShaker : Interactable
             if (CheckRaycastComponent(CheckRay, InteractableType.Glass))
             {
                 print("Raycast here");
-                if (CheckRay.transform.parent.eulerAngles.z.CheckRotationThreshold(45f) && !CheckRay.transform.GetComponent<Glass>().addedToGlass.ContainerEmpty())
+                if (CheckRay.transform.eulerAngles.z.CheckRotationThreshold(45f) && !CheckRay.transform.GetComponent<Glass>().addedToGlass.ContainerEmpty())
                 {
                     print("Rotation is above threshold");
                     TransferTimer += Time.deltaTime;
@@ -62,7 +63,7 @@ public class CocktailShaker : Interactable
                 else if (CheckRay.transform.GetComponent<Glass>().addedToGlass.ContainerEmpty())
                 {
                     TransferTimer = 0f;
-                    canTransfer = true;
+                    canTransfer = false;
                 }
             }
             else
@@ -116,7 +117,8 @@ public class CocktailShaker : Interactable
     public override void Transfer()
     {
         Glass glass = NearbyInteractableType().InteractableGlass();
-        Drink.RecipeStep[] temp = glass.addedToGlass;
+        Drink.RecipeStep[] temp = new Drink.RecipeStep[10];
+        Array.Copy(glass.addedToGlass, temp, 10);
 
         if (!canTransfer)
         {
