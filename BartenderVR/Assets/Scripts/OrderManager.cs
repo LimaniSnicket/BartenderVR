@@ -101,6 +101,11 @@ public class OrderManager : MonoBehaviour
 
     private void Update()
     {
+        if (!debuggingMode)
+        {
+            tutorialActive = false;
+        }
+
         if (!tutorialActive)
         {
             timer += timeModifier * Time.deltaTime;

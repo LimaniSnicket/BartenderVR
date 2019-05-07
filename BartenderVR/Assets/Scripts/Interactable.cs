@@ -259,7 +259,12 @@ public class Interactable : MonoBehaviour
 
     public Drink.RecipeStep[] ClearStepsTaken()
     {
-        return new Drink.RecipeStep[10];
+        Drink.RecipeStep[] drs = new Drink.RecipeStep[10];
+        for (int i =0; i< drs.Length; i++)
+        {
+            drs[i].methodsPerformedOn = new List<EnumList.AdditionMethod>();
+        }
+        return drs;
     }
 
   
@@ -350,6 +355,11 @@ public class Interactable : MonoBehaviour
         }
 
         return false;
+    }
+
+   public bool GetOVRButtonsDown()
+    {
+        return OVRInput.GetDown(OVRInput.Button.One) || OVRInput.GetDown(OVRInput.Button.Three) || Input.GetKeyDown(KeyCode.Space);
     }
 
     public void ValidateUseage(Outline ot)

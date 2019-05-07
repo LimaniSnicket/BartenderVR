@@ -7,8 +7,9 @@ public class GlassSpawner : ObjectSpawner
 {
     public EnumList.GlassTypes glassType;
 
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         thisType = Interactable.InteractableType.Glass;
         objectToSpawn = PrefabLibrary.FindGlassOfEnum(PrefabLibrary.GetPrefabDictionary(thisType), glassType);
         defaultOutline = new DefaultOutline();
@@ -22,7 +23,8 @@ public class GlassSpawner : ObjectSpawner
         {
             spawnPerformed = false;
         }
-        Spawn();
+        //Spawn();
+        //RemoveItemIfGrabbed();
         gameObject.SetDefaults(defaultOutline, OrderManager.currentTutorialLine);
     }
 }

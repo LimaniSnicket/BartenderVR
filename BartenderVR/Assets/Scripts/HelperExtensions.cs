@@ -8,18 +8,16 @@ namespace DrinkManagement
 
     public static class HelperExtensions
     {
-        public static void AddMethods(this Drink.RecipeStep[] steps, params EnumList.AdditionMethod[] toAdd)
+        public static void AddMethods(this Drink.RecipeStep[] steps,  EnumList.AdditionMethod toAdd)
         {
-            foreach (var a in steps)
+            for (int j =0; j<steps.Length;j++)
             {
-                for (int i = 0; i < toAdd.Length; i++)
+                if (!steps[j].methodsPerformedOn.Contains(toAdd))
                 {
-                    if (!a.methodsPerformedOn.Contains(toAdd[i]))
-                    {
-                        a.methodsPerformedOn.Add(toAdd[i]);
-                    }
+                    steps[j].methodsPerformedOn.Add(toAdd);
                 }
             }
+
         }
 
         public static float SumList(this List<float> floats)

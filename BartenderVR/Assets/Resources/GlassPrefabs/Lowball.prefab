@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8182857272543833531}
   - component: {fileID: 823586125768157300}
   - component: {fileID: 5699099015084914615}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Garnish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49eaaf00b89224e20b5b98ea57dfe0f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionRadius: 0
+  interactionRadius: 1
   parent: {fileID: 0}
   pourKey: 120
   thisGrabbable: {fileID: 0}
@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 4806910976793648967}
   - component: {fileID: 4806910976793648965}
   - component: {fileID: 4806910976793648966}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -24,16 +24,10 @@ public class Stirrer : Interactable
         //CheckOVRHand();
         CheckHands();
         gameObject.SetDefaults(defaultOutline, OrderManager.currentTutorialLine);
-
-        if (currentHoldingStatus != HoldingStatus.NotHeld)
+        if (toStir!=null)
         {
-            GetComponent<BoxCollider>().isTrigger = true;
+            print(toStir.name);
         }
-        else
-        {
-            GetComponent<BoxCollider>().isTrigger = false;
-        }
-
 
     }
 
@@ -62,6 +56,8 @@ public class Stirrer : Interactable
 
             } catch (System.NullReferenceException)
             {
+
+                print("UGHGJHFJUF");
                 try
                 {
                     toStir.GetComponent<CocktailShaker>().addedToShaker.AddMethods(EnumList.AdditionMethod.Stir);

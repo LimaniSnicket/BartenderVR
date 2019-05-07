@@ -7,14 +7,29 @@ public class ObjectSpawner : MonoBehaviour
 {
     public GameObject objectToSpawn;
     public float interactionRadius;
-    public Transform spawnPoint;
     public bool spawnPerformed;
+    public Transform spawnPoint;
     public Interactable.InteractableType thisType;
     public GameObject hand;
     OVRGrabber oVRGrabber;
 
     protected  KeyCode PickUpKey = KeyCode.M;
     public DefaultOutline defaultOutline;
+
+    List<GameObject> spawned = new List<GameObject>();
+    int maxCapacity = 1;
+
+    public virtual void Start()
+    {
+        //if (XRDevice.isPresent)
+        //{
+            GameObject spawn = Instantiate(objectToSpawn);
+            spawn.transform.position = this.transform.position;
+            spawned.Add(spawn);
+            print(spawned[0]);
+        //}
+        spawnPoint = transform;
+    }
 
     private void Update()
     {
@@ -23,7 +38,11 @@ public class ObjectSpawner : MonoBehaviour
         if ((hand == null && spawnPerformed) )
         {
             spawnPerformed = false;
+        } else if (oVRGrabber == null && spawnPerformed)
+        {
+            spawnPerformed = false;
         }
+
     }
 
     public void Spawn()
@@ -31,9 +50,14 @@ public class ObjectSpawner : MonoBehaviour
         if (XRDevice.isPresent)
         {
             print("Spawn XR edition");
-            if (CanSpawn() && (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0f))
+            if (CanSpawn())
+
+                if ((OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger) > 0f))
+                {
+                    StartCoroutine(SpawnObjectInOVRHand());
+                }
             {
-                StartCoroutine(SpawnObjectInOVRHand());
+                
             }
         }
         else
@@ -117,8 +141,13 @@ public class ObjectSpawner : MonoBehaviour
         try
         {
             Interactable no = newObject.GetComponentInChildren<Interactable>();
+            
         }
         catch (MissingComponentException) { Destroy(newObject);}
+        //while (OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger) != 0)
+        //{
+        //    yield return new WaitForEndOfFrame();
+        //}
         yield return null;
     }
 
@@ -145,6 +174,26 @@ public class ObjectSpawner : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.matrix = Matrix4x4.TRS(transform.position, Quaternion.identity, new Vector3(1, 1, 1));
         Gizmos.DrawWireSphere(Vector3.zero, interactionRadius);
+    }
+
+    //public void RemoveItemIfGrabbed()
+    //{
+    //    if (spawned[0].GetComponent<Interactable>().currentHoldingStatus != Interactable.HoldingStatus.NotHeld)
+    //    {
+    //        spawned.Remove(spawned[0]);
+    //    }
+
+    //    print("Removed Item");
+
+    //}
+
+    public virtual void OnTriggerExit(Collider other)
+    {
+        if (spawned.Contains(other.gameObject))
+        {
+            spawned.Remove(other.gameObject);
+            print("Removed from trigger");
+        }
     }
 
 }

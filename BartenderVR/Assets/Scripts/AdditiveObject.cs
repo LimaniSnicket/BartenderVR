@@ -5,6 +5,7 @@ using DrinkManagement;
 
 public class AdditiveObject : Interactable
 {
+    [SerializeField]
     protected Interactable toAddTo;
 
     public Additive thisAdditive;
@@ -90,8 +91,8 @@ public class AdditiveObject : Interactable
                         && currentHoldingStatus == HoldingStatus.NotHeld)
                         {
                             AddToGlass(glass, EnumList.AdditionMethod.Garnish);
-                            parent.transform.SetParent(glass.parent.transform);
-                            parent.transform.position = other.transform.position;
+                            transform.SetParent(glass.parent.transform);
+                            transform.position = other.transform.position;
                             //parent.transform.rotation = other.transform.rotation;
                             currentHoldingStatus = HoldingStatus.AddedToDrink;
                             GetComponent<Rigidbody>().isKinematic = true;
