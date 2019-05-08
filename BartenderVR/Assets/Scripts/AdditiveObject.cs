@@ -83,20 +83,21 @@ public class AdditiveObject : Interactable
                 try
                 {
                     Glass glass = other.transform.gameObject.GetComponent<Glass>();
-                    print(glass);
 
                     if (glass.transformLibrary.TransformValid(EnumList.AdditionMethod.Garnish))
                     {
-                        if (glass.transformLibrary.TargetTransform(EnumList.AdditionMethod.Garnish) == other.transform
-                        && currentHoldingStatus == HoldingStatus.NotHeld)
+                        Transform garnishPoint = glass.GetTransformFromLibrary(EnumList.AdditionMethod.Garnish);
+
+                        if (currentHoldingStatus != HoldingStatus.AddedToDrink || currentHoldingStatus != HoldingStatus.NotHeld)
                         {
                             AddToGlass(glass, EnumList.AdditionMethod.Garnish);
-                            transform.SetParent(glass.parent.transform);
-                            transform.position = other.transform.position;
-                            //parent.transform.rotation = other.transform.rotation;
                             currentHoldingStatus = HoldingStatus.AddedToDrink;
-                            GetComponent<Rigidbody>().isKinematic = true;
                         }
+
+                        transform.position = garnishPoint.position;
+                        transform.SetParent(garnishPoint);
+                        GetComponent<Collider>().isTrigger = true;
+                        GetComponent<Rigidbody>().isKinematic = true;
                     }
                 }
                 catch (System.NullReferenceException) { return; }

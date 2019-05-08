@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1731167627}
   - component: {fileID: 1731167628}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,7 +80,7 @@ GameObject:
   - component: {fileID: 120919394}
   - component: {fileID: 444609064454438606}
   - component: {fileID: 7287457347637096426}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LightFixture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,7 +159,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6522052600764822224}
   - component: {fileID: 7912894545719930973}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Point Light (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

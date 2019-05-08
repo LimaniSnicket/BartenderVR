@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DrinkManagement;
 using UnityEngine.XR;
+using TMPro;
 
 public class AdditiveLiquid : AdditiveObject
 {
@@ -11,6 +12,22 @@ public class AdditiveLiquid : AdditiveObject
     public float PourRate = 0f;
     float zRotation;
     public float zRotationMax;
+
+    [System.Serializable]
+    public struct Label
+    {
+        public SpriteRenderer labelImage;
+        public TextMeshPro labelText;
+      
+        public Label(Additive based, GameObject l)
+        {
+            labelImage = l.GetComponent<SpriteRenderer>();
+            labelText = l.GetComponentInChildren<TextMeshPro>();
+            labelText.text = based.labelInfo.labelDisplay;
+            labelImage.sprite = based.labelInfo.labelImage;
+        }
+
+    }
 
     // Start is called before the first frame update
     public override void Start()

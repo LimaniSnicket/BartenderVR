@@ -6,11 +6,14 @@ using DrinkManagement;
 public class AdditiveSpawner : ObjectSpawner
 {
     public Additive thisAdditiveToSpawn;
-    private void Start()
+    public override void Start()
     {
+        //base.Start();
         thisType = Interactable.InteractableType.Additive;
         objectToSpawn = PrefabLibrary.FindAdditiveOfType(PrefabLibrary.GetPrefabDictionary(thisType), thisAdditiveToSpawn);
-        defaultOutline = defaultOutline.SetNullOutline(GetComponentInChildren<Outline>());
+        defaultOutline = new DefaultOutline();
+        base.Start();
+        defaultOutline = defaultOutline.SetNullOutline(spawned[0].GetComponent<Outline>());
     }
 
     private void Update()
@@ -20,8 +23,13 @@ public class AdditiveSpawner : ObjectSpawner
         {
             spawnPerformed = false;
         }
-        Spawn();
-        gameObject.SetDefaults(defaultOutline, OrderManager.currentTutorialLine);
+        //Spawn();
+        UpdateSpawnedItem();
+        try
+        {
+            gameObject.SetDefaults(defaultOutline, OrderManager.currentTutorialLine);
+        }
+        catch (System.NullReferenceException) { }
     }
 
 }

@@ -8,6 +8,7 @@ public class Additive : ScriptableObject
 {
     public EnumList.AdditionMethod additionMethod;
     public ColorStrength AdditiveColor;
+    public LabelInformation labelInfo;
 
     public enum AdditiveType
     {
@@ -54,5 +55,6 @@ public class Additive : ScriptableObject
         public Font fontDisplay;
         public Sprite labelImage;
         public Color labelColor;
+        public string labelDisplay;
     }
 }

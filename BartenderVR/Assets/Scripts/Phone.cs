@@ -13,6 +13,8 @@ public class Phone : Interactable
 
     public GameObject textContainer;
 
+    public static bool Tapped;
+
     public enum PhoneState
     {
         Locked = 0,
@@ -61,6 +63,8 @@ public class Phone : Interactable
             textContainer.GetComponent<RectTransform>().localScale = originalScale;
         }
 
+
+
     }
 
     public static bool HeldByUser()
@@ -80,7 +84,20 @@ public class Phone : Interactable
     public override void OnTriggerExit(Collider other)
     {
         base.OnTriggerExit(other);
+
+        if (other.gameObject.tag == LeftHandTag || other.gameObject.tag == RightHandTag || other.gameObject.tag == TempHandTag)
+        {
+            if (OVRFingerPointed())
+            {
+                Tapped = true;
+                print("Tappity tap bitch");
+                Tapped = false;
+            }
+        }
+
     }
+
+  
 
     public IEnumerator EnlargeTextObject(GameObject toEnlarge, float lerpSpeed, float newScaleMult)
     {
