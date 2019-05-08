@@ -15,6 +15,6 @@ MonoBehaviour:
   additionMethod: 6
   AdditiveColor:
     color: {r: 1, g: 1, b: 1, a: 0.35686275}
-    strength: 0
+    strength: 1
   thisAdditiveType: 1
   Grabbable: 1

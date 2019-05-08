@@ -8,8 +8,8 @@ using DrinkManagement;
 public class Interactable : MonoBehaviour
 {
 
-    const string LeftHandTag = "LeftHand";
-    const string RightHandTag = "RightHand";
+    public const string LeftHandTag = "LeftHand";
+    public const string RightHandTag = "RightHand";
     public const string TempHandTag = "goHand";
 
     public float interactionRadius;
@@ -73,9 +73,9 @@ public class Interactable : MonoBehaviour
         parent = (transform.parent != null) ? transform.parent.gameObject : gameObject;
         originalPosition = transform.position;
         SnapVector = originalPosition;
-        for (int i = 0; i < parent.transform.childCount; i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
-            var child =parent.transform.GetChild(i).transform;
+            var child =transform.GetChild(i).transform;
             if (ValidString(child.name))
             {
                 transformLibrary.Add(child, ReturnMethodFromString(child));
@@ -295,6 +295,11 @@ public class Interactable : MonoBehaviour
         return false;
     }
 
+    public bool OVRFingerPointed()
+    {
+        return true;
+    }
+
     public void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.white;
@@ -371,6 +376,19 @@ public class Interactable : MonoBehaviour
     public void UnvalidateUsage(Outline ot)
     {
         ot.OutlineWidth = 0f;
+    }
+
+    public Transform GetTransformFromLibrary(EnumList.AdditionMethod method)
+    {
+        foreach (var t in transformLibrary)
+        {
+            if (t.Value == method)
+            {
+                return t.Key;
+            }
+        }
+
+        return null;
     }
 }
 

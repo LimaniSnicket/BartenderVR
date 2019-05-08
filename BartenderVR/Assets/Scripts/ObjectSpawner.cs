@@ -16,19 +16,20 @@ public class ObjectSpawner : MonoBehaviour
     protected  KeyCode PickUpKey = KeyCode.M;
     public DefaultOutline defaultOutline;
 
-    List<GameObject> spawned = new List<GameObject>();
-    int maxCapacity = 1;
+    protected List<GameObject> spawned = new List<GameObject>();
+    const int maxCapacity = 1;
 
     public virtual void Start()
     {
         //if (XRDevice.isPresent)
         //{
-            GameObject spawn = Instantiate(objectToSpawn);
-            spawn.transform.position = this.transform.position;
-            spawned.Add(spawn);
-            print(spawned[0]);
-        //}
-        spawnPoint = transform;
+        //    GameObject spawn = Instantiate(objectToSpawn);
+        //    spawn.transform.position = this.transform.position;
+        //    spawned.Add(spawn);
+        //    print(spawned[0]);
+        ////}
+        //spawnPoint = transform;
+        SpawnItem();
     }
 
     private void Update()
@@ -176,6 +177,14 @@ public class ObjectSpawner : MonoBehaviour
         Gizmos.DrawWireSphere(Vector3.zero, interactionRadius);
     }
 
+    public void UpdateSpawnedItem()
+    {
+        if (spawned.Count < maxCapacity)
+        {
+            SpawnItem();
+        }
+    }
+
     //public void RemoveItemIfGrabbed()
     //{
     //    if (spawned[0].GetComponent<Interactable>().currentHoldingStatus != Interactable.HoldingStatus.NotHeld)
@@ -186,6 +195,16 @@ public class ObjectSpawner : MonoBehaviour
     //    print("Removed Item");
 
     //}
+
+        public void SpawnItem()
+    {
+        GameObject spawn = Instantiate(objectToSpawn);
+        spawn.transform.position = this.transform.position;
+        spawned.Add(spawn);
+        print(spawned[0]);
+        //}
+        spawnPoint = transform;
+    }
 
     public virtual void OnTriggerExit(Collider other)
     {

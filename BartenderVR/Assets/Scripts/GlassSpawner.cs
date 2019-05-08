@@ -9,11 +9,12 @@ public class GlassSpawner : ObjectSpawner
 
     public override void Start()
     {
-        base.Start();
+
         thisType = Interactable.InteractableType.Glass;
         objectToSpawn = PrefabLibrary.FindGlassOfEnum(PrefabLibrary.GetPrefabDictionary(thisType), glassType);
         defaultOutline = new DefaultOutline();
-        defaultOutline = defaultOutline.SetGlassWhite(GetComponentInChildren<Outline>());
+        base.Start();
+        defaultOutline = defaultOutline.SetGlassWhite(spawned[0].GetComponent<Outline>());
     }
 
     private void Update()
@@ -24,7 +25,11 @@ public class GlassSpawner : ObjectSpawner
             spawnPerformed = false;
         }
         //Spawn();
-        //RemoveItemIfGrabbed();
-        gameObject.SetDefaults(defaultOutline, OrderManager.currentTutorialLine);
+        UpdateSpawnedItem();
+        try
+        {
+            gameObject.SetDefaults(defaultOutline, OrderManager.currentTutorialLine);
+        }
+        catch (System.NullReferenceException) { }
     }
 }

@@ -35,6 +35,7 @@ public class CocktailShaker : Interactable
     {
         //CheckOVRHand();
         CheckHands();
+        Physics.IgnoreLayerCollision(0, 9, true);
 
         if (liquidColor != null)
         {

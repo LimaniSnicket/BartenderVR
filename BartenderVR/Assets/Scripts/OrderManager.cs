@@ -18,6 +18,8 @@ public class OrderManager : MonoBehaviour
     public DrinkPreparationTutorial prepTutorial;
     public TextMeshProUGUI tempTutorialText;
 
+    public TextMeshPro MenuListText;
+
     public GameObject sA;
     public Light focusHighlight;
     public static GameObject servingArea;
@@ -90,6 +92,7 @@ public class OrderManager : MonoBehaviour
         }
         catch (System.NullReferenceException) { }
         GenerateMenu(DrinkResourcesPath);
+        MenuListText.text = GenerateMenuDisplay(menuItems);
         tutDrink = tutorialDrink;
         s_debuggingMode = debuggingMode;
         currentTabs.Capacity = maxTabsToDisplay;
@@ -200,6 +203,18 @@ public class OrderManager : MonoBehaviour
         over.GetComponentInChildren<Outline>().OutlineColor = focusHighlight.color;
     }
 
+   string GenerateMenuDisplay(List<Drink> menuList)
+    {
+        Drink[] items = menuList.ToArray();
+        string[] names = new string[items.Length];
+        for (int i =0; i<items.Length; i++)
+        {
+            names[i] = items[i].drinkName;
+        }
+
+        return string.Join("---", names);
+    }
+
     public static bool CanSetNewFocusGlass()
     {
         if (focusGlass == null && !tutorialActive)
@@ -247,7 +262,7 @@ public class OrderManager : MonoBehaviour
 
     bool ReturnAdvanceInput()
     {
-        return Input.GetKeyDown(KeyCode.H) || OVRInput.GetDown(OVRInput.Button.One);
+        return Input.GetKeyDown(KeyCode.H) || Phone.Tapped;//OVRInput.GetDown(OVRInput.Button.One);
     }
 
     public static void LeaveReview(float toAdd)
@@ -409,7 +424,7 @@ public class TutorialLine
                 break;
 
             case LineConditions.Default:
-                CanContinue = RaycastDisplay.gazeTech;
+                CanContinue = true;//RaycastDisplay.gazeTech;
                 focusGameObject = Phone.phoneObject;
                 break;
         }
