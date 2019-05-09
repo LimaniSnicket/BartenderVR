@@ -92,12 +92,13 @@ public class AdditiveObject : Interactable
                         {
                             AddToGlass(glass, EnumList.AdditionMethod.Garnish);
                             currentHoldingStatus = HoldingStatus.AddedToDrink;
-                        }
 
-                        transform.position = garnishPoint.position;
-                        transform.SetParent(garnishPoint);
-                        GetComponent<Collider>().isTrigger = true;
-                        GetComponent<Rigidbody>().isKinematic = true;
+
+                            transform.position = garnishPoint.position;
+                            transform.SetParent(garnishPoint);
+                            GetComponent<Collider>().isTrigger = true;
+                            GetComponent<Rigidbody>().isKinematic = true;
+                        }
                     }
                 }
                 catch (System.NullReferenceException) { return; }

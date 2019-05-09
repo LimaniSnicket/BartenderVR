@@ -19,7 +19,7 @@ MonoBehaviour:
   labelInfo:
     fontDisplay: {fileID: 0}
     labelImage: {fileID: 0}
-    labelDisplay: 
+    labelDisplay: Cream
   AdditiveName: Cream
   thisAdditiveType: 2
   Grabbable: 1

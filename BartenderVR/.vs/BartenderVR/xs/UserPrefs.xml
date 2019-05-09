@@ -1,5 +1,5 @@
 ﻿<Properties StartupConfiguration="{25CBE3CD-01A0-CFDE-C548-B6DC8F029ED3}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Phone.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/AdditiveObject.cs">
     <Files>
       <File FileName="Assets/Scripts/Drink.cs" Line="117" Column="6" />
       <File FileName="Assets/Scripts/OrderManager.cs" Line="478" Column="64" />
@@ -8,8 +8,8 @@
       <File FileName="Assets/Scripts/Interactable.cs" Line="76" Column="32" />
       <File FileName="Assets/Scripts/MainMenu.cs" Line="62" Column="39" />
       <File FileName="Assets/Scripts/CocktailShaker.cs" Line="109" Column="73" />
-      <File FileName="Assets/Scripts/AdditiveObject.cs" Line="100" Column="70" />
-      <File FileName="Assets/Scripts/Stirrer.cs" Line="50" Column="9" />
+      <File FileName="Assets/Scripts/AdditiveObject.cs" Line="93" Column="80" />
+      <File FileName="Assets/Scripts/Stirrer.cs" Line="50" Column="1" />
       <File FileName="Assets/Scripts/HelperExtensions.cs" Line="302" Column="29" />
       <File FileName="Assets/Scripts/AdditiveLiquid.cs" Line="42" Column="60" />
       <File FileName="Assets/Scripts/ReviewManager.cs" Line="62" Column="72" />

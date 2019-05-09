@@ -24,7 +24,7 @@ MonoBehaviour:
     additionMethod: 6
     methodsPerformedOn: 03000000
   - addedThisStep: {fileID: 11400000, guid: 44d637c6c17c9440c9639451b04143c5, type: 2}
-    amountToAdd: 0.25
-    additionMethod: 1
+    amountToAdd: 1
+    additionMethod: 5
     methodsPerformedOn: 
   properGlass: 3
