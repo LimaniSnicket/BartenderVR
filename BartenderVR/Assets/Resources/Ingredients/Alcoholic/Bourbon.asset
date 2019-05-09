@@ -16,5 +16,10 @@ MonoBehaviour:
   AdditiveColor:
     color: {r: 0.7264151, g: 0.36014387, b: 0.119927004, a: 1}
     strength: 1
+  labelInfo:
+    fontDisplay: {fileID: 0}
+    labelImage: {fileID: 21300014, guid: 36e25fc8bfb664b5ea934e00d6a3acd1, type: 3}
+    labelDisplay: 
+  AdditiveName: Bourbon
   thisAdditiveType: 1
   Grabbable: 1

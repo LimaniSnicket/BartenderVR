@@ -121,6 +121,8 @@ public class Glass : Interactable
                 bottleToCheck.SetToAdd(null);
                 bottleToCheck = null;
             }
+            TransferTimer = 0f;
+            canTransfer = true;
         }
 
         Debug.DrawRay(parent.transform.position, transform.TransformDirection(Vector3.up), Color.red);
@@ -145,7 +147,7 @@ public class Glass : Interactable
 
     public override void Transfer()
     {
-       CocktailShaker shaker = NearbyInteractableType().GetComponent<CocktailShaker>();
+       CocktailShaker shaker = FindObjectOfType<CocktailShaker>();
         Drink.RecipeStep[] temp = new Drink.RecipeStep[10];
         Array.Copy(shaker.addedToShaker, temp, 10);
 
@@ -157,8 +159,10 @@ public class Glass : Interactable
                 print("Adding " + s);
             }
 
-            shaker.addedToShaker = ClearStepsTaken();
+            shaker.addedToShaker = ClearStepsTaken(shaker.addedToShaker);
         }
+
+        Array.Copy(temp, addedToGlass, 10);
     }
 
     public void ServeDrink()
@@ -270,6 +274,11 @@ public class Glass : Interactable
     public override void OnTriggerExit(Collider other)
     {
         base.OnTriggerExit(other);
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        PrefabLibrary.PlayRandomOneShot(GetComponent<AudioSource>(), PrefabLibrary.GlassSFX);
     }
 
     private void OnCollisionStay(Collision collision)

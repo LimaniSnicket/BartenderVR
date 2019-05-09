@@ -16,5 +16,10 @@ MonoBehaviour:
   AdditiveColor:
     color: {r: 0.81960785, g: 0.34869057, b: 0.0039215805, a: 1}
     strength: 1
+  labelInfo:
+    fontDisplay: {fileID: 0}
+    labelImage: {fileID: 21300010, guid: 36e25fc8bfb664b5ea934e00d6a3acd1, type: 3}
+    labelDisplay: 
+  AdditiveName: Tennessee Whiskey
   thisAdditiveType: 1
   Grabbable: 1

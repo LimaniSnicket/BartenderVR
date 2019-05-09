@@ -130,7 +130,7 @@ public class OrderManager : MonoBehaviour
                 if (prepTutorial.Tutorial.nextTutorialStep == null)
                 {
                     print("Last node of tutorial");
-                    if (prepTutorial.Tutorial.CanContinue && ReturnAdvanceInput())
+                    if (prepTutorial.Tutorial.CanContinue )//&& ReturnAdvanceInput())
                     {
                         prepTutorial.Tutorial = null;
                         print("End of tutorial");
@@ -138,10 +138,11 @@ public class OrderManager : MonoBehaviour
                 }
                 else
                 {
-                    if (prepTutorial.Tutorial.CanContinue && ReturnAdvanceInput())
+                    if (prepTutorial.Tutorial.CanContinue )//&& ReturnAdvanceInput())
                     {
                         print("Continuing");
                         prepTutorial.Tutorial = prepTutorial.Tutorial.nextTutorialStep;
+                        Phone.SetTapFalse();
                     }
                 }
             }
@@ -424,7 +425,7 @@ public class TutorialLine
                 break;
 
             case LineConditions.Default:
-                CanContinue = true;//RaycastDisplay.gazeTech;
+                CanContinue = Phone.Tapped;
                 focusGameObject = Phone.phoneObject;
                 break;
         }

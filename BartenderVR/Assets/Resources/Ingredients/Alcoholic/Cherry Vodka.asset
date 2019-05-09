@@ -16,5 +16,10 @@ MonoBehaviour:
   AdditiveColor:
     color: {r: 1, g: 0.8820755, b: 0.8820755, a: 1}
     strength: 1
+  labelInfo:
+    fontDisplay: {fileID: 0}
+    labelImage: {fileID: 21300006, guid: 36e25fc8bfb664b5ea934e00d6a3acd1, type: 3}
+    labelDisplay: 
+  AdditiveName: Cherry Vodka
   thisAdditiveType: 1
   Grabbable: 1

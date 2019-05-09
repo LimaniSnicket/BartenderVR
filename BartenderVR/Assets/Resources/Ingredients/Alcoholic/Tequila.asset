@@ -16,5 +16,10 @@ MonoBehaviour:
   AdditiveColor:
     color: {r: 1, g: 1, b: 1, a: 1}
     strength: 0
+  labelInfo:
+    fontDisplay: {fileID: 0}
+    labelImage: {fileID: 0}
+    labelDisplay: 
+  AdditiveName: Tequila
   thisAdditiveType: 1
   Grabbable: 1

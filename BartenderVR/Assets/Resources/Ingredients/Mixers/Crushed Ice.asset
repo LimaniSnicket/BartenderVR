@@ -16,5 +16,10 @@ MonoBehaviour:
   AdditiveColor:
     color: {r: 0.7783019, g: 0.95107675, b: 1, a: 1}
     strength: 0
+  labelInfo:
+    fontDisplay: {fileID: 0}
+    labelImage: {fileID: 0}
+    labelDisplay: 
+  AdditiveName: Crushed Ice
   thisAdditiveType: 2
   Grabbable: 1

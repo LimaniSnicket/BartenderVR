@@ -19,6 +19,7 @@ public class CocktailShaker : Interactable
     LiquidColor liquidColor;
     public GameObject shakerCap;
     Outline outline;
+    Glass addTo;
 
     bool capOn;
 
@@ -43,7 +44,10 @@ public class CocktailShaker : Interactable
             liquidColor.div = (addedToShaker.GetAddedTotal(EnumList.AdditionMethod.Pour)/addedToShaker.GetAddedCount(EnumList.AdditionMethod.Pour)) / 10f;
         }
 
-        gameObject.SetDefaults(defaultOutline, OrderManager.currentTutorialLine);
+        if (acceleration < accelerationThreshold)
+        {
+            gameObject.SetDefaults(defaultOutline, OrderManager.currentTutorialLine);
+        }
 
         RaycastHit CheckRay;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out CheckRay, 1f))
@@ -58,18 +62,23 @@ public class CocktailShaker : Interactable
                     if (canTransfer && TransferTimer > TransferThreshold)
                     {
                         //ValidateUseage(outline);
+                        addTo = CheckRay.transform.GetComponent<Glass>();
                         StartCoroutine(TransferSteps());
                     }
                 }
                 else if (CheckRay.transform.GetComponent<Glass>().addedToGlass.ContainerEmpty())
                 {
+                    addTo = null;
                     TransferTimer = 0f;
                     canTransfer = false;
                 }
             }
             else
             {
+                addTo = null;
                 UnvalidateUsage(outline);
+                TransferTimer = 0f;
+                canTransfer = true;
             }
 
             if (Input.GetKey(pourKey))
@@ -96,6 +105,8 @@ public class CocktailShaker : Interactable
         if (acceleration >= accelerationThreshold)
         {
             shakeTimer += Time.deltaTime;
+            GetComponentInChildren<Outline>().OutlineWidth = shakeTimer;
+            GetComponentInChildren<Outline>().OutlineColor = Color.blue;
 
         }
         else
@@ -118,8 +129,10 @@ public class CocktailShaker : Interactable
     public override void Transfer()
     {
         Glass glass = NearbyInteractableType().InteractableGlass();
+        print(addTo);
         Drink.RecipeStep[] temp = new Drink.RecipeStep[10];
-        Array.Copy(glass.addedToGlass, temp, 10);
+        Array.Copy(addTo.addedToGlass, temp, 10);
+
 
         if (!canTransfer)
         {
@@ -129,10 +142,12 @@ public class CocktailShaker : Interactable
                 print("Adding " + s);
             }
 
-            glass.addedToGlass = ClearStepsTaken();
+            addTo.addedToGlass = ClearStepsTaken(addTo.addedToGlass);
         }
 
         print("Cocktail shaker transfer");
+
+        Array.Copy(temp, addedToShaker, 10);
     }
 
     public override void OnTriggerStay(Collider other)

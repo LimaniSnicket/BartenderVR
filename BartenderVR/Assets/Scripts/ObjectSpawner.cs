@@ -16,7 +16,7 @@ public class ObjectSpawner : MonoBehaviour
     protected  KeyCode PickUpKey = KeyCode.M;
     public DefaultOutline defaultOutline;
 
-    protected List<GameObject> spawned = new List<GameObject>();
+    public List<GameObject> spawned = new List<GameObject>();
     const int maxCapacity = 1;
 
     public virtual void Start()
@@ -200,6 +200,7 @@ public class ObjectSpawner : MonoBehaviour
     {
         GameObject spawn = Instantiate(objectToSpawn);
         spawn.transform.position = this.transform.position;
+        //spawn.transform.SetParent(this.transform);
         spawned.Add(spawn);
         print(spawned[0]);
         //}

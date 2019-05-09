@@ -8,6 +8,7 @@ using TMPro;
 public class AdditiveLiquid : AdditiveObject
 {
     public GameObject PouringPoint;
+    public GameObject labelGameObject;
 
     public float PourRate = 0f;
     float zRotation;
@@ -29,6 +30,8 @@ public class AdditiveLiquid : AdditiveObject
 
     }
 
+    public Label thisLabel;
+
     // Start is called before the first frame update
     public override void Start()
     {
@@ -36,6 +39,7 @@ public class AdditiveLiquid : AdditiveObject
         thisType = InteractableType.Additive;
 
         zRotationMax = 240;
+        thisLabel = new Label(thisAdditive, labelGameObject);
 
     }
 

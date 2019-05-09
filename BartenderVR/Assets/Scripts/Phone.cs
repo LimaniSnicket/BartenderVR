@@ -43,7 +43,7 @@ public class Phone : Interactable
         canvasPhoneStates.Add(yelpCanvas, PhoneState.YelpReview);
         canvasPhoneStates.Add(tutorialCanvas, PhoneState.Tutorial);
 
-        originalScale = textContainer.GetComponent<RectTransform>().localScale;
+        originalScale = this.transform.localScale;//textContainer.GetComponent<RectTransform>().localScale;
       
     }
 
@@ -56,11 +56,12 @@ public class Phone : Interactable
 
         if (!enlargeText && RaycastDisplay.gazeTech)
         {
-            StartCoroutine(EnlargeTextObject(textContainer, .25f, 2f));
+            StartCoroutine(EnlargeTextObject(this.gameObject, .25f, 2f));
         } else if (!RaycastDisplay.gazeTech)
         {
             enlargeText = false;
-            textContainer.GetComponent<RectTransform>().localScale = originalScale;
+            this.transform.localScale = originalScale;
+            //textContainer.GetComponent<RectTransform>().localScale = originalScale;
         }
 
 
@@ -91,23 +92,28 @@ public class Phone : Interactable
             {
                 Tapped = true;
                 print("Tappity tap bitch");
-                Tapped = false;
             }
         }
-
     }
 
-  
+    public static void SetTapFalse()
+    {
+        Tapped = false;
+    }
+
+
 
     public IEnumerator EnlargeTextObject(GameObject toEnlarge, float lerpSpeed, float newScaleMult)
     {
         enlargeText = true;
-        Vector3 enlargeVector = toEnlarge.GetComponent<RectTransform>().localScale;
+        //Vector3 enlargeVector = toEnlarge.GetComponent<RectTransform>().localScale;
+        Vector3 enlargeVector = toEnlarge.transform.localScale;
         Vector3 scaleUpTo = enlargeVector * newScaleMult;
         while (!enlargeVector.SqueezeVectors(scaleUpTo, 0.1f))
         {
             enlargeVector = Vector3.Lerp(enlargeVector, scaleUpTo, Time.deltaTime * lerpSpeed);
-            toEnlarge.GetComponent<RectTransform>().localScale = enlargeVector;
+            //toEnlarge.GetComponent<RectTransform>().localScale = enlargeVector;
+            toEnlarge.transform.localScale = enlargeVector;
         }
 
         enlargeVector = scaleUpTo;
