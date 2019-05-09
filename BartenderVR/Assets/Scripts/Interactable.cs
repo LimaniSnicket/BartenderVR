@@ -73,6 +73,7 @@ public class Interactable : MonoBehaviour
         parent = (transform.parent != null) ? transform.parent.gameObject : gameObject;
         originalPosition = transform.position;
         SnapVector = originalPosition;
+        TransferThreshold = 1f;
         for (int i = 0; i < transform.childCount; i++)
         {
             var child =transform.GetChild(i).transform;
@@ -257,12 +258,14 @@ public class Interactable : MonoBehaviour
     }
 
 
-    public Drink.RecipeStep[] ClearStepsTaken()
+    public Drink.RecipeStep[] ClearStepsTaken(Drink.RecipeStep[] drs)
     {
-        Drink.RecipeStep[] drs = new Drink.RecipeStep[10];
+        //Drink.RecipeStep[] drs = new Drink.RecipeStep[10];
         for (int i =0; i< drs.Length; i++)
         {
-            drs[i].methodsPerformedOn = new List<EnumList.AdditionMethod>();
+            drs[i].addedThisStep = null;
+            drs[i].additionMethod = EnumList.AdditionMethod.None;
+            drs[i].amountToAdd = 0f;
         }
         return drs;
     }

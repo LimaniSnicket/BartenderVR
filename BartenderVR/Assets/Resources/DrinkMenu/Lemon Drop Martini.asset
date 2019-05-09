@@ -19,7 +19,7 @@ MonoBehaviour:
     amountToAdd: 1.5
     additionMethod: 6
     methodsPerformedOn: 03000000
-  - addedThisStep: {fileID: 11400000, guid: 9dc99ec4bc6674762990361b5404c1c3, type: 2}
+  - addedThisStep: {fileID: 11400000, guid: 1ee9c70e175cb4ca797b8a99c94f778b, type: 2}
     amountToAdd: 0.75
     additionMethod: 6
     methodsPerformedOn: 03000000

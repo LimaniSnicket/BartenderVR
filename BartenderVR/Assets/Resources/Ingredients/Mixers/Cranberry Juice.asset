@@ -16,5 +16,10 @@ MonoBehaviour:
   AdditiveColor:
     color: {r: 0.754717, g: 0, b: 0.05724781, a: 1}
     strength: 1
+  labelInfo:
+    fontDisplay: {fileID: 0}
+    labelImage: {fileID: 0}
+    labelDisplay: 
+  AdditiveName: Cranberry Juice
   thisAdditiveType: 2
   Grabbable: 1

@@ -9,10 +9,14 @@ public class PrefabLibrary : MonoBehaviour
     const string GlassModelResourcePath = "GlassPrefabs";
     const string AdditivePrefabResourcePath = "AdditivePrefabs";
 
+    const string GlassSFXResourcesPath = "GlassSounds";
+
     static GameObject[] GlassPrefabs;
     static GameObject[] AdditivePrefabs;
 
     static Dictionary<Interactable.InteractableType, GameObject[]> PrefabDictionary = new Dictionary<Interactable.InteractableType, GameObject[]>();
+
+    public  static AudioClip[] GlassSFX;
 
     private void Awake()
     {
@@ -26,6 +30,8 @@ public class PrefabLibrary : MonoBehaviour
 
         PrefabDictionary.Add(Interactable.InteractableType.Glass, GlassPrefabs);
         PrefabDictionary.Add(Interactable.InteractableType.Additive, AdditivePrefabs);
+
+        GlassSFX = Resources.LoadAll<AudioClip>(GlassSFXResourcesPath);
     }
 
     public static GameObject[] GetPrefabDictionary(Interactable.InteractableType toReturn)
@@ -73,6 +79,13 @@ public class PrefabLibrary : MonoBehaviour
         }
 
         return null;
+    }
+
+    public static void PlayRandomOneShot(AudioSource source, AudioClip[] clips)
+    {
+        int rand = Mathf.FloorToInt(Random.Range(0, clips.Length - 1));
+        source.PlayOneShot(clips[rand]);
+
     }
 
 }

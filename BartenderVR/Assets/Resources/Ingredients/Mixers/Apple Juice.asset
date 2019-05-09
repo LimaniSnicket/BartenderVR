@@ -16,5 +16,10 @@ MonoBehaviour:
   AdditiveColor:
     color: {r: 1, g: 0.57717735, b: 0.15566039, a: 1}
     strength: 1
+  labelInfo:
+    fontDisplay: {fileID: 0}
+    labelImage: {fileID: 0}
+    labelDisplay: 
+  AdditiveName: Apple Juice
   thisAdditiveType: 2
   Grabbable: 1

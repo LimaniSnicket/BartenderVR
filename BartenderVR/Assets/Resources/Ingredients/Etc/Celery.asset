@@ -16,5 +16,10 @@ MonoBehaviour:
   AdditiveColor:
     color: {r: 0, g: 0, b: 0, a: 0}
     strength: 0
+  labelInfo:
+    fontDisplay: {fileID: 0}
+    labelImage: {fileID: 0}
+    labelDisplay: 
+  AdditiveName: Celery
   thisAdditiveType: 3
   Grabbable: 1

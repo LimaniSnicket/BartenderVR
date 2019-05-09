@@ -53,6 +53,8 @@ public class Stirrer : Interactable
             try
             {
                 toStir.GetComponent<Glass>().addedToGlass.AddMethods(EnumList.AdditionMethod.Stir);
+                GetComponentInChildren<Outline>().OutlineWidth = accelerationTimer;
+                GetComponentInChildren<Outline>().OutlineColor = Color.blue;
 
             } catch (System.NullReferenceException)
             {

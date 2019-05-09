@@ -16,5 +16,10 @@ MonoBehaviour:
   AdditiveColor:
     color: {r: 0.6638874, g: 1, b: 0.6084906, a: 1}
     strength: 1
+  labelInfo:
+    fontDisplay: {fileID: 0}
+    labelImage: {fileID: 0}
+    labelDisplay: 
+  AdditiveName: Green Apple Schnapps
   thisAdditiveType: 1
   Grabbable: 1

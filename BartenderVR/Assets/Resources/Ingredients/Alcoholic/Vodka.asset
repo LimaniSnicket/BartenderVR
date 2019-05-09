@@ -16,5 +16,10 @@ MonoBehaviour:
   AdditiveColor:
     color: {r: 1, g: 1, b: 1, a: 1}
     strength: 1
+  labelInfo:
+    fontDisplay: {fileID: 12800000, guid: 997a43b767814dd0a7642ec9b78cba41, type: 3}
+    labelImage: {fileID: 21300000, guid: 36e25fc8bfb664b5ea934e00d6a3acd1, type: 3}
+    labelDisplay: 
+  AdditiveName: Plain Vodka
   thisAdditiveType: 1
   Grabbable: 1

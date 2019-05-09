@@ -16,5 +16,10 @@ MonoBehaviour:
   AdditiveColor:
     color: {r: 0.6037736, g: 0.33524898, b: 0.13385546, a: 1}
     strength: 1
+  labelInfo:
+    fontDisplay: {fileID: 0}
+    labelImage: {fileID: 0}
+    labelDisplay: 
+  AdditiveName: Dark Rum
   thisAdditiveType: 1
   Grabbable: 1

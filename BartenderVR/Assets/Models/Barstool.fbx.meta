@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: 69174694190bd435c91efb0b36426646
+guid: 18ce324fa74dd48da9410cbfb5d4620b
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: Table
-    2100002: Black Paint
+    2100000: Black Paint
+    2100002: Label
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Cube.094
-    4300002: Cube.105
+    4300000: Cylinder.022
+    2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -62,7 +62,7 @@ ModelImporter:
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
-    useFileScale: 1
+    useFileScale: 0
     previousCalculatedGlobalScale: 1
     hasPreviousCalculatedGlobalScale: 0
   tangentSpace:

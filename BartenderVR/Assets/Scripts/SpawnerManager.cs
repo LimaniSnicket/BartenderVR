@@ -50,7 +50,7 @@ public class SpawnerManager : MonoBehaviour
         {
             if (k.Value.glassType == gt)
             {
-                return k.Key;
+                return k.Key.GetComponent<GlassSpawner>().spawned[0];
             }
         }
 
@@ -65,7 +65,7 @@ public class SpawnerManager : MonoBehaviour
             {
                 if (k.Value.thisAdditive == toAdd)
                 {
-                    return k.Key;
+                    return k.Key.GetComponent<AdditiveSpawner>().spawned[0];
                 }
             }
         }

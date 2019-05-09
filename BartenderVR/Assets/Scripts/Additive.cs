@@ -10,6 +10,8 @@ public class Additive : ScriptableObject
     public ColorStrength AdditiveColor;
     public LabelInformation labelInfo;
 
+    public string AdditiveName;
+
     public enum AdditiveType
     {
         None = 0,
@@ -54,7 +56,7 @@ public class Additive : ScriptableObject
     {
         public Font fontDisplay;
         public Sprite labelImage;
-        public Color labelColor;
+        //public Color labelColor;
         public string labelDisplay;
     }
 }

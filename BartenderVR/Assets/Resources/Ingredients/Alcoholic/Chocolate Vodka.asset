@@ -16,5 +16,10 @@ MonoBehaviour:
   AdditiveColor:
     color: {r: 0.9056604, g: 0.84062743, b: 0.7903168, a: 1}
     strength: 1
+  labelInfo:
+    fontDisplay: {fileID: 0}
+    labelImage: {fileID: 21300008, guid: 36e25fc8bfb664b5ea934e00d6a3acd1, type: 3}
+    labelDisplay: 
+  AdditiveName: Chocolate Vodka
   thisAdditiveType: 1
   Grabbable: 1

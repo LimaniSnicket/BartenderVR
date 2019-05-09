@@ -16,5 +16,10 @@ MonoBehaviour:
   AdditiveColor:
     color: {r: 1, g: 0.9490196, b: 0.8235294, a: 1}
     strength: 1
+  labelInfo:
+    fontDisplay: {fileID: 0}
+    labelImage: {fileID: 0}
+    labelDisplay: 
+  AdditiveName: Cream
   thisAdditiveType: 2
   Grabbable: 1

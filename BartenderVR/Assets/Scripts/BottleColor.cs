@@ -10,7 +10,7 @@ public class BottleColor : MonoBehaviour
 
     private void Start()
     {
-        additive = GetComponentInChildren<AdditiveLiquid>().thisAdditive;
+        additive = GetComponentInParent<AdditiveLiquid>().thisAdditive;
         bottleMaterial = GetComponent<MeshRenderer>().materials[materialIndex];
         bottleMaterial.SetColor("_Tint", additive.AdditiveColor.color);
     }
