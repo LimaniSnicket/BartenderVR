@@ -25,7 +25,7 @@ MonoBehaviour:
     methodsPerformedOn: 
   - addedThisStep: {fileID: 11400000, guid: 847aee3887447413ca6fe242e7279115, type: 2}
     amountToAdd: 3
-    additionMethod: 1
+    additionMethod: 5
     methodsPerformedOn: 
   - addedThisStep: {fileID: 11400000, guid: 44d637c6c17c9440c9639451b04143c5, type: 2}
     amountToAdd: 1

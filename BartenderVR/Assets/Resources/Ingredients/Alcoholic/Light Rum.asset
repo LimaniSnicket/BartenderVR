@@ -19,7 +19,7 @@ MonoBehaviour:
   labelInfo:
     fontDisplay: {fileID: 0}
     labelImage: {fileID: 0}
-    labelDisplay: 
+    labelDisplay: Light Rum
   AdditiveName: Light Rum
   thisAdditiveType: 1
   Grabbable: 1

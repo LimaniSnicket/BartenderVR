@@ -19,7 +19,7 @@ MonoBehaviour:
   labelInfo:
     fontDisplay: {fileID: 0}
     labelImage: {fileID: 0}
-    labelDisplay: 
+    labelDisplay: Irish Cream
   AdditiveName: Irish Cream
   thisAdditiveType: 1
   Grabbable: 1
