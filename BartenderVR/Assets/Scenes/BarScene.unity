@@ -1162,6 +1162,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 696fe7107867c42dfa8aced976e31f18, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 531083ef9357b4708b6d4d7a35af2022, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 696fe7107867c42dfa8aced976e31f18, type: 3}
 --- !u!1 &252968543 stripped
@@ -1423,6 +1427,7 @@ MonoBehaviour:
     defaultColor: {r: 0, g: 0, b: 0, a: 0}
     defaultWidth: 0
   spawned: []
+  existing: []
   thisAdditiveToSpawn: {fileID: 11400000, guid: 847aee3887447413ca6fe242e7279115,
     type: 2}
 --- !u!65 &416680430
@@ -6839,6 +6844,7 @@ MonoBehaviour:
     defaultColor: {r: 0, g: 0, b: 0, a: 0}
     defaultWidth: 0
   spawned: []
+  existing: []
   glassType: 3
 --- !u!65 &614015575
 BoxCollider:
@@ -6987,6 +6993,7 @@ MonoBehaviour:
     defaultColor: {r: 0, g: 0, b: 0, a: 0}
     defaultWidth: 0
   spawned: []
+  existing: []
   thisAdditiveToSpawn: {fileID: 11400000, guid: ce7753981fb014a1dbd4e17efa28e773,
     type: 2}
 --- !u!65 &625312281
@@ -7501,6 +7508,7 @@ MonoBehaviour:
     defaultColor: {r: 0, g: 0, b: 0, a: 0}
     defaultWidth: 0
   spawned: []
+  existing: []
   thisAdditiveToSpawn: {fileID: 11400000, guid: 9ae393d95506d4372af3b6970981a1cc,
     type: 2}
 --- !u!65 &657517621
@@ -7690,6 +7698,7 @@ MonoBehaviour:
     defaultColor: {r: 0, g: 0, b: 0, a: 0}
     defaultWidth: 0
   spawned: []
+  existing: []
   glassType: 1
 --- !u!1 &743360651
 GameObject:
@@ -8102,6 +8111,7 @@ MonoBehaviour:
     defaultColor: {r: 0, g: 0, b: 0, a: 0}
     defaultWidth: 0
   spawned: []
+  existing: []
   glassType: 2
 --- !u!65 &921008786
 BoxCollider:
@@ -8617,7 +8627,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 9ec10d48886ab4651a66091631bd754e, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9ec10d48886ab4651a66091631bd754e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9859,6 +9869,7 @@ MonoBehaviour:
     defaultColor: {r: 0, g: 0, b: 0, a: 0}
     defaultWidth: 0
   spawned: []
+  existing: []
   glassType: 4
 --- !u!65 &1283571604
 BoxCollider:
@@ -9993,6 +10004,7 @@ MonoBehaviour:
     defaultColor: {r: 0, g: 0, b: 0, a: 0}
     defaultWidth: 0
   spawned: []
+  existing: []
   thisAdditiveToSpawn: {fileID: 11400000, guid: 44d637c6c17c9440c9639451b04143c5,
     type: 2}
 --- !u!65 &1297626238
@@ -10291,6 +10303,7 @@ MonoBehaviour:
     defaultColor: {r: 0, g: 0, b: 0, a: 0}
     defaultWidth: 0
   spawned: []
+  existing: []
   thisAdditiveToSpawn: {fileID: 11400000, guid: 5704c3924d599468cb579a0adf533c2d,
     type: 2}
 --- !u!114 &1337023427
@@ -11207,8 +11220,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1502457390}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.35, z: 0.78}
-  m_LocalScale: {x: 0.36740172, y: 0.36740172, z: 0.36740172}
+  m_LocalPosition: {x: 0, y: -0.194, z: 0.497}
+  m_LocalScale: {x: 0.1503408, y: 0.1503408, z: 0.1503408}
   m_Children: []
   m_Father: {fileID: 1044131679}
   m_RootOrder: 1
@@ -13407,6 +13420,32 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.00856235, y: 0.030195983, z: 0.0008002339}
   m_Center: {x: -0.0091286395, y: 0.009456139, z: 0.004810011}
+--- !u!65 &2105416077
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105416074}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0017521865, y: 0.038709264, z: 0.00917926}
+  m_Center: {x: -0.01257238, y: 0.005198979, z: -0.00083759445}
+--- !u!65 &2105416078
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105416074}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.03680448, y: 0.0009989018, z: 0.010637282}
+  m_Center: {x: 0.0049540834, y: -0.0136566665, z: -0.00010858326}
 --- !u!1 &2107886448 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1215771829927214, guid: efe266538a8dcda4dbd04fbff7997053,

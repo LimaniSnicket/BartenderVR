@@ -24,8 +24,22 @@ public class CubeOfInfluence : MonoBehaviour
 
             if (outsideZone.timeOutsideAOI > TimeTillSnap)
             {
-                outsideZone.SnapBack();
-                outsideZone = outsideZone.next;
+                try
+                {
+                    if (outsideZone.gameObjectOutisdeAOI.GetComponent<Interactable>().thisType == Interactable.InteractableType.Glass)
+                    {
+                        Destroy(outsideZone.gameObjectOutisdeAOI);
+                    }
+                    else
+                    {
+                        outsideZone.SnapBack();
+                        outsideZone = outsideZone.next;
+                    }
+                } catch (System.NullReferenceException)
+                {
+                    outsideZone.SnapBack();
+                    outsideZone = outsideZone.next;
+                }
             }
 
         }

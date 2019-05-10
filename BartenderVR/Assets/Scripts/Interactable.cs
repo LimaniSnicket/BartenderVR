@@ -310,6 +310,19 @@ public class Interactable : MonoBehaviour
         Gizmos.DrawWireSphere(Vector3.zero, interactionRadius);
     }
 
+    public virtual void OnCollisionEnter(Collision other)
+    {
+        try
+        {
+            InteractableType ty = other.gameObject.GetComponent<Interactable>().thisType;
+            if (ty == this.thisType)
+            {
+                Physics.IgnoreCollision(this.GetComponent<Collider>(), other.collider);
+            }
+        }
+        catch (System.NullReferenceException) { }
+    }
+
     public virtual void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == TempHandTag && HandCanGrab(other.gameObject))
@@ -367,7 +380,7 @@ public class Interactable : MonoBehaviour
 
    public bool GetOVRButtonsDown()
     {
-        return OVRInput.GetDown(OVRInput.Button.One) || OVRInput.GetDown(OVRInput.Button.Three) || Input.GetKeyDown(KeyCode.Space);
+        return OVRInput.Get(OVRInput.Button.One) || OVRInput.GetDown(OVRInput.Button.Three) || Input.GetKeyDown(KeyCode.Space);
     }
 
     public void ValidateUseage(Outline ot)
@@ -411,7 +424,7 @@ public class DefaultOutline
 
     public DefaultOutline SetGlassWhite(Outline ot)
     {
-        return new DefaultOutline(Color.white, 4f);
+        return new DefaultOutline(Color.white, 10f);
     }
 
     public DefaultOutline SetNullOutline(Outline ot)
