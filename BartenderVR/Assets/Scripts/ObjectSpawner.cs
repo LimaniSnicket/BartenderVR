@@ -17,6 +17,7 @@ public class ObjectSpawner : MonoBehaviour
     public DefaultOutline defaultOutline;
 
     public List<GameObject> spawned = new List<GameObject>();
+    public List<GameObject> existing = new List<GameObject>();
     const int maxCapacity = 1;
 
     public virtual void Start()
@@ -30,6 +31,7 @@ public class ObjectSpawner : MonoBehaviour
         ////}
         //spawnPoint = transform;
         SpawnItem();
+        spawned.Capacity = maxCapacity;
     }
 
     private void Update()
@@ -179,22 +181,11 @@ public class ObjectSpawner : MonoBehaviour
 
     public void UpdateSpawnedItem()
     {
-        if (spawned.Count < maxCapacity)
+        if (CanSpawnItem())
         {
             SpawnItem();
         }
     }
-
-    //public void RemoveItemIfGrabbed()
-    //{
-    //    if (spawned[0].GetComponent<Interactable>().currentHoldingStatus != Interactable.HoldingStatus.NotHeld)
-    //    {
-    //        spawned.Remove(spawned[0]);
-    //    }
-
-    //    print("Removed Item");
-
-    //}
 
         public void SpawnItem()
     {
@@ -202,7 +193,8 @@ public class ObjectSpawner : MonoBehaviour
         spawn.transform.position = this.transform.position;
         //spawn.transform.SetParent(this.transform);
         spawned.Add(spawn);
-        print(spawned[0]);
+        existing.Add(spawn);
+        print(existing[0]);
         //}
         spawnPoint = transform;
     }
@@ -215,5 +207,20 @@ public class ObjectSpawner : MonoBehaviour
             print("Removed from trigger");
         }
     }
+
+    public bool CanSpawnItem()
+    {
+        return (spawned.Count < maxCapacity) && (existing.Count < maxCapacity * 3);
+    }
+
+    public void RemoveFromExisting(GameObject remove)
+    {
+        if (existing.Contains(remove))
+        {
+            print("removing " + remove.name);
+            existing.Remove(remove);
+        }
+    }
+
 
 }

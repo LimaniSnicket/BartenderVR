@@ -59,7 +59,7 @@ public class ReviewManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T) && OrderManager.s_debuggingMode)
+        if (Input.GetKeyDown(KeyCode.Y) && OrderManager.s_debuggingMode)
         {
             CreateNewReview(OrderManager.tutDrink, 0f);
         }

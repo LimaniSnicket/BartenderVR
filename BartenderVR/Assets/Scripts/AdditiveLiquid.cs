@@ -92,6 +92,11 @@ public class AdditiveLiquid : AdditiveObject
         return 1f;
     }
 
+    public override void OnCollisionEnter(Collision other)
+    {
+        base.OnCollisionEnter(other);
+    }
+
     public override void OnTriggerStay(Collider other)
     {
         base.OnTriggerStay(other);

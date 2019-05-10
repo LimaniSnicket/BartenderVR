@@ -14,7 +14,6 @@ public class SpawnerManager : MonoBehaviour
   
     private void Start()
     {
-        print("What the fuck");
         spawnerManager = this;
         List<GlassSpawner> objspwns = new List<GlassSpawner>(FindObjectsOfType<GlassSpawner>());
         List<AdditiveSpawner> addspwns = new List<AdditiveSpawner>(FindObjectsOfType<AdditiveSpawner>());
@@ -39,10 +38,7 @@ public class SpawnerManager : MonoBehaviour
 
     private void Update()
     {
-        //foreach (var c in GlassSpawners)
-        //{
-        //    print(c.Key.name);
-        //}
+
     }
     public static GameObject GetGameObjectReference(EnumList.GlassTypes gt)
     {
@@ -50,7 +46,15 @@ public class SpawnerManager : MonoBehaviour
         {
             if (k.Value.glassType == gt)
             {
-                return k.Key.GetComponent<GlassSpawner>().spawned[0];
+                var comp = k.Key.GetComponent<GlassSpawner>();
+                if (comp.existing.Count > 0)
+                {
+                    return k.Key.GetComponent<GlassSpawner>().existing[0];
+                }
+                else
+                {
+                    return k.Key.GetComponent<GlassSpawner>().spawned[0];
+                }
             }
         }
 
@@ -81,4 +85,39 @@ public class SpawnerManager : MonoBehaviour
         }
         return null;
     }
+
+    static GlassSpawner GetGlassSpawnerType(EnumList.GlassTypes gt)
+    {
+        foreach (var g in GlassSpawners)
+        {
+            if (g.Value.glassType == gt)
+            {
+                return g.Value;
+            }
+        }
+
+        return null;
+    }
+
+    public static void RemoveFromSpawner(GameObject toRemove)
+    {
+        try
+        {
+            Interactable inter = toRemove.GetComponent<Interactable>();
+            switch (inter.thisType)
+            {
+                case Interactable.InteractableType.Glass:
+                    Glass g = toRemove.GetComponent<Glass>();
+                    GlassSpawner gs = GetGlassSpawnerType(g.thisGlassType);
+                    gs.RemoveFromExisting(g.gameObject);
+                    break;
+            }
+        }
+        catch (System.NullReferenceException)
+        {
+            print("honestly just fucking put a " +
+            	"bullet in my head at this point");
+        }
+    }
+
 }

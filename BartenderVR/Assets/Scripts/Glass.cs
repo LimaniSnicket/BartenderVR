@@ -47,7 +47,7 @@ public class Glass : Interactable
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            FuckingWorkYouGodDamnPieceOfShit();
+            SpawnerManager.RemoveFromSpawner(gameObject);
         }
 
         if (canServe())
@@ -137,13 +137,6 @@ public class Glass : Interactable
         }
 
     }
-
-    void FuckingWorkYouGodDamnPieceOfShit()
-    {
-        addedToGlass.AddMethods(EnumList.AdditionMethod.Pour);
-
-    }
-
 
     public override void Transfer()
     {
@@ -276,8 +269,9 @@ public class Glass : Interactable
         base.OnTriggerExit(other);
     }
 
-    public void OnCollisionEnter(Collision collision)
+    public override void  OnCollisionEnter(Collision other)
     {
+        base.OnCollisionEnter(other);
         PrefabLibrary.PlayRandomOneShot(GetComponent<AudioSource>(), PrefabLibrary.GlassSFX);
     }
 

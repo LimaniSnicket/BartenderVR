@@ -74,6 +74,11 @@ public class AdditiveObject : Interactable
         toAddTo = glass;
     }
 
+    public override void OnCollisionEnter(Collision other)
+    {
+        base.OnCollisionEnter(other);
+    }
+
     public override void OnTriggerStay(Collider other)
     {
         base.OnTriggerStay(other);
