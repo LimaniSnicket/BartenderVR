@@ -26,9 +26,14 @@ public class CubeOfInfluence : MonoBehaviour
             {
                 try
                 {
-                    if (outsideZone.gameObjectOutisdeAOI.GetComponent<Interactable>().thisType == Interactable.InteractableType.Glass)
+                    Interactable inter = outsideZone.gameObjectOutisdeAOI.GetComponent<Interactable>();
+                    if (inter.thisType == Interactable.InteractableType.Glass
+                        || inter.thisType== Interactable.InteractableType.Additive 
+                       )
                     {
-                        Destroy(outsideZone.gameObjectOutisdeAOI);
+                        GameObject toDel = outsideZone.gameObjectOutisdeAOI;
+                        outsideZone = outsideZone.next;
+                        Destroy(toDel);
                     }
                     else
                     {

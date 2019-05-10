@@ -299,9 +299,9 @@ public class OrderManager : MonoBehaviour
     {
         tutorial.Tutorial.SetLinks(tutorialLines);
         tutorial.AddLinks(tutorial.Tutorial, new TutorialLine(PrepStart(tutorial.thisDrinkPrep)));
-        tutorial.AddLinks(tutorial.Tutorial,
-        new TutorialLine(string.Format("The first step to any drink is getting a glass. Go grab a <b>{0} </b> over there on the counter", tutorial.thisDrinkPrep.properGlass), 
-            TutorialLine.LineConditions.RequireGlass));
+        //tutorial.AddLinks(tutorial.Tutorial,
+        //new TutorialLine(string.Format("The first step to any drink is getting a glass. Go grab a <b>{0} </b> over there on the counter", tutorial.thisDrinkPrep.properGlass), 
+         //   TutorialLine.LineConditions.RequireGlass));
         tutorial.AddLinks(tutorial.Tutorial, new TutorialLine("Ok cool, we made it this far! Maybe you're not 100% inept."));
         tutorial.AddLinks(tutorial.Tutorial, new TutorialLine(tutorial.StepTutorial(0)));
     }

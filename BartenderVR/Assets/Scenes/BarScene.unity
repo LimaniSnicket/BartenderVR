@@ -454,8 +454,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.00025382906, y: 0.0026649013, z: 0.0035597533}
-  m_Center: {x: -0.000018207322, y: -0.00000017107195, z: 0.000009797751}
+  m_Size: {x: 0.003922573, y: 0.002664901, z: 0.0035597535}
+  m_Center: {x: 0.0011188242, y: -0.00000017106652, z: 0.000009797677}
 --- !u!114 &64434000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1527,13 +1527,13 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: ca932f0edd8644d9ea97bde764b9cbf5, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.517
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 221
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -8213,7 +8213,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &1044131677
 AudioListener:
   m_ObjectHideFlags: 0
@@ -8849,7 +8849,7 @@ MonoBehaviour:
   focusHighlight: {fileID: 1204758940}
   timer: 0
   timeModifier: 0.25
-  debuggingMode: 1
+  debuggingMode: 0
   maxTabsToDisplay: 0
   BarRating: 0
 --- !u!4 &1079495822
@@ -12761,7 +12761,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1862540227445348, guid: efe266538a8dcda4dbd04fbff7997053, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4660621310658468, guid: efe266538a8dcda4dbd04fbff7997053, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12769,7 +12769,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4660621310658468, guid: efe266538a8dcda4dbd04fbff7997053, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.36
+      value: 0.341
       objectReference: {fileID: 0}
     - target: {fileID: 4660621310658468, guid: efe266538a8dcda4dbd04fbff7997053, type: 3}
       propertyPath: m_LocalPosition.z

@@ -87,8 +87,11 @@ public class Glass : Interactable
                 try
                 {
                     bottleToCheck = CheckFor.transform.GetComponent<AdditiveLiquid>();
-                    bottleToCheck.SetToAdd(this);
-                    print(bottleToCheck.name);
+                    if (bottleToCheck.currentHoldingStatus == HoldingStatus.InRightHand || bottleToCheck.currentHoldingStatus == HoldingStatus.InLeftHand)
+                    {
+                        bottleToCheck.SetToAdd(this);
+                        print(bottleToCheck.name);
+                    }
                 }
                 catch (System.NullReferenceException) { }
             }
@@ -164,7 +167,7 @@ public class Glass : Interactable
         OrderManager.tipMoney += newTip * OrderManager.currentOrder.drinkToMake.maxTip;
         Debug.Log("Drink Accuracy: " + 100f * newTip+ "%");
         Debug.Log("$" + OrderManager.tipMoney + " in tips made so far");
-        ReviewManager.CreateNewReview(OrderManager.currentOrder.drinkToMake, newTip*5f);
+        //ReviewManager.CreateNewReview(OrderManager.currentOrder.drinkToMake, newTip*5f);
         OrderManager.UpdateQueue();
         OrderManager.LeaveReview(newTip);
         Destroy(this.gameObject);
@@ -172,18 +175,20 @@ public class Glass : Interactable
 
     public IEnumerator ServeDrinkCo()
     {
+        print("HERERERERERE");
         serving = true;
         //Destroy(GetComponent<Collider>());
         float newTip = AccuracyToRecipe(addedToGlass, OrderManager.currentOrder.drinkToMake);
         OrderManager.tipMoney += newTip * OrderManager.currentOrder.drinkToMake.maxTip;
         Debug.Log("Drink Accuracy: " + 100f * newTip + "%");
         Debug.Log("$" + OrderManager.tipMoney + " in tips made so far");
-        ReviewManager.CreateNewReview(OrderManager.currentOrder.drinkToMake, newTip * 5f);
+       // ReviewManager.CreateNewReview(OrderManager.currentOrder.drinkToMake, newTip * 5f);
         OrderManager.UpdateQueue();
         OrderManager.LeaveReview(newTip);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         print("Destroy this glass");
-        Destroy(parent);
+        SpawnerManager.RemoveFromSpawner(gameObject);
+        Destroy(gameObject);
     }
 
 
@@ -195,50 +200,57 @@ public class Glass : Interactable
 
     public float AccuracyToRecipe(Drink.RecipeStep[] addeds, Drink drinkToMake)
     {
-        float accuracy = .7f;
-        float trueTotal = drinkToMake.TotalInDrink();
-        float preppedTotal = addeds.GetAddedTotal();
-
-        float methodCheck = 0.2f / addeds.GetAddedCount();
-
-        if (preppedTotal > 0f)
+        try
         {
-            for (int i = 0; i < addeds.Length; i++)
+            float accuracy = .7f;
+            float trueTotal = drinkToMake.TotalInDrink();
+            float preppedTotal = addeds.GetAddedTotal();
+
+            float methodCheck = 0.2f / addeds.GetAddedCount();
+
+            if (preppedTotal > 0f)
             {
-                var drink = addeds[i];
-                if (drinkToMake.RecipeContainsIngredient(drink))
+                for (int i = 0; i < addeds.Length; i++)
                 {
-                    Debug.Log("Glass contains " + (100f * drink.amountToAdd/preppedTotal)+ "% " + drink.addedThisStep + 
-                    ". Recipe contains " + (100f * drinkToMake.FindStep(drink).amountToAdd/trueTotal)+ "% " + drinkToMake.FindStep(drink).addedThisStep);
-                    accuracy -= (0.7f * drinkToMake.CorrectPercentage(drink.amountToAdd, preppedTotal, drinkToMake.FindStep(drink).amountToAdd, trueTotal));
-                    float additiveMethod = drinkToMake.CheckAdditiveMethods(drinkToMake.FindStep(drink).methodsPerformedOn, drink);
-                    accuracy += methodCheck * additiveMethod;
+                    var drink = addeds[i];
+                    if (drinkToMake.RecipeContainsIngredient(drink))
+                    {
+                        Debug.Log("Glass contains " + (100f * drink.amountToAdd / preppedTotal) + "% " + drink.addedThisStep +
+                        ". Recipe contains " + (100f * drinkToMake.FindStep(drink).amountToAdd / trueTotal) + "% " + drinkToMake.FindStep(drink).addedThisStep);
+                        accuracy -= (0.7f * drinkToMake.CorrectPercentage(drink.amountToAdd, preppedTotal, drinkToMake.FindStep(drink).amountToAdd, trueTotal));
+                        float additiveMethod = drinkToMake.CheckAdditiveMethods(drinkToMake.FindStep(drink).methodsPerformedOn, drink);
+                        accuracy += methodCheck * additiveMethod;
+                    }
+                    else
+                    {
+                        accuracy -= (drink.amountToAdd / preppedTotal * 0.7f);
+                    }
                 }
-                else
+
+                if (thisGlassType == drinkToMake.properGlass)
                 {
-                    accuracy -= (drink.amountToAdd/preppedTotal * 0.7f);
+
+                    Debug.Log("Correct glass + 10%");
+
+                    accuracy += 0.1f;
                 }
             }
-
-            if (thisGlassType == drinkToMake.properGlass)
+            else
             {
-
-                Debug.Log("Correct glass + 10%");
-
-                accuracy += 0.1f;
+                return 0;
             }
+
+            if (accuracy < 0f)
+            {
+                return 0;
+            }
+
+            return accuracy;
         }
-        else
+        catch (System.NullReferenceException)
         {
             return 0;
         }
-
-        if (accuracy < 0f)
-        {
-            return 0;
-        }
-
-        return accuracy;
     }
 
     void FillDefaultValues(Drink defaultDrink)
