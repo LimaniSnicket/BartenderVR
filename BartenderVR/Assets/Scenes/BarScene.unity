@@ -1162,6 +1162,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 696fe7107867c42dfa8aced976e31f18, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 531083ef9357b4708b6d4d7a35af2022, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 696fe7107867c42dfa8aced976e31f18, type: 3}
 --- !u!1 &252968543 stripped
@@ -8623,7 +8627,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 9ec10d48886ab4651a66091631bd754e, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9ec10d48886ab4651a66091631bd754e, type: 3}
       propertyPath: m_LocalPosition.x

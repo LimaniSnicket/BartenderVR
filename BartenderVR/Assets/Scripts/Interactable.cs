@@ -380,7 +380,7 @@ public class Interactable : MonoBehaviour
 
    public bool GetOVRButtonsDown()
     {
-        return OVRInput.GetDown(OVRInput.Button.One) || OVRInput.GetDown(OVRInput.Button.Three) || Input.GetKeyDown(KeyCode.Space);
+        return OVRInput.Get(OVRInput.Button.One) || OVRInput.GetDown(OVRInput.Button.Three) || Input.GetKeyDown(KeyCode.Space);
     }
 
     public void ValidateUseage(Outline ot)

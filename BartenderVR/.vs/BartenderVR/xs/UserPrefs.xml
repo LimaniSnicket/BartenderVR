@@ -4,12 +4,12 @@
       <File FileName="Assets/Scripts/Drink.cs" Line="117" Column="6" />
       <File FileName="Assets/Scripts/OrderManager.cs" Line="478" Column="64" />
       <File FileName="Assets/Scripts/Additive.cs" Line="13" Column="32" />
-      <File FileName="Assets/Scripts/Glass.cs" Line="88" Column="18" />
-      <File FileName="Assets/Scripts/Interactable.cs" Line="320" Column="88" />
+      <File FileName="Assets/Scripts/Glass.cs" Line="64" Column="66" />
+      <File FileName="Assets/Scripts/Interactable.cs" Line="378" Column="22" />
       <File FileName="Assets/Scripts/MainMenu.cs" Line="62" Column="39" />
       <File FileName="Assets/Scripts/CocktailShaker.cs" Line="109" Column="73" />
       <File FileName="Assets/Scripts/AdditiveObject.cs" Line="79" Column="38" />
-      <File FileName="Assets/Scripts/Stirrer.cs" Line="50" Column="1" />
+      <File FileName="Assets/Scripts/Stirrer.cs" Line="53" Column="10" />
       <File FileName="Assets/Scripts/HelperExtensions.cs" Line="302" Column="29" />
       <File FileName="Assets/Scripts/AdditiveLiquid.cs" Line="97" Column="38" />
       <File FileName="Assets/Scripts/ReviewManager.cs" Line="62" Column="39" />

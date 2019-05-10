@@ -42,6 +42,12 @@ public class Stirrer : Interactable
         {
             accelerationTimer += Time.deltaTime;
 
+            try
+            {
+                GetComponentInChildren<Outline>().OutlineWidth = accelerationTimer;
+                GetComponentInChildren<Outline>().OutlineColor = Color.blue;
+            } catch (System.NullReferenceException) { }
+
         }
         else
         {
@@ -50,12 +56,11 @@ public class Stirrer : Interactable
 
         if (accelerationTimer > stirThreshold && toStir != null)
         {
+
             try
             {
                 toStir.GetComponent<Glass>().addedToGlass.AddMethods(EnumList.AdditionMethod.Stir);
-                GetComponentInChildren<Outline>().OutlineWidth = accelerationTimer;
-                GetComponentInChildren<Outline>().OutlineColor = Color.blue;
-
+            
             } catch (System.NullReferenceException)
             {
 
