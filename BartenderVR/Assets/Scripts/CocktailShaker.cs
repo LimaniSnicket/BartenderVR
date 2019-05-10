@@ -105,8 +105,11 @@ public class CocktailShaker : Interactable
         if (acceleration >= accelerationThreshold)
         {
             shakeTimer += Time.deltaTime;
-            GetComponentInChildren<Outline>().OutlineWidth = shakeTimer;
-            GetComponentInChildren<Outline>().OutlineColor = Color.blue;
+            if (shakeTimer <= shakeTimerThreshold)
+            {
+                GetComponentInChildren<Outline>().OutlineWidth = shakeTimer;
+                GetComponentInChildren<Outline>().OutlineColor = Color.blue;
+            }
 
         }
         else
@@ -117,6 +120,8 @@ public class CocktailShaker : Interactable
         if (shakeTimer > shakeTimerThreshold && !addedToShaker.ContainerEmpty())
         {
             addedToShaker.AddMethods(EnumList.AdditionMethod.Shake);
+            GetComponentInChildren<Outline>().OutlineWidth = shakeTimer;
+            GetComponentInChildren<Outline>().OutlineColor = Color.cyan;
         }
 
         if (Input.GetKeyDown(KeyCode.N))

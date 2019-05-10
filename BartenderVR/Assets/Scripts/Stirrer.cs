@@ -23,10 +23,13 @@ public class Stirrer : Interactable
     {
         //CheckOVRHand();
         CheckHands();
-        gameObject.SetDefaults(defaultOutline, OrderManager.currentTutorialLine);
+        
         if (toStir!=null)
         {
             print(toStir.name);
+        } else
+        {
+            print("fuck stir");
         }
 
     }
@@ -38,24 +41,39 @@ public class Stirrer : Interactable
         velocity = horizontalVector.magnitude;
         acceleration = velocity / Time.fixedDeltaTime;
 
+        
+
         if (acceleration > stirThreshold)
         {
             accelerationTimer += Time.deltaTime;
 
-            try
+            if (accelerationTimer < stirThreshold)
             {
-                GetComponentInChildren<Outline>().OutlineWidth = accelerationTimer;
-                GetComponentInChildren<Outline>().OutlineColor = Color.blue;
-            } catch (System.NullReferenceException) { }
+                try
+                {
+                    GetComponentInChildren<Outline>().OutlineWidth = accelerationTimer;
+                    GetComponentInChildren<Outline>().OutlineColor = Color.blue;
+                }
+                catch (System.NullReferenceException) { }
+            }
 
         }
         else
         {
             accelerationTimer = 0f;
+            gameObject.SetDefaults(defaultOutline, OrderManager.currentTutorialLine);
         }
 
         if (accelerationTimer > stirThreshold && toStir != null)
         {
+
+            try
+            {
+                GetComponentInChildren<Outline>().OutlineWidth = accelerationTimer;
+                GetComponentInChildren<Outline>().OutlineColor = Color.cyan;
+            }
+            catch (System.NullReferenceException) { }
+
 
             try
             {

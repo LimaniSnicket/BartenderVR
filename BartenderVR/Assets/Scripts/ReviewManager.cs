@@ -47,6 +47,7 @@ public class ReviewManager : MonoBehaviour
         }
     }
 
+
     private void Awake()
     {
         review = this;
